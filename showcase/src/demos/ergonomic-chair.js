@@ -580,13 +580,25 @@ export function createDemo() {
     }
   }
 
+  const shadowCasters = new Set([
+    "five-star-base-arms",
+    "caster-wheels",
+    "lower-column",
+    "under-seat-mechanism",
+    "seat-shell",
+    "seat-cushion",
+    "armrest-pad",
+    "left-back-rail",
+    "right-back-rail",
+    "upper-back-rail",
+    "lumbar-pad",
+  ]);
   root.traverse((object) => {
     if (object.isMesh) {
-      object.castShadow = true;
+      object.castShadow = shadowCasters.has(object.name);
       object.receiveShadow = true;
     }
   });
-  tensionMesh.castShadow = false;
   setRecline(0);
 
   root.userData.mechanism = {
