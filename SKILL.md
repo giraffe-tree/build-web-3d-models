@@ -14,6 +14,7 @@ Create visually credible 3D content that fits an explicit Web performance budget
    - Read references/blender-pipeline.md for Blender, mesh editing, UV, baking, rigging, animation, or export work.
    - Read references/web-runtime-performance.md for browser integration, shaders, lighting, shadows, LOD, compression, profiling, or performance fixes.
    - Read references/asset-archetypes.md for the matching object or environment family.
+   - Read references/reference-driven-reconstruction.md for single-view or multi-view reconstruction, evidence tracking, fixed-camera review, detail inventories, or bounded correction loops.
    - Read references/hinged-product-case-study.md for laptops, books, doors, cases, folding furniture, or any product whose closed/open endpoints and part clearances define correctness.
    - Read references/tree-web-case-study.md for organic procedural modeling, wind, hierarchical attachment, or geometry-pressure examples.
 3. If a more specific available skill covers rigging, animation, Blender MCP, image generation, or browser control, use it alongside this skill.
@@ -57,6 +58,19 @@ Prefer the cheapest representation that survives the required closest view:
    - Deforming parts: armature and normalized weights.
    - Flexible procedural parts: parent anchor, branch/segment depth, stiffness, phase, and local rest direction.
 6. Keep deterministic seeds for procedural assets and stable names for Blender nodes, clips, materials, and sockets.
+
+## Reconstruct from references with bounded review
+
+For reference-driven work:
+
+1. Separate direct observations from dimensional, material, and hidden-side inferences; attach confidence and request more views when an unknown can change structure or mechanism correctness.
+2. Build a macro/meso/micro detail inventory. Map every retained item to geometry, material, texture, hierarchy, or an explicit omission before implementation.
+3. Lock one reproducible reference camera and keep at least two meaningful orbit views to prove real volume. Do not score an orbit view against an angle the references do not show.
+4. After each review, record what changed, the evidence or failure that caused it, what still differs, and one next action.
+5. Treat silhouette, scale, edge, colour, or image-similarity metrics as diagnostic signals. Never let one universal scalar block an otherwise useful delivery; hard-stop only for a declared critical feature, invalid input, broken runtime, or explicit user threshold.
+6. Bound correction rounds. Stop, deliver a clearly labelled partial result, or request better input when the same defect repeats, scores oscillate, or measurable progress plateaus.
+
+Keep reusable model generation separate from cameras, lighting, UI, and diagnostics. For interactive assets, expose stable named nodes and semantic pivots/sockets instead of returning an inert merged object.
 
 ## Validate mechanisms endpoint-first
 
