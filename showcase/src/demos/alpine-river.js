@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export const meta = {
   id: "alpine-river",
-  order: 70,
+  order: 50,
   title: "Alpine River",
   category: "TERRAIN",
   description: "A seeded terraced valley with a winding river, clustered stone, conifers, and legible downstream flow.",

@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export const meta = {
   id: "ginkgo-wind",
-  order: 40,
+  order: 30,
   title: "Ginkgo in a Light Wind",
   category: "ORGANIC",
   description: "A seeded mature ginkgo couples articulated branching with instanced fan leaves and inherited wind motion.",

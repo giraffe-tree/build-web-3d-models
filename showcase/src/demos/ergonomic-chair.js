@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export const meta = {
   id: "ergonomic-chair",
-  order: 160,
+  order: 70,
   title: "Ergonomic Chair",
   category: "FURNITURE",
   description: "A procedural premium task chair with an exposed synchronized recline linkage.",

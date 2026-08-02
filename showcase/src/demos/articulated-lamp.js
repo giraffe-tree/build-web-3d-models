@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export const meta = {
   id: "articulated-lamp",
-  order: 30,
+  order: 10,
   title: "Articulated Architect Lamp",
   category: "MECHANISM",
   description: "A premium task lamp tests nested pivots, tension hardware, and coordinated aim-preserving motion.",

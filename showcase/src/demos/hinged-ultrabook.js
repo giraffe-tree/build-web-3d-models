@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export const meta = {
   id: "hinged-ultrabook",
-  order: 30,
+  order: 20,
   title: "Hinged Ultrabook",
   category: "MECHANISM",
   description: "A premium procedural ultrabook opens and closes around a physically placed hinge.",

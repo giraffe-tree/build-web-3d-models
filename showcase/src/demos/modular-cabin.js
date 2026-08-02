@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export const meta = {
   id: "modular-cabin",
-  order: 70,
+  order: 60,
   title: "Modular Forest Cabin",
   category: "ARCHITECTURE",
   description: "A compact timber cabin study with modular construction, warm interior depth, and a correctly hinged door.",
