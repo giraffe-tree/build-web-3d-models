@@ -259,9 +259,7 @@ export function createDemo() {
   const taskLight = new THREE.SpotLight(0xffc878, 28, 3.2, 0.47, 0.68, 2);
   taskLight.name = "CAST_LIGHT_INTENT";
   taskLight.position.set(0, -0.32, 0);
-  taskLight.castShadow = true;
-  taskLight.shadow.mapSize.set(512, 512);
-  taskLight.shadow.bias = -0.00035;
+  taskLight.castShadow = false;
   const lightTarget = new THREE.Object3D();
   lightTarget.name = "TASK_LIGHT_TARGET";
   lightTarget.position.set(0, -2.1, 0);

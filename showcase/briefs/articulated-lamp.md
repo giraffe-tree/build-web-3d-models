@@ -69,7 +69,7 @@ The arm rails begin at their owning pivot and terminate at the child pivot's loc
 - Rendered triangles: focused traversal measured 5,092, below the 12,000 target and 80,000 hard contract.
 - Draw calls: focused traversal measured 21, below the target of 25 and hard contract of 45; paired rails, yoke sides, and spring anchor pins use instancing.
 - Materials: five shared PBR material families; no textures, remote assets, morph targets, bones, or post-processing.
-- Lights: one local 512×512 shadow-casting spotlight, plus the shared world lighting.
+- Lights: one local non-shadowing spotlight for warm task illumination; the shared world light owns the single shadow pass.
 - Per-frame work: three joint rotations, one tension-link endpoint solve, and no allocations except two short-lived vectors in that solve.
 
 ## Omissions
@@ -77,7 +77,7 @@ The arm rails begin at their owning pivot and terminate at the child pivot's loc
 - No electrical cord, switch, manufacturer mark, internal wiring, or threaded fastener geometry.
 - No collision solver or user manipulation; motion is a fixed deterministic display cycle.
 - The spring is a visual tension cue and is not a simulated elastic body.
-- The spotlight expresses cast-light intent, but final contact and shadow appearance depend on the shared renderer and floor shadow settings.
+- The spotlight expresses cast-light intent without duplicating the shared shadow pass; final contact and shadow appearance depend on the shared renderer and floor shadow settings.
 
 ## Self-check
 
