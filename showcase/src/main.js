@@ -75,13 +75,22 @@ const demos = Object.values(rawModules)
   .filter((module) => module.meta && typeof module.createDemo === "function")
   .sort((a, b) => (a.meta.order ?? 999) - (b.meta.order ?? 999));
 
+const query = new URLSearchParams(window.location.search);
+const captureMode = query.get("capture") === "1";
+document.body.dataset.capture = String(captureMode);
+
 let activeModule = null;
 let activeDemo = null;
-let motionEnabled = true;
+let motionEnabled = !captureMode;
 let activeButton = null;
 let elapsed = 0;
 let fps = 60;
+let selectionToken = 0;
+let fixedTimeSeconds = 0;
 const demoButtons = new Map();
+
+motionToggle.setAttribute("aria-pressed", String(motionEnabled));
+motionToggle.textContent = motionEnabled ? "Motion on" : "Motion off";
 
 function formatCount(count) {
   return `${count} experiment${count === 1 ? "" : "s"}`;
@@ -110,16 +119,57 @@ function clearActiveDemo() {
   activeDemo = null;
 }
 
-function frameObject(root, meta) {
+function vectorFrom(value, fallback) {
+  if (!Array.isArray(value) || value.length !== 3 || value.some((item) => !Number.isFinite(item))) {
+    return fallback.clone();
+  }
+  return new THREE.Vector3(...value);
+}
+
+function presentationFor(meta, viewName) {
+  const legacy = {
+    background: meta.background,
+    cameraDirection: meta.cameraDirection,
+    target: meta.target,
+  };
+  const presentation = { ...legacy, ...(meta.presentation ?? {}) };
+  const requestedView = meta.evidenceViews?.[viewName];
+  return requestedView ? { ...presentation, ...requestedView } : presentation;
+}
+
+function applyPresentation(profile) {
+  const background = profile.background ?? "#090b0f";
+  scene.background.set(background);
+  scene.fog.color.copy(scene.background);
+  scene.fog.density = profile.fogDensity ?? 0.018;
+  renderer.toneMappingExposure = profile.exposure ?? 1.08;
+  floor.visible = profile.floorVisible ?? true;
+  floorMaterial.color.set(profile.floorColor ?? "#14161b");
+  floorMaterial.roughness = profile.floorRoughness ?? 0.88;
+  floorMaterial.metalness = profile.floorMetalness ?? 0.02;
+  hemisphere.intensity = profile.hemisphereIntensity ?? 1.65;
+  keyLight.intensity = profile.keyIntensity ?? 4.2;
+  rimLight.intensity = profile.rimIntensity ?? 2.2;
+  if (profile.hemisphereSkyColor) hemisphere.color.set(profile.hemisphereSkyColor);
+  else hemisphere.color.set("#b9d7ff");
+  if (profile.hemisphereGroundColor) hemisphere.groundColor.set(profile.hemisphereGroundColor);
+  else hemisphere.groundColor.set("#25150d");
+  keyLight.color.set(profile.keyColor ?? "#fff0dd");
+  rimLight.color.set(profile.rimColor ?? "#5c82ff");
+  keyLight.position.copy(vectorFrom(profile.keyPosition, new THREE.Vector3(5, 8, 5)));
+  rimLight.position.copy(vectorFrom(profile.rimPosition, new THREE.Vector3(-6, 4, -4)));
+}
+
+function frameObject(root, profile) {
   root.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(root);
   const sphere = box.getBoundingSphere(new THREE.Sphere());
-  const target = meta.target
-    ? new THREE.Vector3(...meta.target)
-    : sphere.center.clone();
-  const direction = new THREE.Vector3(...(meta.cameraDirection ?? [1.4, 0.9, 1.8])).normalize();
+  const target = vectorFrom(profile.target, sphere.center);
+  const direction = vectorFrom(profile.cameraDirection, new THREE.Vector3(1.4, 0.9, 1.8)).normalize();
   const radius = Math.max(sphere.radius, 0.45);
-  const distance = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov * 0.46));
+  const coverage = THREE.MathUtils.clamp(profile.screenCoverage ?? 0.72, 0.25, 0.94);
+  camera.fov = THREE.MathUtils.clamp(profile.fov ?? 38, 18, 75);
+  const distance = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov * coverage * 0.5));
 
   camera.near = Math.max(distance / 180, 0.02);
   camera.far = Math.max(distance * 30, 80);
@@ -131,13 +181,15 @@ function frameObject(root, meta) {
   controls.update();
 }
 
-function updateUrl(id) {
+function updateUrl(id, viewName) {
   const url = new URL(window.location.href);
   url.searchParams.set("demo", id);
+  if (viewName) url.searchParams.set("view", viewName);
   window.history.replaceState({}, "", url);
 }
 
-function selectDemo(module, button) {
+async function selectDemo(module, button, requestedView = null) {
+  const token = ++selectionToken;
   document.body.dataset.ready = "false";
   clearActiveDemo();
   activeModule = module;
@@ -147,19 +199,29 @@ function selectDemo(module, button) {
 
   const meta = module.meta;
   try {
-    activeDemo = module.createDemo();
+    const createdDemo = await module.createDemo();
+    if (token !== selectionToken) {
+      createdDemo?.dispose?.();
+      if (createdDemo?.root?.isObject3D) disposeObject(createdDemo.root);
+      return;
+    }
+    activeDemo = createdDemo;
     if (!activeDemo?.root?.isObject3D) throw new Error("createDemo() must return a Three.js root Object3D");
     world.add(activeDemo.root);
-    frameObject(activeDemo.root, meta);
-    scene.background.set(meta.background ?? "#090b0f");
-    scene.fog.color.copy(scene.background);
+    const viewName = requestedView ?? new URLSearchParams(window.location.search).get("view") ?? "hero";
+    const profile = presentationFor(meta, viewName);
+    fixedTimeSeconds = Number.isFinite(profile.fixedTimeSeconds) ? profile.fixedTimeSeconds : 0;
+    activeDemo.reset?.();
+    activeDemo.update?.(0, fixedTimeSeconds, false);
+    applyPresentation(profile);
+    frameObject(activeDemo.root, profile);
     document.documentElement.style.setProperty("--accent", meta.accent ?? "#ff7a1a");
     title.textContent = meta.title;
     category.textContent = meta.category ?? "FORWARD TEST";
     description.textContent = meta.description;
     emptyState.hidden = true;
     elapsed = 0;
-    updateUrl(meta.id);
+    updateUrl(meta.id, requestedView);
     requestAnimationFrame(() => {
       document.body.dataset.ready = "true";
     });
@@ -185,14 +247,15 @@ function buildNavigation() {
       </span>
       <span class="demo-card__arrow">↗</span>
     `;
-    button.addEventListener("click", () => selectDemo(module, button));
+    button.addEventListener("click", () => void selectDemo(module, button));
     demoList.append(button);
     demoButtons.set(module.meta.id, button);
   });
 
-  const requestedId = new URLSearchParams(window.location.search).get("demo");
+  const requestedId = query.get("demo");
+  const requestedView = query.get("view");
   const initial = demos.find((module) => module.meta.id === requestedId) ?? demos[0];
-  if (initial) selectDemo(initial, demoButtons.get(initial.meta.id));
+  if (initial) void selectDemo(initial, demoButtons.get(initial.meta.id), requestedView);
   else document.body.dataset.ready = "true";
 }
 
@@ -222,7 +285,8 @@ function animate() {
   const delta = Math.min(timer.getDelta(), 0.05);
   elapsed += delta;
   fps += ((1 / Math.max(delta, 0.001)) - fps) * 0.04;
-  activeDemo?.update?.(delta, elapsed, motionEnabled);
+  if (captureMode) activeDemo?.update?.(0, fixedTimeSeconds, false);
+  else activeDemo?.update?.(delta, elapsed, motionEnabled);
   controls.update();
   resizeRenderer();
   renderer.render(scene, camera);
@@ -248,8 +312,13 @@ window.__SHOWCASE__ = {
   },
   selectDemo(id) {
     const module = demos.find((candidate) => candidate.meta.id === id);
-    if (module) selectDemo(module, demoButtons.get(module.meta.id));
+    if (module) void selectDemo(module, demoButtons.get(module.meta.id));
     return Boolean(module);
+  },
+  selectView(viewName) {
+    if (!activeModule || !activeModule.meta.evidenceViews?.[viewName]) return false;
+    void selectDemo(activeModule, activeButton, viewName);
+    return true;
   },
 };
 

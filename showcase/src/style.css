@@ -151,6 +151,14 @@ h1 { margin-top: 5px; font-size: clamp(20px, 2vw, 30px); letter-spacing: -0.04em
 .empty-state h2 { margin-top: 9px; font-size: 24px; }
 .empty-state[hidden] { display: none; }
 
+body[data-capture="true"] .topbar,
+body[data-capture="true"] .rail,
+body[data-capture="true"] .demo-copy,
+body[data-capture="true"] .metrics,
+body[data-capture="true"] .hint { display: none; }
+body[data-capture="true"] .workspace { height: 100vh; grid-template-columns: 1fr; }
+body[data-capture="true"] .viewport-shell::after { box-shadow: none; }
+
 @media (max-width: 800px) {
   body { overflow: auto; }
   .topbar { height: 86px; padding: 0 18px; }
