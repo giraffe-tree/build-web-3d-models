@@ -109,7 +109,7 @@ export function createDemo() {
     roughness: 0.5,
     metalness: 0,
     emissive: 0x66ffd8,
-    emissiveIntensity: 1.55,
+    emissiveIntensity: 0.62,
   });
   const collarMaterial = new THREE.MeshStandardMaterial({
     color: 0xb9d8c7,
@@ -208,7 +208,7 @@ export function createDemo() {
       roughness: 0.5,
       metalness: 0,
       emissive: new THREE.Color(archetype.emissive),
-      emissiveIntensity: 1.05,
+      emissiveIntensity: 0.38,
     });
   }
 
@@ -506,11 +506,11 @@ export function createDemo() {
   const glowLights = new THREE.Group();
   glowLights.name = "glow-lights";
   root.add(glowLights);
-  const cyanGlow = new THREE.PointLight(0x57e9ff, 1.7, 4.2, 2);
+  const cyanGlow = new THREE.PointLight(0x57e9ff, 0.72, 4.2, 2);
   cyanGlow.name = "cyan-cluster-glow";
   cyanGlow.position.set(0.58, 0.72, -0.08);
   glowLights.add(cyanGlow);
-  const mintGlow = new THREE.PointLight(0x8cffaf, 1.35, 3.8, 2);
+  const mintGlow = new THREE.PointLight(0x8cffaf, 0.58, 3.8, 2);
   mintGlow.name = "mint-cluster-glow";
   mintGlow.position.set(0.25, 0.58, 0.62);
   glowLights.add(mintGlow);
