@@ -81,6 +81,7 @@ let motionEnabled = true;
 let activeButton = null;
 let elapsed = 0;
 let fps = 60;
+const demoButtons = new Map();
 
 function formatCount(count) {
   return `${count} experiment${count === 1 ? "" : "s"}`;
@@ -186,12 +187,12 @@ function buildNavigation() {
     `;
     button.addEventListener("click", () => selectDemo(module, button));
     demoList.append(button);
-    module.__button = button;
+    demoButtons.set(module.meta.id, button);
   });
 
   const requestedId = new URLSearchParams(window.location.search).get("demo");
   const initial = demos.find((module) => module.meta.id === requestedId) ?? demos[0];
-  if (initial) selectDemo(initial, initial.__button);
+  if (initial) selectDemo(initial, demoButtons.get(initial.meta.id));
   else document.body.dataset.ready = "true";
 }
 
@@ -214,10 +215,11 @@ function resizeRenderer() {
   camera.updateProjectionMatrix();
 }
 
-const clock = new THREE.Clock();
+const timer = new THREE.Timer();
 function animate() {
   requestAnimationFrame(animate);
-  const delta = Math.min(clock.getDelta(), 0.05);
+  timer.update();
+  const delta = Math.min(timer.getDelta(), 0.05);
   elapsed += delta;
   fps += ((1 / Math.max(delta, 0.001)) - fps) * 0.04;
   activeDemo?.update?.(delta, elapsed, motionEnabled);
@@ -246,7 +248,7 @@ window.__SHOWCASE__ = {
   },
   selectDemo(id) {
     const module = demos.find((candidate) => candidate.meta.id === id);
-    if (module) selectDemo(module, module.__button);
+    if (module) selectDemo(module, demoButtons.get(module.meta.id));
     return Boolean(module);
   },
 };
