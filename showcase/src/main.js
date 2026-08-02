@@ -185,6 +185,7 @@ function updateUrl(id, viewName) {
   const url = new URL(window.location.href);
   url.searchParams.set("demo", id);
   if (viewName) url.searchParams.set("view", viewName);
+  else url.searchParams.delete("view");
   window.history.replaceState({}, "", url);
 }
 
@@ -208,7 +209,7 @@ async function selectDemo(module, button, requestedView = null) {
     activeDemo = createdDemo;
     if (!activeDemo?.root?.isObject3D) throw new Error("createDemo() must return a Three.js root Object3D");
     world.add(activeDemo.root);
-    const viewName = requestedView ?? new URLSearchParams(window.location.search).get("view") ?? "hero";
+    const viewName = requestedView ?? "hero";
     const profile = presentationFor(meta, viewName);
     fixedTimeSeconds = Number.isFinite(profile.fixedTimeSeconds) ? profile.fixedTimeSeconds : 0;
     activeDemo.reset?.();
@@ -226,6 +227,13 @@ async function selectDemo(module, button, requestedView = null) {
       document.body.dataset.ready = "true";
     });
   } catch (error) {
+    if (token !== selectionToken) return;
+    activeDemo?.dispose?.();
+    if (activeDemo?.root?.isObject3D) {
+      world.remove(activeDemo.root);
+      disposeObject(activeDemo.root);
+    }
+    activeDemo = null;
     console.error(`Failed to load demo ${meta.id}`, error);
     title.textContent = "Demo failed to load";
     description.textContent = error.message;
