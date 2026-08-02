@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "testedAt": "2026-08-02T11:17:27+08:00",
+  "method": "Independent subagents used the same prompt template, skill, runtime contract, and per-demo file scope; only the requested subject changed.",
+  "environment": {
+    "browser": "Codex in-app browser",
+    "viewport": "1280x720",
+    "three": "0.185.0",
+    "vite": "7.0.6"
+  },
+  "acceptance": {
+    "maximumTriangles": 80000,
+    "maximumDrawCalls": 45,
+    "maximumConsoleIssues": 0,
+    "requiresDeterministicGeneration": true,
+    "requiresProductionBuild": true
+  },
+  "build": {
+    "status": "passed",
+    "outputBytes": 649239,
+    "mainJavaScriptBytes": 642267
+  },
+  "demos": [
+    {
+      "id": "articulated-lamp",
+      "title": "Articulated Architect Lamp",
+      "fpsSample": 85,
+      "triangles": 10240,
+      "drawCalls": 42,
+      "geometries": 22,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/articulated-lamp.jpg"
+    },
+    {
+      "id": "hinged-ultrabook",
+      "title": "Hinged Ultrabook",
+      "fpsSample": 108,
+      "triangles": 4616,
+      "drawCalls": 25,
+      "geometries": 16,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/hinged-ultrabook.jpg"
+    },
+    {
+      "id": "ginkgo-wind",
+      "title": "Ginkgo in a Light Wind",
+      "fpsSample": 89,
+      "triangles": 10346,
+      "drawCalls": 45,
+      "geometries": 33,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/ginkgo-wind.jpg"
+    },
+    {
+      "id": "mushroom-garden",
+      "title": "Bioluminescent Mushroom Garden",
+      "fpsSample": 78,
+      "triangles": 21972,
+      "drawCalls": 28,
+      "geometries": 18,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/mushroom-garden.jpg"
+    },
+    {
+      "id": "alpine-river",
+      "title": "Alpine River",
+      "fpsSample": 80,
+      "triangles": 13544,
+      "drawCalls": 10,
+      "geometries": 8,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/alpine-river.jpg"
+    },
+    {
+      "id": "modular-cabin",
+      "title": "Modular Forest Cabin",
+      "fpsSample": 96,
+      "triangles": 3628,
+      "drawCalls": 37,
+      "geometries": 5,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/modular-cabin.jpg"
+    },
+    {
+      "id": "ergonomic-chair",
+      "title": "Ergonomic Chair",
+      "fpsSample": 83,
+      "triangles": 9752,
+      "drawCalls": 45,
+      "geometries": 27,
+      "consoleIssues": 0,
+      "screenshot": "screenshots/ergonomic-chair.jpg"
+    }
+  ],
+  "knownLimitations": [
+    "FPS samples are machine-specific diagnostics, not cross-device guarantees.",
+    "The showcase eagerly bundles all demos; production galleries should lazy-load modules.",
+    "This pass covered desktop WebGL at 1280x720 but not a separate mobile GPU and touch matrix."
+  ]
+}
