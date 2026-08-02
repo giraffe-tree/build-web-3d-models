@@ -165,6 +165,8 @@ A polished delivery should include:
 - deterministic asset counts and actual browser pass counts;
 - known limitations and status: complete, partial, blockout, or failed-validation.
 
+Store those claims in a compact quality-evidence JSON when the project can retain test artifacts, then run `python3 scripts/validate_visual_evidence.py <manifest.json>`. The validator checks evidence presence, image identity and dimensions, declared critical features, review rounds, and rubric arithmetic. It does not replace visual judgment or an independent critic.
+
 Avoid these failure patterns:
 
 - forcing every Web asset into primitives or zero textures;

@@ -16,6 +16,7 @@ Create visually credible 3D content that fits an explicit Web performance budget
    - Read references/asset-archetypes.md for the matching object or environment family.
    - Read references/reference-driven-reconstruction.md for single-view or multi-view reconstruction, evidence tracking, fixed-camera review, detail inventories, or bounded correction loops.
    - Read references/visual-quality-workflow.md for polished showcases, hero assets, visual quality regressions, art-direction choices, screenshot gates, or any request where "done" must mean more than a recognizable blockout.
+   - Read references/quality-first-agent-prompt.md when delegating a polished asset, defining a reusable build prompt, or running a before/after forward test of this skill.
    - Read references/hinged-product-case-study.md for laptops, books, doors, cases, folding furniture, or any product whose closed/open endpoints and part clearances define correctness.
    - Read references/tree-web-case-study.md for organic procedural modeling, wind, hierarchical attachment, or geometry-pressure examples.
 3. If a more specific available skill covers rigging, animation, Blender MCP, image generation, or browser control, use it alongside this skill.

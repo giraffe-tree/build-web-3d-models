@@ -1,0 +1,142 @@
+# Quality-first agent prompt
+
+Use this template when delegating a polished asset or forward-testing the skill. Keep the original user request intact and replace bracketed fields. Remove irrelevant clauses instead of adding arbitrary constraints.
+
+## Builder prompt
+
+```text
+Use $build-web-3d-models at [absolute skill path] to deliver a visually finished Web 3D showcase of [subject] for [purpose and audience].
+
+Fidelity lane: [polished stylized | reference-faithful | photoreal hero]. Treat this as a finished visual deliverable, not a blockout or a procedural-geometry exercise. Choose Blender, procedural code, or a hybrid from the closest required view and finish target. Do not restrict the work to Three.js primitives, zero textures, or a universal geometry budget unless the user explicitly requires that constraint.
+
+Before building:
+- Inspect the workspace and local instructions.
+- Write a short asset brief covering target device, closest/typical view, desired screen coverage, real scale, final mood, required semantic states, and asset-specific performance budgets.
+- Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference.
+- List 5–12 identity-critical features and map each to geometry, material/texture, hierarchy, or an explicit omission.
+- Explain why the chosen pipeline can meet the requested finish. If a procedural-only route cannot provide the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid.
+
+Build in gated passes:
+1. Macro silhouette and proportions.
+2. Construction, thickness, joints, openings, attachment, and mechanism endpoints.
+3. Material families, edge highlights, roughness/normal/detail variation, and neutral-light response.
+4. Asset-aware camera, lighting, exposure, background/contact treatment, hero state, and final detail.
+5. Actual browser/runtime integration and performance verification.
+
+After passes 2 and 4, capture deterministic screenshots and record the three largest visible defects. Correct the highest-impact defect before continuing. Do not use a self-authored checklist as visual proof.
+
+Required final evidence:
+- hero view at a fixed semantic state and fixed time;
+- two non-degenerate orbit views;
+- neutral material view;
+- one subject-specific proof view such as a close-up, silhouette, endpoint, interior, or scale view;
+- actual browser triangles/draw calls including shadow/depth/reflection passes;
+- console/runtime result;
+- quality-evidence JSON validated with scripts/validate_visual_evidence.py;
+- known limitations and status: complete, partial, blockout, or failed-validation.
+
+For a polished result, run at least two screenshot review rounds. If fresh subagents are available, ask an independent critic to review only the original request, fidelity lane, and rendered views. Do not reveal implementation constraints, self-scores, suspected defects, or intended fixes.
+
+Performance is a constraint on the declared appearance target. Derive budgets from the subject, device, repetition, materials, and screen coverage. Once the target passes, do not simplify visible identity, silhouette, material separation, or grounding for extra metric headroom.
+
+Do not claim complete while a required view, critical feature, material pass, review round, or runtime gate is missing. Preserve and clearly label the best partial result when evidence or tools cannot support the requested fidelity.
+```
+
+## Independent critic prompt
+
+Run this in a fresh context after the builder returns. Supply only the original request and rendered evidence.
+
+```text
+Review these rendered views as a [fidelity lane] Web 3D deliverable for: [original request]. Do not infer quality from implementation notes, polygon counts, or the author's claims.
+
+First identify the subject and intended mood from the pixels alone. Then:
+1. Rank the five largest visible defects by impact.
+2. Score silhouette/proportion /25, construction/attachment /20, material/light response /20, surface detail/variation /15, motion/interaction evidence /10, and Web presentation /10.
+3. Name any identity-critical feature that is missing, visually weak, detached, implausible, clipped, or hidden by presentation.
+4. Distinguish a true finish defect from a deliberate stylization choice.
+5. Return one highest-value next change and a status: complete, partial, blockout, or failed-validation.
+
+Treat a broken critical feature as a gate even if the total score is high. Treat absent views as missing evidence, not as a pass.
+```
+
+## Quality-evidence manifest
+
+Save a manifest beside the rendered evidence. Paths may be relative to the manifest.
+
+```json
+{
+  "schemaVersion": 1,
+  "assetId": "ergonomic-chair-v2",
+  "fidelityLane": "polished-stylized",
+  "status": "complete",
+  "acceptance": {
+    "visualScoreMinimum": 75,
+    "minimumWidth": 1280,
+    "minimumHeight": 720,
+    "minimumReviewRounds": 2,
+    "requiredViews": ["hero", "orbitA", "orbitB", "neutralMaterial", "subjectProof"]
+  },
+  "identityFeatures": [
+    {
+      "name": "five-star load-bearing base",
+      "critical": true,
+      "representation": "geometry and named hierarchy",
+      "evidenceView": "orbitA",
+      "status": "verified"
+    }
+  ],
+  "views": {
+    "hero": {
+      "path": "screenshots/hero.png",
+      "semanticState": "rest",
+      "fixedTimeSeconds": 0
+    },
+    "orbitA": { "path": "screenshots/orbit-a.png" },
+    "orbitB": { "path": "screenshots/orbit-b.png" },
+    "neutralMaterial": { "path": "screenshots/neutral.png" },
+    "subjectProof": { "path": "screenshots/linkage-close.png" }
+  },
+  "reviewRounds": [
+    {
+      "largestDefects": ["seat too thick", "casters too large", "mesh response too flat"],
+      "change": "corrected seat thickness and caster scale",
+      "result": "human-scale relationship improved; mesh response remains"
+    },
+    {
+      "largestDefects": ["mesh response too flat", "contact shadow too broad"],
+      "change": "added woven normal response and tightened contact shadow",
+      "result": "material and grounding improved"
+    }
+  ],
+  "rubric": {
+    "silhouetteProportion": 20,
+    "constructionAttachment": 16,
+    "materialLightResponse": 16,
+    "surfaceDetailVariation": 11,
+    "motionInteraction": 8,
+    "webPresentation": 8
+  },
+  "limitations": ["caster steering is not simulated"]
+}
+```
+
+Run:
+
+```bash
+python3 scripts/validate_visual_evidence.py path/to/quality-evidence.json
+```
+
+The manifest makes completion claims inspectable. It does not make self-scored aesthetics objective; retain the critic output or review ledger next to it when possible.
+
+## Prompt anti-patterns
+
+Avoid adding these constraints unless they are real user requirements:
+
+- “Use only deterministic procedural Three.js primitives.”
+- “Use no textures, authored assets, Blender, or external references.”
+- “Keep it compact/modest” when the user asked for a hero asset.
+- One shared `80k triangles / 45 draws` cap for unrelated asset families.
+- “Make it recognizable” as the only visual acceptance criterion.
+- “Return after syntax/import checks” without rendered multi-view evidence.
+
+Those phrases are useful for a narrow engineering exercise, but they evaluate blockout efficiency—not the skill's ability to deliver high visual quality.

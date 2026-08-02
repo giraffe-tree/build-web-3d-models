@@ -18,6 +18,8 @@ This repository is the source of truth for the `build-web-3d-models` Codex skill
 4. Run the relevant validation:
    - `python3 /Users/giraffetree/.codex/skills/.system/skill-creator/scripts/quick_validate.py .`
    - `python3 -m py_compile scripts/*.py` when Python scripts change.
+   - `python3 scripts/validate_visual_evidence.py --self-test` when the visual-evidence validator changes.
+   - `python3 scripts/validate_visual_evidence.py <manifest.json>` when a polished artifact adds or updates a quality-evidence manifest.
    - A representative script invocation when behavior changes.
 5. Review `git diff --check`, `git status -sb`, and the staged diff.
 6. Commit the completed logical change with a terse imperative message.
