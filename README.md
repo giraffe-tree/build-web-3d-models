@@ -1,18 +1,47 @@
 # build-web-3d-models
 
-面向 Web 的 3D 资产与场景构建 Codex skill：从 asset brief、尺度与观察距离开始，把建模、PBR、运动层级、Three.js 集成、性能预算和浏览器验收放在同一条工作流中。
+面向 Web 的 3D 资产与场景构建 Codex skill：从视觉目标、尺度和身份特征开始，把建模、PBR、运动层级、Three.js 集成、资产级截图评审、独立盲评与性能验收放在同一条可复现工作流中。
 
-[查看 skill](SKILL.md) · [查看 demo 契约](showcase/DEMO_CONTRACT.md) · [机器测试结果](docs/forward-test-results.json)
+[查看 skill](SKILL.md) · [视觉质量流程](references/visual-quality-workflow.md) · [质量优先子 agent 提示词](references/quality-first-agent-prompt.md) · [证据校验器](scripts/validate_visual_evidence.py)
 
-![Articulated architect lamp rendered in the shared Three.js showcase](docs/screenshots/articulated-lamp.jpg)
+![VELA chair v2 Three.js product hero](quality-forward-tests/chair-v2/screenshots/hero.png)
 
-## 7 个独立子 agent forward tests
+## 测试结论
 
-每个 demo 由独立子 agent 直接使用本仓库的 `SKILL.md` 生成。它们共享同一提示词模板、同一 Three.js 运行时和同一验收契约，只更换对象题目；每个 agent 只能写自己的一个模型模块和一份 asset brief，不能查看其他 demo 实现，也不能修改展示壳或提交 Git。
+仓库现在保留两层测试，目的不同：
 
-所有场景均为确定性程序化 Three.js 几何，不在运行时下载模型或贴图。表中数值来自 1280×720 真实 WebGL 页面，包含共享地面和阴影 pass；FPS 是本次机器采样值，不是跨设备承诺。
+1. **7 个工程基线 Demo**验证层级、pivot、程序化构造、instancing、预算和浏览器运行，但视觉上只应视为 blockout/技术样例。
+2. **2 个质量前向测试**要求视觉目标板、身份特征清单、至少两轮像素评审、五张固定证据、精确文件哈希和独立盲评。它们明显优于旧基线，但都被盲评诚实判定为 `partial`，没有伪装成完成品。
 
-| Demo | 测试能力 | Tris | Draws | FPS | Console |
+| 题目 | 旧基线盲评 | v2 builder 自评 | v2 独立盲评 | 净提升 | 最终状态 |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Ergonomic Chair | 37 | 85 | **73** | **+36** | partial |
+| Ginkgo in Light Wind | 33 | 78 | **56** | **+23** | partial |
+
+净提升以历史 blockout 盲评分为基线；椅子最终 73 分来自 UI-free 精确文件复评，银杏 33→56 来自同一轮 A/B 盲评。分数差揭示了一个关键问题：自评很容易把“功能存在、页面好看”误判成“资产完成”。现在完成状态由独立 critic 的较低分数/状态决定；最终截图发生任何像素变化后，旧评审自动失效，必须重新绑定哈希并复评。
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="quality-forward-tests/chair-v2/screenshots/hero.png" alt="VELA chair v2 hero" />
+      <br /><strong><a href="quality-forward-tests/chair-v2/">Chair v2</a> · 73/100 · partial</strong>
+      <br />Blender + GLB + Three.js 混合流程；CMF、原创轮廓和网页 hero 成立，座底—背架—气柱承力闭环、脚轮连接和交互证据仍不足。
+    </td>
+    <td width="50%">
+      <img src="quality-forward-tests/ginkgo-v2/screenshots/final/hero.png" alt="Ginkgo v2 hero" />
+      <br /><strong><a href="quality-forward-tests/ginkgo-v2/">Ginkgo v2</a> · 56/100 · partial</strong>
+      <br />程序化 Three.js；叶片识别和编辑式展示提升明显，树枝 lattice、重复冠层 pad、根部接地和风动时序证据仍不足。
+    </td>
+  </tr>
+</table>
+
+完整证据见 [quality-forward-tests](quality-forward-tests/README.md)。椅子以[精确五图盲评](quality-forward-tests/chair-v2/independent-critic-exact.md)为最终结论；银杏的[独立 A/B 盲评](quality-forward-tests/ginkgo-v2/independent-critic.md)同时记录了基线与 v2 的差异。
+
+## 7 个独立子 agent 工程基线
+
+每个 Demo 由独立子 agent 使用相同任务框架生成，只更换对象题目；它们共享同一 Three.js 运行时和验收契约。以下数据来自 1280×720 真实 WebGL 页面，包含共享地面和阴影 pass。FPS 是单机诊断值，不是跨设备承诺。
+
+| Demo | 主要验证能力 | Tris | Draws | FPS | Console |
 | --- | --- | ---: | ---: | ---: | ---: |
 | Articulated Architect Lamp | 三关节层级、拉簧/连杆、灯头补偿 | 10,240 | 42 | 85 | 0 |
 | Hinged Ultrabook | 物理铰轴、开合端点、完整盖板层级 | 4,616 | 25 | 108 | 0 |
@@ -24,92 +53,84 @@
 
 <table>
   <tr>
-    <td width="50%">
-      <img src="docs/screenshots/articulated-lamp.jpg" alt="Articulated architect lamp" />
-      <br /><strong>01 · <a href="showcase/briefs/articulated-lamp.md">Articulated Architect Lamp</a></strong>
-      <br />嵌套 shoulder / elbow / head pivots，张力连杆始终保持端点连接。
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/hinged-ultrabook.jpg" alt="Hinged ultrabook" />
-      <br /><strong>02 · <a href="showcase/briefs/hinged-ultrabook.md">Hinged Ultrabook</a></strong>
-      <br />先验证关闭端点与机械轴，再让整个屏幕组件作为一个层级运动。
-    </td>
+    <td width="50%"><img src="docs/screenshots/articulated-lamp.jpg" alt="Articulated architect lamp" /><br /><strong>01 · Articulated Lamp</strong></td>
+    <td width="50%"><img src="docs/screenshots/hinged-ultrabook.jpg" alt="Hinged ultrabook" /><br /><strong>02 · Hinged Ultrabook</strong></td>
   </tr>
   <tr>
-    <td width="50%">
-      <img src="docs/screenshots/ginkgo-wind.jpg" alt="Procedural ginkgo tree" />
-      <br /><strong>03 · <a href="showcase/briefs/ginkgo-wind.md">Ginkgo in a Light Wind</a></strong>
-      <br />确定性树形、扇叶实例和随深度递增的结构风动。
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/mushroom-garden.jpg" alt="Bioluminescent mushroom garden" />
-      <br /><strong>04 · <a href="showcase/briefs/mushroom-garden.md">Bioluminescent Mushroom Garden</a></strong>
-      <br />四种可辨识菌盖/菌柄原型，聚簇分布而非均匀随机撒点。
-    </td>
+    <td width="50%"><img src="docs/screenshots/ginkgo-wind.jpg" alt="Procedural ginkgo tree" /><br /><strong>03 · Ginkgo Wind</strong></td>
+    <td width="50%"><img src="docs/screenshots/mushroom-garden.jpg" alt="Bioluminescent mushroom garden" /><br /><strong>04 · Mushroom Garden</strong></td>
   </tr>
   <tr>
-    <td width="50%">
-      <img src="docs/screenshots/alpine-river.jpg" alt="Procedural alpine river valley" />
-      <br /><strong>05 · <a href="showcase/briefs/alpine-river.md">Alpine River</a></strong>
-      <br />分层山谷、曲流水道和低 draw-call 的环境实例。
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/modular-cabin.jpg" alt="Modular forest cabin" />
-      <br /><strong>06 · <a href="showcase/briefs/modular-cabin.md">Modular Forest Cabin</a></strong>
-      <br />承重构件、板条立面、真实门窗洞口与可见室内纵深。
-    </td>
+    <td width="50%"><img src="docs/screenshots/alpine-river.jpg" alt="Procedural alpine river valley" /><br /><strong>05 · Alpine River</strong></td>
+    <td width="50%"><img src="docs/screenshots/modular-cabin.jpg" alt="Modular forest cabin" /><br /><strong>06 · Modular Cabin</strong></td>
   </tr>
   <tr>
-    <td colspan="2">
-      <img src="docs/screenshots/ergonomic-chair.jpg" alt="Ergonomic office chair" />
-      <br /><strong>07 · <a href="showcase/briefs/ergonomic-chair.md">Ergonomic Chair</a></strong>
-      <br />从脚轮到气压杆、座面和网背的完整受力层级，以及可读的倾仰机构。
-    </td>
+    <td colspan="2"><img src="docs/screenshots/ergonomic-chair.jpg" alt="Ergonomic office chair baseline" /><br /><strong>07 · Ergonomic Chair</strong></td>
   </tr>
 </table>
 
-## 运行展示站
+## 本地运行
 
 ```bash
 git clone git@github.com:giraffe-tree/build-web-3d-models.git
-cd build-web-3d-models/showcase
+cd build-web-3d-models
+
+# 7 个工程基线，同一网页切换
+cd showcase
 npm install
 npm run dev -- --host 127.0.0.1 --port 4210
 ```
 
-打开 [http://127.0.0.1:4210/](http://127.0.0.1:4210/)，拖动旋转、滚轮缩放，并可关闭 motion 检查确定性静止状态。
+质量 v2 是两个独立网页：
 
 ```bash
-npm run test:demos
-npm run build
+# 以下均从仓库根目录运行
+
+# 终端 A：椅子
+(cd quality-forward-tests/chair-v2 && npm install && npm run dev -- --port 4321)
+
+# 终端 B：银杏
+(cd quality-forward-tests/ginkgo-v2 && npm install && npm run dev -- --port 4317)
 ```
 
-`test:demos` 会实际导入并实例化所有模块，检查 API、确定性约束、DOM/远程资源违规、动画/reset 合约、三角形与可绘制对象预算。生产构建总输出为 649,239 bytes。
+椅子支持 `?view=hero|orbitA|orbitB|neutralMaterial|subjectProof`；追加 `&capture=1` 可进入无 UI、固定相机的资产评审模式。银杏页面提供对应固定视图、静止/风动状态和 capture 模式。
 
-## 这轮测试证明了什么
+## 验证
 
-- **先定义再建模**：7 个 agent 都先写了 purpose、viewing、尺度、预算、observed/inferred/omitted 项，再实现几何。
-- **机制不是“看起来能动”**：台灯、电脑、木屋和椅子都把 pivot 放在真实连接轴上，并让依赖部件挂在同一语义层级中。
-- **程序化不是随机堆叠**：银杏、蘑菇、河谷使用固定种子、聚簇或层级规则，重复拓扑使用 instancing。
-- **预算包含真实 pass**：Node 静态检查后又读取浏览器 renderer 指标；椅子和台灯都因 shadow pass 放大而二次收敛，最终所有 demo 不超过 80,000 tris / 45 draws。
-- **视觉 QA 仍然必要**：浏览器测试修复了只构建不报错却无法选择 demo 的 ES module 注册问题，并纠正了蘑菇 emissive 高光剪白。
+```bash
+python3 /Users/giraffetree/.codex/skills/.system/skill-creator/scripts/quick_validate.py .
+python3 scripts/validate_visual_evidence.py --self-test
+python3 scripts/validate_visual_evidence.py quality-forward-tests/chair-v2/quality-evidence.json
+python3 scripts/validate_visual_evidence.py quality-forward-tests/ginkgo-v2/quality-evidence.json
+
+cd showcase && npm run test:demos && npm run build
+cd ../quality-forward-tests/chair-v2 && npm run build
+cd ../ginkgo-v2 && npm run check && npm run build
+```
+
+## 这轮失败如何改变了 skill
+
+- 不再用“程序化几何、零纹理、统一 80k/45 预算”作为所有题目的默认答案；先根据画面占比、最近观察距离、复用数量和交互风险选择 Blender、程序化或混合流程，再推导预算。
+- polished 原创资产即使用户没有给参考，也先建立 3–8 张视觉目标板，明确采用/拒绝的形体、构造、材质与光照特征。
+- `hero` 可以证明真实页面；`orbitA`、`orbitB`、`neutralMaterial` 和 `subjectProof` 必须是无 UI 资产证据。subject proof 必须在像素里真正隔离关键特征，文件名和说明文字不算证明。
+- 每轮先找像素中影响最大的 3 个缺陷，只做最高价值修复；至少两轮。性能优化放到视觉 floor 之后，避免把 blockout 优化成更快的 blockout。
+- schema v2 校验真实 PNG 结构、尺寸、非重复像素、相机方向、语义状态、固定时间、最终文件 SHA-256、评审哈希和 critic 哈希。critic 的较低状态具有最终完成权。
 
 ## 已知边界
 
-- 这些是 skill forward tests，不是带烘焙纹理、品牌细节或制造级结构的最终 hero assets；每份 brief 都列出了推断和省略项。
-- 单页实验室使用 eager module discovery，当前主 JS 为 642,267 bytes；若作为生产图库发布，应改为按 demo 懒加载。
-- 本轮浏览器 QA 覆盖桌面 1280×720；响应式样式已存在，但尚未完成独立移动端 GPU/触控回归。
-- 银杏更偏结构与风动验证，冠幅密度较保守；蘑菇的发光是无 bloom 的 PBR/emissive 近似。
+- v2 两个资产都只是 `partial`。仓库保留它们是为了展示改进幅度、失败模式和可审计流程，不是把 56/73 分作品当成质量天花板。
+- 静态 PNG 能证明多角度和固定语义状态，不能证明拖拽连续性或风动的相位/阻尼；完整运动证据仍需要短录屏或受控连续帧。
+- 7 个基线 Demo 仍适合做工程回归，但不应继续作为 polished 视觉质量的正例。
 
 ## 仓库结构
 
 ```text
-SKILL.md                         skill 主流程
-references/                     按需读取的领域工作手册
-scripts/audit_gltf.py           glTF/GLB 可复现审计
-showcase/DEMO_CONTRACT.md       子 agent demo 接口与预算
-showcase/src/demos/             7 个独立 Three.js 模块
-showcase/briefs/                对应 asset briefs 与限制
-showcase/scripts/validate-demos.mjs
-docs/forward-test-results.json  机器可读的浏览器结果
+SKILL.md                                  skill 主流程
+references/visual-quality-workflow.md    视觉目标、评审与完成门槛
+references/quality-first-agent-prompt.md 子 agent 默认质量提示词
+scripts/audit_gltf.py                    glTF/GLB 可复现审计
+scripts/validate_visual_evidence.py      schema v1/v2 证据校验
+showcase/                                7 个工程基线 Demo
+quality-forward-tests/chair-v2/          Blender/GLB/Three.js 质量测试
+quality-forward-tests/ginkgo-v2/         程序化 Three.js 质量测试
 ```
