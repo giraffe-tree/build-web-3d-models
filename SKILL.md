@@ -15,6 +15,7 @@ Create visually credible 3D content that fits an explicit Web performance budget
    - Read references/web-runtime-performance.md for browser integration, shaders, lighting, shadows, LOD, compression, profiling, or performance fixes.
    - Read references/asset-archetypes.md for the matching object or environment family.
    - Read references/reference-driven-reconstruction.md for single-view or multi-view reconstruction, evidence tracking, fixed-camera review, detail inventories, or bounded correction loops.
+   - Read references/visual-quality-workflow.md for polished showcases, hero assets, visual quality regressions, art-direction choices, screenshot gates, or any request where "done" must mean more than a recognizable blockout.
    - Read references/hinged-product-case-study.md for laptops, books, doors, cases, folding furniture, or any product whose closed/open endpoints and part clearances define correctness.
    - Read references/tree-web-case-study.md for organic procedural modeling, wind, hierarchical attachment, or geometry-pressure examples.
 3. If a more specific available skill covers rigging, animation, Blender MCP, image generation, or browser control, use it alongside this skill.
@@ -24,12 +25,14 @@ Create visually credible 3D content that fits an explicit Web performance budget
 
 Write a short asset brief before changing code or Blender files:
 
+- Fidelity lane: blockout, polished stylized, reference-faithful, or photoreal hero. If the user asks for a finished showcase without naming a lane, default to polished stylized—not blockout.
 - Purpose: hero object, background prop, repeated instance, terrain, character, or interactive mechanism.
 - Viewing: closest distance, typical distance, silhouette distance, camera FOV, and expected screen coverage.
 - Targets: desktop/mobile, minimum device class, FPS or frame-time target, load-time and file-size limits.
 - Deliverables: source .blend or procedural source, .glb/.gltf, textures, animation clips, runtime code, screenshots, and tests.
 - Appearance: real dimensions, reference views, material response, required moving parts, endpoint clearances, and a 0–100 realism target when requested.
 - Budgets: triangles per LOD, unique vertices, draw calls, texture memory, bones, morph targets, shadow casters, and pixels rendered.
+- Identity and finish: five to twelve subject-defining cues, material families, presentation mood, required hero/orbit/material views, and the declared visual quality gate.
 
 Do not use one universal polygon budget. A hero animal, a repeated grass blade, and a building need different budgets.
 
@@ -39,6 +42,8 @@ For realistic work, collect enough references to resolve front/side/three-quarte
 
 Use procedural code when the asset is parametric, repeated, seeded, terrain-like, vegetation-like, or must expose runtime controls. Use Blender when form depends on sculpting, precise hard-surface construction, retopology, UV painting, baking, rigging, or art-directed edits. Use a hybrid pipeline when Blender supplies reusable modules or baked maps and code supplies layout, variation, animation, LOD, or interaction.
 
+Choose from the closest required view and fidelity lane, not from implementation convenience. Do not force a polished hero product, furniture piece, organic asset, or environment into Three.js primitives merely because the final delivery is Web-based. If a procedural-only route cannot supply the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid. Textures, decals, baked maps, and authored GLB assets are valid Web techniques; zero textures is a constraint only when the user or target actually requires it.
+
 Prefer the cheapest representation that survives the required closest view:
 
 - Geometry for silhouette, parallax, joints, deformation, and contact.
@@ -46,6 +51,19 @@ Prefer the cheapest representation that survives the required closest view:
 - Alpha-tested cards for dense fine structures when ordering is unnecessary.
 - Instances for repeated topology.
 - Impostors or baked billboards only beyond the distance where parallax is no longer readable.
+
+## Protect the visual quality floor
+
+For polished stylized, reference-faithful, or photoreal work, read references/visual-quality-workflow.md and use its pass gates.
+
+1. Collect or create enough references to resolve silhouette, construction, material response, and presentation. Without usable evidence, label the result generic or inferred instead of quietly lowering the finish bar.
+2. Lock identity-critical features before modeling. A result that is merely category-recognizable is still incomplete when those features are absent.
+3. Progress through macro silhouette, secondary construction, material/surface, lighting/presentation, and runtime passes. Do not present a blockout as a finished asset because it loads and meets a budget.
+4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them.
+5. After each polished pass, name the three largest visible defects and correct the highest-impact one. Run at least two screenshot review rounds for a finished showcase; keep rounds bounded and preserve the best result.
+6. Use an independent visual critic when fresh subagents are available. Give it only the request and rendered evidence—not the implementation, self-score, suspected defect, or intended fix.
+
+Treat performance as a constraint on a declared appearance target. Once an asset fits its target-device budget, do not keep simplifying it merely to improve an already-passing metric. If the target cannot fit, change representation, LOD, or pass cost before sacrificing identity, silhouette, contact, or material separation.
 
 ## Build from large to small
 
@@ -145,8 +163,9 @@ Validate at minimum:
 - Mechanism endpoints: closed/seated and fully open/extended views from the axes that reveal seams, stacking, clearance, and hidden parts.
 - Runtime: load, resize, mobile viewport, console errors, context loss assumptions, and interaction.
 - Performance: fixed near/mid/far cameras; deterministic geometry and pass counts; device timing as diagnostic data.
+- Finish: identity-critical features, screen coverage, hierarchy of detail, edge treatment, material separation, contact/grounding, highlight clipping, and whether the final lighting supports the requested mood.
 
-Use screenshot comparison and a scored rubric when realism matters. Improve the weakest category, then remeasure. Do not trade a large visual loss for a metric that is already within budget.
+Use screenshot comparison and a scored rubric for every polished showcase, not only explicit photorealism. Improve the weakest category, then remeasure. A self-authored checklist is not visual proof; inspect the actual pixels at the intended viewport and typical camera. Do not trade a large visual loss for a metric that is already within budget.
 
 Suggested realism rubric: silhouette/proportion 25, construction/anatomy and attachment 20, material/light response 20, surface detail and variation 15, motion/interaction 10, and Web presentation 10. Treat broken loading, severe artifacts, or missed performance targets as gates even when the visual subtotal is high.
 
@@ -156,4 +175,5 @@ Suggested realism rubric: silhouette/proportion 25, construction/anatomy and att
 - Exercise the visible user path for important states—such as opening the control panel and pressing Close—then verify the semantic value, rendered pose, and console. Do not validate only by setting an internal transform directly.
 - Report deterministic before/after metrics separately from device-dependent FPS/GPU samples.
 - State known limitations and the next highest-value optimization.
+- Report the fidelity lane and status as complete, partial, blockout, or failed-validation. Never label a polished deliverable complete when required views, identity-critical features, material pass, or visual review evidence are missing.
 - Keep the final Web page or artifact accessible when the user requested it.

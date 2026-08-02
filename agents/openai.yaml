@@ -1,4 +1,4 @@
 interface:
   display_name: "Web 3D 模型构建"
   short_description: "从 Blender 或程序化代码构建高质量 Web 3D 资产"
-  default_prompt: "Use $build-web-3d-models to plan, build, optimize, and validate a web-ready 3D asset."
+  default_prompt: "Use $build-web-3d-models to create a visually finished Web 3D asset: declare fidelity, gather evidence, choose the right pipeline, protect identity and material quality, and validate fixed multi-view renders in the real runtime."
