@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Independent Three.js forward tests for the build-web-3d-models Codex skill."
+    />
+    <title>Build Web 3D Models — Skill Lab</title>
+  </head>
+  <body>
+    <main id="app">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SKILL FORWARD TEST · THREE.JS</p>
+          <h1>Build Web 3D Models</h1>
+        </div>
+        <div class="topbar__actions">
+          <button id="motion-toggle" class="pill" type="button" aria-pressed="true">
+            Motion on
+          </button>
+          <a class="pill pill--link" href="https://github.com/giraffe-tree/build-web-3d-models">GitHub ↗</a>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <aside class="rail" aria-label="Demo selector">
+          <div class="rail__intro">
+            <span id="demo-count">0 experiments</span>
+            <p>同一运行时、不同提示词，由独立子 agent 直接使用 skill 构建。</p>
+          </div>
+          <nav id="demo-list" class="demo-list"></nav>
+        </aside>
+
+        <section class="viewport-shell">
+          <canvas id="viewport" aria-label="Interactive 3D demo"></canvas>
+          <div id="empty-state" class="empty-state">
+            <span>LAB 00</span>
+            <h2>Waiting for experiments</h2>
+          </div>
+
+          <div class="demo-copy">
+            <p id="demo-category" class="eyebrow">FORWARD TEST</p>
+            <h2 id="demo-title">No demo selected</h2>
+            <p id="demo-description">Demo modules are discovered automatically.</p>
+          </div>
+
+          <div class="hint">Drag to orbit · Scroll to zoom</div>
+
+          <dl class="metrics" aria-label="Runtime metrics">
+            <div><dt>FPS</dt><dd id="metric-fps">—</dd></div>
+            <div><dt>TRIS</dt><dd id="metric-tris">—</dd></div>
+            <div><dt>DRAWS</dt><dd id="metric-draws">—</dd></div>
+            <div><dt>GEOS</dt><dd id="metric-geometries">—</dd></div>
+          </dl>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
