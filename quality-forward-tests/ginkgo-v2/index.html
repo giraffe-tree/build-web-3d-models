@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e7e1d3" />
+    <meta
+      name="description"
+      content="A polished, interactive 3D study of a mature ginkgo tree moving in a light wind."
+    />
+    <title>Ginkgo — Light wind study</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="scene" aria-label="Interactive 3D model of a mature ginkgo tree"></canvas>
+
+      <header class="masthead" data-ui>
+        <div class="wordmark">Botanical forms · 02</div>
+        <div class="rule"></div>
+        <div class="season">EARLY AUTUMN / LIGHT WIND</div>
+      </header>
+
+      <section class="title-block" data-ui aria-labelledby="page-title">
+        <p class="eyebrow">A living fossil, in motion</p>
+        <h1 id="page-title">Ginkgo</h1>
+        <p class="latin">Ginkgo biloba</p>
+        <p class="lede">
+          An old canopy held together by short shoots, fan leaves and a slow,
+          inherited bend.
+        </p>
+      </section>
+
+      <aside class="metrics" data-ui aria-label="Live 3D diagnostics">
+        <div><span>MODE</span><strong id="mode-readout">LIGHT WIND</strong></div>
+        <div><span>LEAVES</span><strong id="leaf-readout">—</strong></div>
+        <div><span>TRIS / FRAME</span><strong id="tri-readout">—</strong></div>
+        <div><span>DRAW CALLS</span><strong id="draw-readout">—</strong></div>
+      </aside>
+
+      <nav class="view-nav" data-ui aria-label="View presets">
+        <button type="button" data-view="hero" aria-pressed="true">Hero</button>
+        <button type="button" data-view="orbitA" aria-pressed="false">Orbit A</button>
+        <button type="button" data-view="orbitB" aria-pressed="false">Orbit B</button>
+        <button type="button" data-view="neutralMaterial" aria-pressed="false">Material</button>
+        <button type="button" data-view="subjectProof" aria-pressed="false">Leaf detail</button>
+        <span class="nav-separator" aria-hidden="true"></span>
+        <button type="button" id="wind-toggle" data-testid="wind-toggle" aria-pressed="false">Pause wind</button>
+      </nav>
+
+      <p class="orbit-hint" data-ui>Drag to orbit · Scroll to move closer</p>
+      <div id="status" class="sr-only" role="status" aria-live="polite">Building the tree</div>
+      <pre id="metrics-json" class="sr-only" data-testid="metrics-json">{}</pre>
+      <div class="capture-label" data-capture-label aria-hidden="true"></div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "testedAt": "2026-08-02",
+  "server": "http://127.0.0.1:4317/",
+  "browser": "Codex in-app browser",
+  "results": {
+    "initialLoadReady": true,
+    "readyAfterMs": 1339.3,
+    "webgl": "WebGL2",
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "fixedCaptureViewport": "1440x900 CSS px at DPR 1.5",
+    "resize": {
+      "viewport": "1024x768",
+      "canvasClientSize": "1024x768",
+      "horizontalOverflow": false,
+      "readyAfterReload": true
+    },
+    "windControl": {
+      "visibleControlCount": 1,
+      "pausePressed": "true",
+      "pauseLabel": "RESUME WIND",
+      "pausedSemanticMode": "REST",
+      "resumePressed": "false",
+      "resumeLabel": "PAUSE WIND",
+      "resumedSemanticMode": "LIGHT WIND"
+    },
+    "viewControl": {
+      "control": "Orbit B",
+      "visibleControlCount": 1,
+      "pressed": "true",
+      "reportedView": "orbitB",
+      "frameTriangles": 301888,
+      "frameDrawCalls": 38
+    }
+  }
+}

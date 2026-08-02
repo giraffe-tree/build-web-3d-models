@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 2,
+  "assetId": "ginkgo-v2",
+  "fidelityLane": "polished-stylized",
+  "status": "partial",
+  "acceptance": {
+    "visualScoreMinimum": 75,
+    "minimumWidth": 1280,
+    "minimumHeight": 720,
+    "minimumReviewRounds": 2,
+    "independentCriticRequired": true,
+    "requiredViews": ["hero", "orbitA", "orbitB", "neutralMaterial", "subjectProof"]
+  },
+  "identityFeatures": [
+    {
+      "name": "mature broad-pyramidal irregular crown",
+      "critical": true,
+      "representation": "seeded hierarchical long-shoot skeleton and clustered instanced canopy",
+      "evidenceView": "hero",
+      "status": "partial"
+    },
+    {
+      "name": "aged taper and asymmetric root flare",
+      "critical": true,
+      "representation": "ribbed trunk rings and nine curved ground-buried roots",
+      "evidenceView": "orbitB",
+      "status": "partial"
+    },
+    {
+      "name": "deeply fissured grey-brown bark",
+      "critical": true,
+      "representation": "displaced radial geometry plus generated longitudinal colour and bump texture",
+      "evidenceView": "neutralMaterial",
+      "status": "partial"
+    },
+    {
+      "name": "tapered primary and secondary branch attachment",
+      "critical": true,
+      "representation": "named primary bough groups with continuous tapered tube geometry",
+      "evidenceView": "orbitA",
+      "status": "partial"
+    },
+    {
+      "name": "explicit short spur shoots",
+      "critical": true,
+      "representation": "short-shoot geometry between long shoots, petioles, and leaf clusters",
+      "evidenceView": "subjectProof",
+      "status": "partial"
+    },
+    {
+      "name": "two-lobed fan leaf with diverging veins",
+      "critical": true,
+      "representation": "28-segment scalloped fan geometry and generated radial vein map",
+      "evidenceView": "subjectProof",
+      "status": "partial"
+    },
+    {
+      "name": "visible petiole attachment",
+      "critical": true,
+      "representation": "tapered instanced petioles sharing the bough transform",
+      "evidenceView": "subjectProof",
+      "status": "partial"
+    },
+    {
+      "name": "structured light-wind hierarchy",
+      "critical": true,
+      "representation": "primary-bough inherited sway plus leaf-local shader flutter with fixed phase",
+      "evidenceView": "hero",
+      "status": "partial"
+    },
+    {
+      "name": "restrained early-autumn variation",
+      "critical": false,
+      "representation": "deterministic per-instance green, chartreuse, and gold palette",
+      "evidenceView": "neutralMaterial",
+      "status": "verified"
+    },
+    {
+      "name": "grounded specimen contact",
+      "critical": true,
+      "representation": "buried root tips, limestone platform, restrained litter, and tight primary shadow",
+      "evidenceView": "orbitB",
+      "status": "partial"
+    }
+  ],
+  "views": {
+    "hero": {
+      "path": "screenshots/final/hero.png",
+      "semanticState": "lightWind",
+      "fixedTimeSeconds": 2.4,
+      "cameraDirection": [16.7, 1.95, 22.0],
+      "uiMode": "page",
+      "sha256": "c8e97c0c443c7dbed89de56948ecc0903ee08d8dcf70fa2c31d91cdac7a27750"
+    },
+    "orbitA": {
+      "path": "screenshots/final/orbit-a.png",
+      "semanticState": "lightWind",
+      "fixedTimeSeconds": 2.4,
+      "cameraDirection": [-18.25, 3.0, -20.2],
+      "uiMode": "review",
+      "sha256": "6cb5fafd814e85056dac5387f7c4b0ce1d678d5b0b79fa0ed0afc845ca74efbc"
+    },
+    "orbitB": {
+      "path": "screenshots/final/orbit-b.png",
+      "semanticState": "lightWind",
+      "fixedTimeSeconds": 2.4,
+      "cameraDirection": [16.15, -0.5, -20.0],
+      "uiMode": "review",
+      "sha256": "1c2a58f0745476a2ca6b9346072df28ec577b08a79e336e53220b61c6ce02b0c"
+    },
+    "neutralMaterial": {
+      "path": "screenshots/final/neutral-material.png",
+      "semanticState": "neutralMaterial",
+      "fixedTimeSeconds": 2.4,
+      "cameraDirection": [16.15, 2.1, 20.5],
+      "uiMode": "review",
+      "sha256": "d60be8f87cc1e23c5feb447553ac5ec454a67fe1a745887fd38e61ddbe3a64b5"
+    },
+    "subjectProof": {
+      "path": "screenshots/final/subject-proof.png",
+      "semanticState": "speciesIdentityProof",
+      "fixedTimeSeconds": 2.4,
+      "cameraDirection": [0.0, 0.43, 5.15],
+      "uiMode": "review",
+      "sha256": "875edb500db473b4033c1909c03daba27f277f5cbfdbbe76114ad6baecd6078a"
+    }
+  },
+  "reviewRounds": [
+    {
+      "largestDefects": [
+        "hero camera clipped the upper crown",
+        "near-black sparse foliage let the procedural branch scaffold dominate",
+        "flat moss islands and exposed root tips weakened ground contact"
+      ],
+      "change": "reframed all full-tree cameras, increased and brightened fan coverage, simplified the ground treatment, and buried root tips",
+      "result": "the complete crown and root relationship fits; leaf mass reads from the hero distance; ground contact is quieter"
+    },
+    {
+      "largestDefects": [
+        "crowded close-up did not clearly prove the fan notch or veins",
+        "late review shadow submission exceeded the 40-call budget",
+        "reverse-lit orbit flattened colour separation"
+      ],
+      "change": "added an isolated proof state from the same leaf/vein/short-shoot/petiole modules and removed low-value fine shadow casters",
+      "result": "species identity is inspectable; final hero submission is 38 calls and 301888 frame triangles; neutral view preserves material evidence"
+    }
+  ],
+  "rubric": {
+    "silhouetteProportion": 19,
+    "constructionAttachment": 16,
+    "materialLightResponse": 14,
+    "surfaceDetailVariation": 11,
+    "motionInteraction": 9,
+    "webPresentation": 9
+  },
+  "finalReview": {
+    "reviewedViewHashes": {
+      "hero": "c8e97c0c443c7dbed89de56948ecc0903ee08d8dcf70fa2c31d91cdac7a27750",
+      "orbitA": "6cb5fafd814e85056dac5387f7c4b0ce1d678d5b0b79fa0ed0afc845ca74efbc",
+      "orbitB": "1c2a58f0745476a2ca6b9346072df28ec577b08a79e336e53220b61c6ce02b0c",
+      "neutralMaterial": "d60be8f87cc1e23c5feb447553ac5ec454a67fe1a745887fd38e61ddbe3a64b5",
+      "subjectProof": "875edb500db473b4033c1909c03daba27f277f5cbfdbbe76114ad6baecd6078a"
+    }
+  },
+  "independentCritic": {
+    "reportPath": "independent-critic.md",
+    "status": "partial",
+    "rubric": {
+      "silhouetteProportion": 15,
+      "constructionAttachment": 10,
+      "materialLightResponse": 11,
+      "surfaceDetailVariation": 8,
+      "motionInteraction": 4,
+      "webPresentation": 8
+    },
+    "reviewedViewHashes": {
+      "hero": "c8e97c0c443c7dbed89de56948ecc0903ee08d8dcf70fa2c31d91cdac7a27750",
+      "orbitA": "6cb5fafd814e85056dac5387f7c4b0ce1d678d5b0b79fa0ed0afc845ca74efbc",
+      "orbitB": "1c2a58f0745476a2ca6b9346072df28ec577b08a79e336e53220b61c6ce02b0c",
+      "neutralMaterial": "d60be8f87cc1e23c5feb447553ac5ec454a67fe1a745887fd38e61ddbe3a64b5",
+      "subjectProof": "875edb500db473b4033c1909c03daba27f277f5cbfdbbe76114ad6baecd6078a"
+    }
+  },
+  "limitations": [
+    "generic art-directed specimen rather than reference-faithful reconstruction",
+    "leaf dimensions are deliberately enlarged for hero-view readability",
+    "wind is hierarchical procedural motion rather than solved branch dynamics",
+    "single hero LOD is not intended for a forest or mobile reuse"
+  ]
+}

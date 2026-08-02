@@ -1,0 +1,51 @@
+{
+  "assetId": "ginkgo-v2",
+  "sample": {
+    "url": "http://127.0.0.1:4317/?view=hero&time=2.4",
+    "viewportCssPixels": [1440, 900],
+    "devicePixelRatio": 1.5,
+    "renderer": "WebGL2",
+    "semanticState": "lightWind",
+    "fixedTimeSeconds": 2.4
+  },
+  "deterministic": {
+    "seed": 19760123,
+    "leafCount": 4970,
+    "branchNodeCount": 3339,
+    "modelTriangles": 269792,
+    "uniqueGeometryVertices": 20196,
+    "materialFamilies": 7,
+    "generatedTextures": 2,
+    "visibleMeshDraws": 32,
+    "declaredShadowDraws": 6,
+    "frameTriangles": 301888,
+    "frameDrawCalls": 38
+  },
+  "budgets": {
+    "modelTrianglesMaximum": 450000,
+    "uniqueGeometryVerticesMaximum": 350000,
+    "frameTrianglesMaximum": 900000,
+    "frameDrawCallsMaximum": 40,
+    "materialFamiliesMaximum": 8,
+    "generatedTexturesMaximum": 4
+  },
+  "budgetResult": "pass",
+  "optimizationComparison": {
+    "lateReviewBefore": {
+      "frameTriangles": 368484,
+      "frameDrawCalls": 44
+    },
+    "final": {
+      "frameTriangles": 301888,
+      "frameDrawCalls": 38
+    },
+    "note": "Reduced low-value leaf and tertiary wood shadow submissions; visible model geometry and hero contact shadow were preserved."
+  },
+  "deviceTiming": {
+    "classification": "diagnostic-only",
+    "readyAfterMs": 1339.3,
+    "warmRenderAverageMs": 0.413,
+    "warmRenderP95Ms": 0.9,
+    "caveat": "Not used as a hard pass/fail metric."
+  }
+}

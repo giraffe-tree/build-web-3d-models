@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111417" />
+    <meta name="description" content="VELA / 01 — an interactive premium ergonomic task chair study." />
+    <title>VELA / 01 — Ergonomic Task Chair</title>
+  </head>
+  <body>
+    <main id="app" aria-label="VELA chair 3D showcase">
+      <canvas id="scene" aria-label="Interactive three-dimensional chair model"></canvas>
+
+      <header class="masthead">
+        <a class="brand" href="?view=hero" aria-label="VELA hero view">
+          <span class="brand-mark">V</span>
+          <span>VELA OBJECTS</span>
+        </a>
+        <span class="edition">STUDY 01&nbsp;&nbsp;•&nbsp;&nbsp;2026</span>
+      </header>
+
+      <section class="hero-copy" aria-labelledby="hero-title">
+        <p class="eyebrow"><span></span>ERGONOMIC TASK CHAIR</p>
+        <h1 id="hero-title">Designed for<br /><em>quiet focus.</em></h1>
+        <p class="intro">A tensioned suspension shell, tactile basalt weave, and a sculptural five-point load path—resolved as one calm working object.</p>
+        <dl class="materials" aria-label="Chair material palette">
+          <div><dt>01</dt><dd>Basalt textile</dd></div>
+          <div><dt>02</dt><dd>Anodized copper</dd></div>
+          <div><dt>03</dt><dd>Graphite frame</dd></div>
+        </dl>
+      </section>
+
+      <aside class="view-rail" aria-label="Fixed chair views">
+        <p>VIEW</p>
+        <button data-view="hero" aria-label="Hero view"><span>01</span>Hero</button>
+        <button data-view="orbitA" aria-label="Front orbit view"><span>02</span>Orbit A</button>
+        <button data-view="orbitB" aria-label="Rear orbit view"><span>03</span>Orbit B</button>
+        <button data-view="neutralMaterial" aria-label="Neutral material view"><span>04</span>Material</button>
+        <button data-view="subjectProof" aria-label="Mechanism close view"><span>05</span>Detail</button>
+      </aside>
+
+      <footer class="footer-bar">
+        <div class="interaction-hint"><span class="mouse-icon"></span>DRAG TO ORBIT&nbsp;&nbsp; / &nbsp;&nbsp;SCROLL TO INSPECT</div>
+        <div class="live-spec" aria-live="polite"><i></i><span id="runtime-state">LOADING ASSET</span></div>
+      </footer>
+
+      <div class="loading" id="loading" role="status">
+        <div class="loading-line"><span></span></div>
+        <p>ASSEMBLING VELA / 01</p>
+      </div>
+
+      <div class="diagnostics" id="diagnostics" aria-label="Runtime diagnostics">
+        <span id="diag-view">HERO</span>
+        <span id="diag-tris">— TRI</span>
+        <span id="diag-calls">— CALLS</span>
+        <span id="diag-fps">— FPS</span>
+      </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

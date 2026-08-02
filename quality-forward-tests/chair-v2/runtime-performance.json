@@ -1,0 +1,32 @@
+{
+  "assetId": "vela-chair-01",
+  "semanticState": "rest",
+  "fixedTimeSeconds": 0,
+  "viewport": { "width": 1440, "height": 900, "dprCap": 1.5 },
+  "asset": {
+    "fileBytes": 1254244,
+    "uniqueVertices": 33041,
+    "uniqueTriangles": 56320,
+    "meshes": 82,
+    "primitives": 82,
+    "estimatedAssetDrawCalls": 82,
+    "materials": 7,
+    "animations": 0,
+    "skins": 0
+  },
+  "fixedViews": {
+    "hero": { "submittedTriangles": 105824, "calls": 156, "fpsDiagnostic": 43 },
+    "orbitA": { "submittedTriangles": 105824, "calls": 156, "fpsDiagnostic": 28 },
+    "orbitB": { "submittedTriangles": 105824, "calls": 156, "fpsDiagnostic": 32 },
+    "neutralMaterial": { "submittedTriangles": 105824, "calls": 156, "fpsDiagnostic": 28 },
+    "subjectProof": { "submittedTriangles": 98016, "calls": 140, "fpsDiagnostic": 27 }
+  },
+  "runtime": {
+    "load": "pass",
+    "visibleControlPath": "pass",
+    "resize1280x720": "pass",
+    "resize1440x900": "pass",
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  }
+}

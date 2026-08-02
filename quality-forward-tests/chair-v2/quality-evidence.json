@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 2,
+  "assetId": "vela-chair-01",
+  "fidelityLane": "polished-stylized",
+  "status": "partial",
+  "acceptance": {
+    "visualScoreMinimum": 78,
+    "minimumWidth": 1280,
+    "minimumHeight": 720,
+    "minimumReviewRounds": 2,
+    "independentCriticRequired": true,
+    "requiredViews": ["hero", "orbitA", "orbitB", "neutralMaterial", "subjectProof"]
+  },
+  "identityFeatures": [
+    {
+      "name": "five-star load-bearing base and grounded twin-wheel casters",
+      "critical": true,
+      "representation": "beveled geometry and named wheel/fork hierarchy",
+      "evidenceView": "orbitA",
+      "status": "partial"
+    },
+    {
+      "name": "human-scale seat and back relationship",
+      "critical": true,
+      "representation": "metric authored geometry",
+      "evidenceView": "hero",
+      "status": "partial"
+    },
+    {
+      "name": "tensioned suspension back within a continuous soft-edge frame",
+      "critical": true,
+      "representation": "curved membrane geometry plus mip-filtered woven PBR response",
+      "evidenceView": "neutralMaterial",
+      "status": "partial"
+    },
+    {
+      "name": "forked anodized-copper lumbar yoke",
+      "critical": true,
+      "representation": "authored tube geometry and metallic material",
+      "evidenceView": "orbitB",
+      "status": "partial"
+    },
+    {
+      "name": "floating upholstered seat over mechanical pan",
+      "critical": true,
+      "representation": "separate cushion, piping, flex edge, pan, and shadow gap geometry",
+      "evidenceView": "subjectProof",
+      "status": "partial"
+    },
+    {
+      "name": "adjustable arm posts with joints and soft pads",
+      "critical": true,
+      "representation": "named multi-part geometry",
+      "evidenceView": "orbitB",
+      "status": "partial"
+    },
+    {
+      "name": "gas lift, bellows, tilt housing, dial, and lever",
+      "critical": true,
+      "representation": "concentric and articulated mechanical geometry",
+      "evidenceView": "subjectProof",
+      "status": "partial"
+    },
+    {
+      "name": "upholstery weave and restrained roughness variation",
+      "critical": true,
+      "representation": "deterministic generated color and bump textures",
+      "evidenceView": "subjectProof",
+      "status": "verified"
+    }
+  ],
+  "views": {
+    "hero": {
+      "path": "screenshots/hero.png",
+      "semanticState": "rest",
+      "fixedTimeSeconds": 0,
+      "cameraDirection": [2.01, 0.73, 2.98],
+      "uiMode": "page",
+      "sha256": "301c93178d28120fb886293228dd410178add2a5f452a8e965b6f3d8d678503e"
+    },
+    "orbitA": {
+      "path": "screenshots/orbit-a.png",
+      "semanticState": "rest",
+      "fixedTimeSeconds": 0,
+      "cameraDirection": [-2.58, 0.65, 3.26],
+      "uiMode": "review",
+      "sha256": "672f6f0cad8948b6b5031802559ab4584ba5eb2574f019df52df29c795534615"
+    },
+    "orbitB": {
+      "path": "screenshots/orbit-b.png",
+      "semanticState": "rest",
+      "fixedTimeSeconds": 0,
+      "cameraDirection": [2.32, 0.59, -2.34],
+      "uiMode": "review",
+      "sha256": "2904d21db967a9a29f86e461873f26605534f1c439b68b61ef7311e250fc49a0"
+    },
+    "neutralMaterial": {
+      "path": "screenshots/neutral.png",
+      "semanticState": "rest",
+      "fixedTimeSeconds": 0,
+      "cameraDirection": [1.62, 0.53, 3.27],
+      "uiMode": "review",
+      "sha256": "41a226978f93e493a7f1bd8db0e0b919c4a46f8b199d652baa2c040e5b887b87"
+    },
+    "subjectProof": {
+      "path": "screenshots/subject-proof.png",
+      "semanticState": "rest",
+      "fixedTimeSeconds": 0,
+      "cameraDirection": [0.98, 0.24, 1.16],
+      "uiMode": "review",
+      "sha256": "2c6e776cc2b358efebc41648e0c88a074e8f1df55dcb1af94511d24ca997512f"
+    }
+  },
+  "reviewRounds": [
+    {
+      "largestDefects": [
+        "rectangular back membrane projected beyond the perimeter frame",
+        "overexposure collapsed graphite textile and rubber into one pale response",
+        "high-contrast alpha weave produced strong moire"
+      ],
+      "change": "matched the membrane to the rounded frame envelope and rebalanced light exposure and weave frequency",
+      "result": "silhouette containment and material separation improved; residual weave moire remained"
+    },
+    {
+      "largestDefects": [
+        "residual concentric moire on the suspension back",
+        "initial camera occupancy clipped one orbit and crowded the hero",
+        "portfolio copy overlapped the close mechanism proof"
+      ],
+      "change": "used mip-filtered translucent woven response, re-authored fixed cameras, and removed narrative overlay from the proof view",
+      "result": "clean membrane response, five unclipped views, unobscured mechanism proof, and clean fresh-tab console"
+    },
+    {
+      "largestDefects": [
+        "non-hero evidence views still contained portfolio UI and could not isolate asset quality",
+        "the builder's complete claim was not bound to an independent review of the exact final bytes",
+        "static view coverage did not prove the advertised orbit interaction"
+      ],
+      "change": "added deterministic capture mode, recaptured four UI-free asset-review views, bound every final byte by SHA-256, and requested a fresh blind critic",
+      "result": "evidence is now clean and reproducible; the critic scored 73/100 and authoritatively downgraded the artifact to partial"
+    }
+  ],
+  "rubric": {
+    "silhouetteProportion": 22,
+    "constructionAttachment": 17,
+    "materialLightResponse": 17,
+    "surfaceDetailVariation": 12,
+    "motionInteraction": 8,
+    "webPresentation": 9
+  },
+  "finalReview": {
+    "reviewedViewHashes": {
+      "hero": "301c93178d28120fb886293228dd410178add2a5f452a8e965b6f3d8d678503e",
+      "orbitA": "672f6f0cad8948b6b5031802559ab4584ba5eb2574f019df52df29c795534615",
+      "orbitB": "2904d21db967a9a29f86e461873f26605534f1c439b68b61ef7311e250fc49a0",
+      "neutralMaterial": "41a226978f93e493a7f1bd8db0e0b919c4a46f8b199d652baa2c040e5b887b87",
+      "subjectProof": "2c6e776cc2b358efebc41648e0c88a074e8f1df55dcb1af94511d24ca997512f"
+    }
+  },
+  "independentCritic": {
+    "reportPath": "independent-critic-exact.md",
+    "status": "partial",
+    "rubric": {
+      "silhouetteProportion": 21,
+      "constructionAttachment": 14,
+      "materialLightResponse": 15,
+      "surfaceDetailVariation": 10,
+      "motionInteraction": 4,
+      "webPresentation": 9
+    },
+    "reviewedViewHashes": {
+      "hero": "301c93178d28120fb886293228dd410178add2a5f452a8e965b6f3d8d678503e",
+      "orbitA": "672f6f0cad8948b6b5031802559ab4584ba5eb2574f019df52df29c795534615",
+      "orbitB": "2904d21db967a9a29f86e461873f26605534f1c439b68b61ef7311e250fc49a0",
+      "neutralMaterial": "41a226978f93e493a7f1bd8db0e0b919c4a46f8b199d652baa2c040e5b887b87",
+      "subjectProof": "2c6e776cc2b358efebc41648e0c88a074e8f1df55dcb1af94511d24ca997512f"
+    }
+  },
+  "runtimeEvidence": {
+    "path": "runtime-performance.json",
+    "heroSubmittedTriangles": 105824,
+    "heroCalls": 156,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "visibleControlPath": "pass"
+  },
+  "limitations": [
+    "adjustment controls are modeled but not animated because the requested showcase is rest-state first",
+    "caster steering and wheel rolling are not simulated, and the fork/axis hierarchy remains weak in close visual review",
+    "the seat-tilt, back-yoke, arm-base, and gas-lift load path remains visually under-resolved",
+    "static evidence proves distinct views but not the continuity or constraints of pointer orbit interaction",
+    "procedural weave repeat is visible below the declared 1.15 meter closest orbit distance"
+  ]
+}
