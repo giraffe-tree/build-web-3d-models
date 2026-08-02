@@ -591,7 +591,6 @@ export function createDemo() {
     "left-back-rail",
     "right-back-rail",
     "upper-back-rail",
-    "lumbar-pad",
   ]);
   root.traverse((object) => {
     if (object.isMesh) {
