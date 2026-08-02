@@ -57,12 +57,12 @@ Prefer the cheapest representation that survives the required closest view:
 
 For polished stylized, reference-faithful, or photoreal work, read references/visual-quality-workflow.md and use its pass gates.
 
-1. Collect or create enough references to resolve silhouette, construction, material response, and presentation. Without usable evidence, label the result generic or inferred instead of quietly lowering the finish bar.
+1. Collect or create enough references to resolve silhouette, construction, material response, and presentation. For an original polished asset with no user images, make a compact visual target board from three to eight strong image references or authored concepts; text-only dimensions and descriptions do not define a finish target. Without usable evidence, label the result generic or inferred instead of quietly lowering the finish bar.
 2. Lock identity-critical features before modeling. A result that is merely category-recognizable is still incomplete when those features are absent.
 3. Progress through macro silhouette, secondary construction, material/surface, lighting/presentation, and runtime passes. Do not present a blockout as a finished asset because it loads and meets a budget.
-4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them.
-5. After each polished pass, name the three largest visible defects and correct the highest-impact one. Run at least two screenshot review rounds for a finished showcase; keep rounds bounded and preserve the best result.
-6. Use an independent visual critic when fresh subagents are available. Give it only the request and rendered evidence—not the implementation, self-score, suspected defect, or intended fix.
+4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them. Keep asset-review views free of UI that obscures the feature being proved; a marketing-page hero may retain its intended UI.
+5. After each polished pass, name the three largest visible defects and correct the highest-impact one. Run at least two screenshot review rounds for a finished showcase; keep rounds bounded and preserve the best result. The last review must inspect the exact final files. Any later change that affects geometry, material, lighting, camera, state, or UI invalidates that review and requires recapture.
+6. Use an independent visual critic when fresh subagents are available. Give it only the request and rendered evidence—not the implementation, self-score, suspected defect, or intended fix. The builder's score and status are provisional: the critic's lower score or status controls the completion claim. Either run one bounded repair-and-recritique cycle or ship the critic-labelled partial result.
 
 Treat performance as a constraint on a declared appearance target. Once an asset fits its target-device budget, do not keep simplifying it merely to improve an already-passing metric. If the target cannot fit, change representation, LOD, or pass cost before sacrificing identity, silhouette, contact, or material separation.
 
@@ -166,7 +166,7 @@ Validate at minimum:
 - Performance: fixed near/mid/far cameras; deterministic geometry and pass counts; device timing as diagnostic data.
 - Finish: identity-critical features, screen coverage, hierarchy of detail, edge treatment, material separation, contact/grounding, highlight clipping, and whether the final lighting supports the requested mood.
 
-Use screenshot comparison and a scored rubric for every polished showcase, not only explicit photorealism. Improve the weakest category, then remeasure. A self-authored checklist is not visual proof; inspect the actual pixels at the intended viewport and typical camera. Do not trade a large visual loss for a metric that is already within budget.
+Use screenshot comparison and a scored rubric for every polished showcase, not only explicit photorealism. Improve the weakest category, then remeasure. A self-authored checklist, filename, or prose claim is not visual proof; inspect the exact final pixels at the intended viewport and typical camera. A subject-proof view must visibly isolate the feature it claims to prove. Do not trade a large visual loss for a metric that is already within budget.
 
 Suggested realism rubric: silhouette/proportion 25, construction/anatomy and attachment 20, material/light response 20, surface detail and variation 15, motion/interaction 10, and Web presentation 10. Treat broken loading, severe artifacts, or missed performance targets as gates even when the visual subtotal is high.
 
@@ -176,5 +176,5 @@ Suggested realism rubric: silhouette/proportion 25, construction/anatomy and att
 - Exercise the visible user path for important states—such as opening the control panel and pressing Close—then verify the semantic value, rendered pose, and console. Do not validate only by setting an internal transform directly.
 - Report deterministic before/after metrics separately from device-dependent FPS/GPU samples.
 - State known limitations and the next highest-value optimization.
-- Report the fidelity lane and status as complete, partial, blockout, or failed-validation. Never label a polished deliverable complete when required views, identity-critical features, material pass, or visual review evidence are missing.
+- Report the fidelity lane and status as complete, partial, blockout, or failed-validation. Never label a polished deliverable complete when required views, identity-critical features, material pass, final-file review evidence, or an available independent critic gate is missing or lower.
 - Keep the final Web page or artifact accessible when the user requested it.

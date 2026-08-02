@@ -31,7 +31,7 @@ For polished work, collect or produce evidence for four different questions:
 3. Material close-ups under neutral and grazing light.
 4. Final presentation mood, camera height, lens character, and background relationship.
 
-When the user supplies no images, use four to eight strong sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. When browsing is unavailable, state that the asset is a generic art-directed interpretation and do not claim reference fidelity.
+When the user supplies no images, use four to eight strong sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. For an original polished asset, assemble a compact visual target board with at least three images covering silhouette/construction, material response, and presentation mood. Text pages can establish dimensions and facts, but they cannot by themselves anchor art direction or visible finish. When browsing or image generation is unavailable, state that the asset is a generic art-directed interpretation and do not claim reference fidelity.
 
 Create an identity inventory with five to twelve cues. Each cue must map to geometry, material/texture, hierarchy, or an explicit omission. Examples:
 
@@ -66,6 +66,7 @@ Do not skip from blockout to final integration.
 
 - Fidelity lane, target device, closest/typical view, screen coverage, identity inventory, material families, motion states, delivery budget, and required screenshots are declared.
 - References distinguish observation from inference.
+- A polished original has a visual target board; every identity-critical feature has at least one pixel reference or an explicit art-direction decision.
 
 ### Pass 1 — macro blockout
 
@@ -126,6 +127,8 @@ Lock at least these views for polished work:
 4. Neutral material view with controlled exposure.
 5. Subject-specific proof: close-up, mechanism endpoint, silhouette, interior, or scale view.
 
+The hero may retain the intended page composition when Web presentation is part of the request. Orbit, neutral-material, and subject-proof evidence should normally use an asset-review mode with nonessential UI hidden. A proof filename is not proof: the pixels must isolate the claimed construction, material, endpoint, or biological feature at a readable scale.
+
 After each review round, record:
 
 - the three largest visible defects, ordered by impact;
@@ -134,11 +137,11 @@ After each review round, record:
 - what changed and what visibly improved;
 - what remains and whether status is complete or partial.
 
-Run at least two screenshot review rounds for a finished polished showcase. Default to no more than three rounds per phase without new evidence or a changed strategy.
+Run at least two screenshot review rounds for a finished polished showcase. Default to no more than three rounds per phase without new evidence or a changed strategy. The last round must inspect the exact final files. If any later change can alter pixels—including camera, lighting, material, semantic state, UI, capture code, or asset export—recapture the views and repeat the final review. Bind the final review to view hashes when evidence is retained.
 
 Use the 100-point rubric as a decision aid: silhouette/proportion 25, construction/attachment 20, material/light response 20, surface detail/variation 15, motion/interaction 10, Web presentation 10. The brief may declare a lane-specific minimum; never let the total hide a missing identity-critical feature or broken runtime gate.
 
-When fresh subagents are available, give a critic only the original request, fidelity lane, and rendered views. Ask it to rank visible defects and score the rubric. Do not reveal implementation constraints, the author's self-score, suspected failures, or intended revisions.
+When fresh subagents are available, give a critic only the original request, fidelity lane, and rendered views. Ask it to rank visible defects and score the rubric. Do not reveal implementation constraints, the author's self-score, suspected failures, or intended revisions. Treat builder scores as provisional. The critic's lower score or status has completion authority: perform at most one bounded repair followed by a fresh critique, or deliver with the critic's lower status. Never retain `complete` merely because machine checks and a self-score passed.
 
 ## Protect quality during optimization
 
@@ -165,7 +168,7 @@ A polished delivery should include:
 - deterministic asset counts and actual browser pass counts;
 - known limitations and status: complete, partial, blockout, or failed-validation.
 
-Store those claims in a compact quality-evidence JSON when the project can retain test artifacts, then run `python3 scripts/validate_visual_evidence.py <manifest.json>`. The validator checks evidence presence, image identity and dimensions, declared critical features, review rounds, and rubric arithmetic. It does not replace visual judgment or an independent critic.
+Store those claims in a compact quality-evidence JSON when the project can retain test artifacts, then run `python3 scripts/validate_visual_evidence.py <manifest.json>`. Prefer schema v2, which binds the manifest, final review, and independent critic to exact view hashes and records camera/UI mode. The validator checks evidence presence, image identity and dimensions, declared critical features, review rounds, and rubric arithmetic. It does not replace visual judgment or an independent critic.
 
 Avoid these failure patterns:
 
@@ -175,6 +178,9 @@ Avoid these failure patterns:
 - accepting one auto-framed animated screenshot as proof of quality;
 - treating “recognizable” as equivalent to polished;
 - using a self-authored brief as its own validation evidence;
+- changing pixels after the final review without invalidating and recapturing it;
+- claiming a subject-proof feature that the proof image does not actually isolate;
+- keeping a builder's `complete` status after an available blind critic returns `partial` or `blockout`;
 - polishing UI around a visibly unfinished model;
 - optimizing already-passing metrics while the subject remains generic, sparse, flat, or materially uniform;
 - claiming a realism score without rendered multi-view evidence and an independent critique when one is available.

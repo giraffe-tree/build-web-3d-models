@@ -12,7 +12,7 @@ Fidelity lane: [polished stylized | reference-faithful | photoreal hero]. Treat 
 Before building:
 - Inspect the workspace and local instructions.
 - Write a short asset brief covering target device, closest/typical view, desired screen coverage, real scale, final mood, required semantic states, and asset-specific performance budgets.
-- Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference.
+- Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference. If the user supplied no images, assemble a compact target board from 3–8 image references or authored concepts; text-only facts do not define the visible finish.
 - List 5–12 identity-critical features and map each to geometry, material/texture, hierarchy, or an explicit omission.
 - Explain why the chosen pipeline can meet the requested finish. If a procedural-only route cannot provide the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid.
 
@@ -23,19 +23,19 @@ Build in gated passes:
 4. Asset-aware camera, lighting, exposure, background/contact treatment, hero state, and final detail.
 5. Actual browser/runtime integration and performance verification.
 
-After passes 2 and 4, capture deterministic screenshots and record the three largest visible defects. Correct the highest-impact defect before continuing. Do not use a self-authored checklist as visual proof.
+After passes 2 and 4, capture deterministic screenshots and record the three largest visible defects. Correct the highest-impact defect before continuing. The last review must inspect the exact final five files; any later pixel-affecting change invalidates it. Do not use a self-authored checklist, filename, or prose claim as visual proof.
 
 Required final evidence:
-- hero view at a fixed semantic state and fixed time;
-- two non-degenerate orbit views;
-- neutral material view;
-- one subject-specific proof view such as a close-up, silhouette, endpoint, interior, or scale view;
+- hero view at a fixed semantic state and fixed time; it may retain the intended page UI;
+- two non-degenerate orbit views in asset-review mode with nonessential UI hidden;
+- neutral material view in asset-review mode;
+- one asset-review subject-proof view that visibly isolates the claimed close-up, silhouette, endpoint, interior, or scale evidence;
 - actual browser triangles/draw calls including shadow/depth/reflection passes;
 - console/runtime result;
 - quality-evidence JSON validated with scripts/validate_visual_evidence.py;
 - known limitations and status: complete, partial, blockout, or failed-validation.
 
-For a polished result, run at least two screenshot review rounds. If fresh subagents are available, ask an independent critic to review only the original request, fidelity lane, and rendered views. Do not reveal implementation constraints, self-scores, suspected defects, or intended fixes.
+For a polished result, run at least two screenshot review rounds. If fresh subagents are available, ask an independent critic to review only the original request, fidelity lane, and exact final rendered views. Do not reveal implementation constraints, self-scores, suspected defects, or intended fixes. Treat the builder score/status as provisional. If the critic returns a lower score or status, either run one bounded repair and a fresh critique or record the lower critic status in the manifest and delivery.
 
 Performance is a constraint on the declared appearance target. Derive budgets from the subject, device, repetition, materials, and screen coverage. Once the target passes, do not simplify visible identity, silhouette, material separation, or grounding for extra metric headroom.
 
@@ -65,7 +65,7 @@ Save a manifest beside the rendered evidence. Paths may be relative to the manif
 
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "assetId": "ergonomic-chair-v2",
   "fidelityLane": "polished-stylized",
   "status": "complete",
@@ -74,6 +74,7 @@ Save a manifest beside the rendered evidence. Paths may be relative to the manif
     "minimumWidth": 1280,
     "minimumHeight": 720,
     "minimumReviewRounds": 2,
+    "independentCriticRequired": true,
     "requiredViews": ["hero", "orbitA", "orbitB", "neutralMaterial", "subjectProof"]
   },
   "identityFeatures": [
@@ -89,12 +90,15 @@ Save a manifest beside the rendered evidence. Paths may be relative to the manif
     "hero": {
       "path": "screenshots/hero.png",
       "semanticState": "rest",
-      "fixedTimeSeconds": 0
+      "fixedTimeSeconds": 0,
+      "cameraDirection": [1.4, 0.8, 1.6],
+      "uiMode": "page",
+      "sha256": "<sha256 of hero.png>"
     },
-    "orbitA": { "path": "screenshots/orbit-a.png" },
-    "orbitB": { "path": "screenshots/orbit-b.png" },
-    "neutralMaterial": { "path": "screenshots/neutral.png" },
-    "subjectProof": { "path": "screenshots/linkage-close.png" }
+    "orbitA": { "path": "screenshots/orbit-a.png", "semanticState": "rest", "fixedTimeSeconds": 0, "cameraDirection": [-1.4, 0.7, 1.5], "uiMode": "review", "sha256": "<sha256>" },
+    "orbitB": { "path": "screenshots/orbit-b.png", "semanticState": "rest", "fixedTimeSeconds": 0, "cameraDirection": [1.2, 0.6, -1.6], "uiMode": "review", "sha256": "<sha256>" },
+    "neutralMaterial": { "path": "screenshots/neutral.png", "semanticState": "rest", "fixedTimeSeconds": 0, "cameraDirection": [0, 0.5, 1.8], "uiMode": "review", "sha256": "<sha256>" },
+    "subjectProof": { "path": "screenshots/linkage-close.png", "semanticState": "rest", "fixedTimeSeconds": 0, "cameraDirection": [0.7, 0.3, 1.1], "uiMode": "review", "sha256": "<sha256>" }
   },
   "reviewRounds": [
     {
@@ -116,6 +120,34 @@ Save a manifest beside the rendered evidence. Paths may be relative to the manif
     "motionInteraction": 8,
     "webPresentation": 8
   },
+  "finalReview": {
+    "reviewedViewHashes": {
+      "hero": "<same sha256 as views.hero>",
+      "orbitA": "<same sha256 as views.orbitA>",
+      "orbitB": "<same sha256 as views.orbitB>",
+      "neutralMaterial": "<same sha256 as views.neutralMaterial>",
+      "subjectProof": "<same sha256 as views.subjectProof>"
+    }
+  },
+  "independentCritic": {
+    "reportPath": "independent-critic.md",
+    "status": "complete",
+    "rubric": {
+      "silhouetteProportion": 20,
+      "constructionAttachment": 16,
+      "materialLightResponse": 16,
+      "surfaceDetailVariation": 11,
+      "motionInteraction": 8,
+      "webPresentation": 8
+    },
+    "reviewedViewHashes": {
+      "hero": "<same sha256 as views.hero>",
+      "orbitA": "<same sha256 as views.orbitA>",
+      "orbitB": "<same sha256 as views.orbitB>",
+      "neutralMaterial": "<same sha256 as views.neutralMaterial>",
+      "subjectProof": "<same sha256 as views.subjectProof>"
+    }
+  },
   "limitations": ["caster steering is not simulated"]
 }
 ```
@@ -126,7 +158,7 @@ Run:
 python3 scripts/validate_visual_evidence.py path/to/quality-evidence.json
 ```
 
-The manifest makes completion claims inspectable. It does not make self-scored aesthetics objective; retain the critic output or review ledger next to it when possible.
+The schema-v2 manifest binds the final review and critic to exact evidence bytes. It does not make aesthetics objective; the independent critic's lower score/status controls the completion claim when the critic is required.
 
 ## Prompt anti-patterns
 
