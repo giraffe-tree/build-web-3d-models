@@ -85,9 +85,9 @@ Inspect near, typical, and far views. Replace sub-pixel geometry at the typical 
 
 Build the semantic stack before adding variation:
 
-1. Substrate: metal, polymer, mineral, wood, fiber, tissue, or liquid.
+1. Substrate: conductor, polymer, mineral, cementitious solid, wood, fiber, composite, porous solid, biological tissue, hard biological tissue, liquid, particulate, frozen medium, or volume.
 2. Manufactured or biological structure: machining, grain, weave, pores, veins, or aggregate.
-3. Coating: paint, glaze, varnish, clearcoat, oxide, wax, oil, or protective film.
+3. Coating: paint, plating, anodization, glaze, varnish, clearcoat, oxide, wax, oil, laminate, or protective film.
 4. Exposure and damage: chips, abrasion, compression, cracks, fraying, or delamination.
 5. Deposits and state: dust, mud, water, grease, soot, frost, blood, or decay.
 
@@ -107,16 +107,38 @@ Use core metallic-roughness for standard conductors and dielectrics. Use clearco
 
 | Material family | Preserve | Reject |
 | --- | --- | --- |
-| Exposed and coated metal | Conductive substrate, coating semantics, machining direction, oxide or primer layers, sparse causal chips | Making an intact painted surface metallic; using low roughness alone to signal metal; uniform bright edge wear |
-| Plastic and rubber | Dielectric response, mold texture, orange peel or grain, parting lines, pressure polish, dust adhesion | One uniform roughness for every polymer; featureless pure-black rubber; metal-like plastic highlights |
-| Glass and liquid | Real thickness, correct normals, IOR, transmission, absorption, boundaries, meniscus or flow direction | Low opacity as the only glass model; zero-thickness hero glass; coplanar container and liquid; untested sorting |
-| Wood and stone | Structural grain direction and end grain; macro fracture or bedding before pores and aggregate | Wood grain crossing joints arbitrarily; stone made from uniform noise; color copied into roughness |
-| Fabric and leather | Load-driven folds, seams, weave or nap direction, sheen, pores, oil polish, flex wear | Plastic-looking cloth; wrong weave scale; leather as brown noise; wear unrelated to handling or bending |
-| Skin and hair | Regional color and oil variation, thickness cues, micro-normal, bounded SSS; fiber-aligned hair highlights and distance tiers | One face-wide roughness; waxy uniform SSS; hair cards shaded like ordinary plastic planes |
-| Vegetation | Thin-sheet construction, front/back response, veins, waxy roughness, age and damage tied to biology, credible backlight | Mirror-like or cardboard leaves; plant-wide random discoloration; uniform glow; unnecessary blended overdraw |
-| Ceramic, paper, and emissive surfaces | Substrate/coating separation, fiber or glaze scale, edge thickness, controlled emission and exposure | Treating glaze as bare metal; paper with no fiber/thickness cue; emissive washout used to hide missing structure |
+| Exposed metals | Conductive reflection color, machining direction, oxidation or patina, dents, and edge radius | Gray diffuse plus low roughness as a metal substitute; metal without an environment to reflect |
+| Painted and powder-coated metal | Dielectric paint over primer and metal, orange peel, causal chips, and layer exposure in order | Making intact paint metallic; exposing bright metal on every edge; identical paint and substrate roughness |
+| Plated and anodized metal | Finish-specific reflection, brushing, coating thickness cues, discoloration, and substrate-aware wear | Treating chrome, galvanized steel, and anodized aluminum as one preset; random rainbow tint |
+| Plastic, resin, and acrylic | Dielectric response, molding or casting marks, weld lines, orange peel, edge highlights, and optional transmission | One roughness for every polymer; metal-like highlights; perfectly clear acrylic with no thickness or absorption |
+| Rubber, silicone, and elastomers | Compression, stretch, molded grain, bloom, pressure polish, dust adhesion, and non-pure-black color | Featureless black roughness; rigid-looking soft rubber; wear unrelated to grip, load, or flex |
+| Glass and optical solids | Real thickness, correct normals, IOR, transmission, absorption, inclusions, and edge response | Low opacity as the only glass model; zero-thickness hero glass; unverified nested-surface sorting |
+| Water, oils, and other liquids | Closed boundaries, surface tension, meniscus, depth absorption, viscosity, flow direction, foam, and contact with containers | A flat transparent plane for every liquid; uniform tint independent of depth; coplanar liquid and vessel |
+| Wood and bark | Structural grain, end grain, growth or fiber direction, pores, finish layers, splits, and moisture response | Grain crossing joints arbitrarily; one texture on side and end faces; uniform procedural rings |
+| Rock, stone, and minerals | Macro fracture or bedding, mineral boundaries, weathering, chips, then pores and crystals | Uniform noise at every scale; color copied into roughness; microdetail before geological structure |
+| Concrete, plaster, brick, mortar, and asphalt | Aggregate or binder scale, construction joints, trowel or form marks, cracks, repairs, porosity, and water paths | One gray noise material; identical brick and mortar response; cracks that ignore structure and drainage |
+| Soil, sand, clay, gravel, and mud | Particle-size distribution, compaction, clumps, tracks, erosion, moisture gradients, and displaced silhouettes | A flat brown texture; equal-size grains; wet mud made only by lowering roughness |
+| Fabric, knit, mesh, and felt | Load-driven folds, seams, weave or knit direction, fiber scale, nap, sheen, tension, and translucency | Plastic-looking cloth; wrong weave scale; printed weave with no directional response |
+| Leather and suede | Grain or nap, pores, flex creases, edge construction, oil polish, compression, stitching, and handling wear | Leather as brown noise; suede with glossy plastic highlights; uniform edge wear unrelated to use |
+| Skin and flesh | Regional color and oil variation, thickness, pores, wrinkles, bounded subsurface response, scars, and blood perfusion cues | One body-wide roughness or SSS value; waxy uniform skin; pores that ignore anatomy and scale |
+| Hair, fur, and feathers | Fiber or barb direction, anisotropic highlights, clumping, root-to-tip variation, silhouette tiers, and grooming state | Cards shaded like ordinary plastic planes; random fiber direction; full groom geometry at every distance |
+| Bone, teeth, horn, shell, and scales | Layered growth, enamel or keratin differences, thickness-dependent translucency, chips, ridges, and biological attachment | Uniform ivory plastic; metallic shells; scales pasted without anatomy or overlap |
+| Vegetation and fungi | Thin-sheet or fleshy construction, front/back response, veins or gills, wax, moisture, age, damage, and credible backlight | Mirror-like or cardboard leaves; plant-wide random discoloration; uniform glow; unnecessary blended overdraw |
+| Ceramic, porcelain, and enamel | Clay or metal substrate, glaze thickness, edge pooling, firing variation, crazing, chips, and exposed body | Treating glaze as bare metal or perfect glass; cracks with no glaze/body distinction |
+| Paper, cardboard, ink, and printed labels | Fiber direction, ply and edge thickness, folds, absorbency, ink or toner response, coating, lamination, and wear | Paper with no thickness or fibers; all printing as geometry; glossy ink and matte paper merged into one response |
+| Displays, LEDs, and emissive surfaces | Cover glass, polarizer or diffuser, pixel or segment structure, black level, angular response, controlled emission, and exposure | Emissive washout hiding missing construction; emission assumed to light the scene automatically; uniform screen black |
+| Snow, ice, and frost | Grain or crystal scale, compaction, trapped air, thickness, cracks, bubbles, meltwater, accumulation, and subsurface or transmission cues | Snow as white diffuse paint; ice as a blue low-opacity shell; frost that ignores exposure and heat |
+| Automotive and multilayer paint | Primer, base coat, metallic or pearlescent flakes, clearcoat, orange peel, panel orientation, chips, and repaired regions | Sparkles baked into base color; mirror clearcoat; flakes with no scale, orientation, or distance control |
+| Carbon fiber, fiberglass, and laminates | Fiber direction, weave or unidirectional layup, resin depth, clearcoat, cut edges, delamination, and ply exposure | Checkerboard carbon texture; fibers crossing seams; carbon fiber treated as metallic |
+| Gems, pearls, and iridescent or thin-film surfaces | Faceting or layered structure, IOR, internal absorption, inclusions, dispersion or angle-dependent color, and scale | Static rainbow base color; opaque gemstones; screen-space sparkle used in place of form and light response |
+| Foam, sponge, cork, and porous insulation | Cell or pore size, broken silhouette, compression, torn cells, anisotropy, absorption, and density variation | Uniform noise with no cells; rigid foam under load; pores smaller than the validated pixel scale |
+| Wax, soap, food, and soft translucent organics | Subsurface depth, moisture or oil, cut surfaces, bubbles, fibers, crust, melting, bruising, and freshness state | Generic plastic SSS; uniform gloss; food detail unrelated to preparation, gravity, or moisture |
+| Burnt, charred, sooty, and ashy matter | Heat gradient, material loss, blistering, cracking, char depth, soot deposition, ash volume, and source direction | Black base color as the whole effect; equal burn on sheltered and exposed faces; soot with no emission or airflow source |
+| Fog, smoke, fire, cloud, and airborne dust | Density field, phase response, self-shadowing, temperature or emission, dissipation, wind, depth, and temporal stability | One camera-facing transparent card for a hero volume; uniform density; fire represented only by emissive color |
 
-For skin subsurface scattering, complex layered liquids, spectral effects, and other models outside the target glTF path, choose a verified custom runtime shader or declare an approximation. Do not claim physical parity when only the base color survives export.
+Classify wet, dusty, muddy, mossy, rusty, bloody, frozen, burnt, aged, and damaged appearances as state layers or material transformations unless they form a separate physical body. Record the base material and state independently. A water film changes roughness, normal response, color, pooling, and thickness differently on cloth, stone, paint, and soil; do not apply one universal wetness slider. Build separate geometry or volume when snow, mud, liquid, ash, moss, or damage changes silhouette, contact, or parallax.
+
+For skin subsurface scattering, complex layered liquids, spectral effects, hero volumes, and other models outside the target glTF path, choose a verified custom runtime shader or declare an approximation. Do not claim physical parity when only the base color survives export.
 
 ## Place wear by cause
 
