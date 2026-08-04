@@ -3,13 +3,14 @@
 ## Contents
 
 1. Choose a fidelity lane
-2. Establish visual evidence
-3. Select a pipeline from the finish target
-4. Use pass gates
-5. Build an asset-aware presentation
-6. Review rendered evidence
-7. Protect quality during optimization
-8. Delivery evidence and anti-patterns
+2. Translate 3A or AAA intent
+3. Establish visual evidence
+4. Select a pipeline from the finish target
+5. Use pass gates
+6. Build an asset-aware presentation
+7. Review rendered evidence
+8. Protect quality during optimization
+9. Delivery evidence and anti-patterns
 
 ## Choose a fidelity lane
 
@@ -21,6 +22,33 @@ Record one lane in the asset brief before choosing tools:
 - **Photoreal hero**: survives close inspection with authored high-frequency surface response, accurate light transport cues, reference-grade proportions, and a production presentation rig.
 
 Do not lower the lane because the easiest available implementation is procedural. If the requested lane cannot be reached with the current tools or evidence, change pipeline, request input, or deliver a clearly labelled partial result.
+
+## Translate 3A or AAA intent
+
+Treat 3A/AAA as a production-scope request, not a fifth fidelity lane or a synonym for “more polygons.” Keep one existing fidelity lane, then classify the deliverable:
+
+- **Static hero**: one asset or fixed scene judged at declared close, typical, and silhouette views. It may reach an `AAA-inspired hero finish`, but a beauty render alone cannot prove full game-production parity.
+- **Interactive hero**: add mechanism endpoints, animation/deformation quality, temporal stability, response states, and deterministic interaction evidence.
+- **Explorable scene**: add spatial coverage, near/mid/far content tiers, collision/navigation as applicable, component LOD/HLOD, streaming, culling, shadow/light tiers, and traversal-time stability.
+
+Convert the label into a compact gap matrix before production. Record `verified`, `partial`, or `missing` for:
+
+1. proportion, silhouette, and human scale;
+2. construction/anatomy, joints, thickness, and contact;
+3. topology, UVs, texel density, baking, and tangent parity;
+4. material identity, physical layers, macro/meso/micro response, and causal state;
+5. lighting, indirect response, shadows, exposure, and temporal stability;
+6. environment, ground, vegetation, and near-camera hero modules when in scope;
+7. LOD, streaming, compression, memory, passes, and target-device performance;
+8. source editability, naming, export validation, runtime diagnostics, and evidence traceability.
+
+Declare the target device, closest distance, FOV, screen coverage, runtime states, scene extent, file/download/memory budgets, and the evidence that closes each applicable row. A high total score cannot compensate for a `missing` identity-critical row.
+
+Set `aaaTarget: true` in new schema-v3 quality evidence when the user explicitly requests 3A/AAA production intent. Keep it `false` for ordinary polished work; do not infer the label from visual ambition alone.
+
+For 3A/AAA architecture, apply the assembly-sheet, exact-runtime construction/material spike, and independent pre-production review gates routed through `architecture-environment-quality.md`.
+
+Do not claim full AAA production parity when only a static hero, one camera, one LOD, uncompressed source textures, or untested animation states exist. State the narrower achievement and list the missing production rows.
 
 ## Establish visual evidence
 

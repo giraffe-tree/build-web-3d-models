@@ -75,7 +75,11 @@ Apply the image-assisted workflow routed by SKILL.md before using generation for
 
 Treat generated output as a source layer, never as material-response evidence. Require a declared physical coverage and projection; remove baked lighting, perspective, AO, and highlights; make required repeats seamless; and derive aligned PBR channels from one reviewed source. Do not trust independently generated base-color, normal, roughness, metallic, AO, or height maps as a coherent physical set.
 
+Keep height/normal, roughness, metallic, AO, and opacity semantically independent. Never bind a roughness map as bump/height, invert base color into roughness without a reviewed remap, or reuse one convenient grayscale image across unrelated slots. A visually rich source cannot compensate for a physically wrong channel binding.
+
 Validate the corrected derivative under the same neutral, grazing, backlit, and final-environment rig as every other material. Reject the layer if generated artifacts, inconsistent scale, implausible wear, tiling, or compression damage survive the typical view.
+
+For 3A/AAA or photoreal work, run one exact-runtime A/B material spike before broad propagation. Use final UVs, texel density, channel packing, normal convention, representative compression, and the target renderer; compare the baseline and candidate at identical closest and typical views. A single flat color plus scalar roughness, one undifferentiated noise field, or a channel-invalid Canvas texture does not pass merely because the full scene is category-recognizable.
 
 ## Choose representation by visible scale
 

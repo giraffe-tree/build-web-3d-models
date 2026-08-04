@@ -475,6 +475,12 @@ def validate_manifest(manifest_path: Path) -> tuple[list[str], list[str], dict[s
     status = manifest.get("status")
     if not _is_enum(status, STATUSES):
         errors.append(f"status must be one of {sorted(STATUSES)}")
+    aaa_target = manifest.get("aaaTarget")
+    if schema_version == 3 and not isinstance(aaa_target, bool):
+        errors.append("aaaTarget must be an explicit boolean for schema v3")
+        aaa_target = False
+    elif schema_version != 3 and not isinstance(aaa_target, bool):
+        aaa_target = False
 
     request_path = None
     request_actual_hash = None
@@ -664,6 +670,60 @@ def validate_manifest(manifest_path: Path) -> tuple[list[str], list[str], dict[s
                 errors.append("complete status requires a passed finish spike with evidence views")
         if spike_required is False and spike_status != "not-required":
             errors.append("a non-required finish spike must use status not-required")
+
+        spike_review = finish_spike.get("independentReview")
+        spike_review_status = None
+        if spike_review is not None:
+            if not isinstance(spike_review, dict):
+                errors.append("pipelineDecision.finishSpike.independentReview must be an object")
+                spike_review = {}
+            spike_review_status = spike_review.get("status")
+            if not _is_enum(spike_review_status, {"passed", "partial", "failed"}):
+                errors.append(
+                    "pipelineDecision.finishSpike.independentReview.status must be passed, partial, or failed"
+                )
+            if not _nonempty_string(spike_review.get("reviewerRunId")):
+                errors.append(
+                    "pipelineDecision.finishSpike.independentReview.reviewerRunId is required"
+                )
+            spike_report_path, _ = _validate_file_binding(
+                spike_review.get("report"),
+                "pipelineDecision.finishSpike.independentReview.report",
+                manifest_path,
+                errors,
+                minimum_bytes=100,
+            )
+            if spike_report_path is not None and spike_report_path.suffix.lower() not in {
+                ".md",
+                ".txt",
+                ".json",
+            }:
+                errors.append(
+                    "pipelineDecision.finishSpike.independentReview.report.path must be a .md, .txt, or .json file"
+                )
+
+        aaa_architecture = (
+            status == "complete"
+            and asset_profile == "architecture-exterior"
+            and (aaa_target is True or lane == "photoreal-hero")
+        )
+        if aaa_architecture:
+            if spike_required is not True or spike_status != "passed":
+                errors.append(
+                    "3A/AAA or photoreal architecture complete requires a passed finish spike"
+                )
+            missing_spike_views = sorted(
+                set(ARCHITECTURE_REQUIRED_VIEWS).difference(spike_views)
+            )
+            if missing_spike_views:
+                errors.append(
+                    "3A/AAA or photoreal architecture finish spike is missing evidence views: "
+                    f"{missing_spike_views}"
+                )
+            if not isinstance(spike_review, dict) or spike_review_status != "passed":
+                errors.append(
+                    "3A/AAA or photoreal architecture complete requires a passed independent finish-spike review"
+                )
 
         material_contracts = manifest.get("materialContracts")
         if not isinstance(material_contracts, list):
@@ -1307,6 +1367,7 @@ def validate_manifest(manifest_path: Path) -> tuple[list[str], list[str], dict[s
         "schemaVersion": schema_version,
         "fidelityLane": lane,
         "assetProfile": asset_profile,
+        "aaaTarget": aaa_target,
         "status": status,
         "viewCount": len(resolved_views),
         "identityFeatureCount": len(identity_features),
@@ -1383,6 +1444,7 @@ def _self_test() -> None:
             "schemaVersion": 3,
             "assetId": "self-test",
             "assetProfile": "general",
+            "aaaTarget": False,
             "siteEnvironment": False,
             "regionalStyle": False,
             "fidelityLane": "polished-stylized",
@@ -1586,6 +1648,28 @@ def _self_test() -> None:
             raise AssertionError("architecture-view-policy fixture did not fail")
         if not any("architecture/environment is missing mandatory feature groups" in error for error in errors):
             raise AssertionError("architecture-group-policy fixture did not fail")
+
+        aaa_architecture = json.loads(json.dumps(valid_manifest))
+        aaa_architecture["assetProfile"] = "architecture-exterior"
+        aaa_architecture["aaaTarget"] = True
+        manifest_path.write_text(json.dumps(aaa_architecture), encoding="utf-8")
+        errors, _, _ = validate_manifest(manifest_path)
+        if not any(
+            "3A/AAA or photoreal architecture complete requires a passed finish spike" in error
+            for error in errors
+        ):
+            raise AssertionError("AAA-architecture finish-spike bypass fixture did not fail")
+        if not any(
+            "requires a passed independent finish-spike review" in error for error in errors
+        ):
+            raise AssertionError("AAA-architecture independent-spike-review fixture did not fail")
+
+        missing_aaa_target = json.loads(json.dumps(valid_manifest))
+        missing_aaa_target.pop("aaaTarget")
+        manifest_path.write_text(json.dumps(missing_aaa_target), encoding="utf-8")
+        errors, _, _ = validate_manifest(manifest_path)
+        if not any("aaaTarget must be an explicit boolean" in error for error in errors):
+            raise AssertionError("missing-AAA-target fixture did not fail")
 
         finish_bypass = json.loads(json.dumps(valid_manifest))
         for check in finish_bypass["finishChecks"].values():

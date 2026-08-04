@@ -1,5 +1,7 @@
 # Image-assisted Web 3D asset workflow
 
+Use this reference for build-time authoring: generate, correct, freeze, hash, compress, and ship deterministic raster derivatives. For post-deployment generation, use the separately routed live-runtime workflow; do not treat nondeterministic live output as ordinary static `imageLineage` unless a reviewed sample or fallback is frozen into the build.
+
 ## Contents
 
 1. Decide whether image generation adds value
@@ -29,6 +31,7 @@ For reference-faithful work, collect real evidence first. Generated images may v
 
 Before calling an image-generation tool, record:
 
+- mode: `build-time`; use the live-runtime reference for post-deployment generation;
 - role: target-board concept, texture source, decal/label, mask/cutout, atlas element, or background plate;
 - subject and fidelity lane;
 - projection: UV, triplanar, planar decal, cylindrical, card, sprite, or background;
@@ -62,6 +65,8 @@ Use image generation selectively for:
 - semantic concepts for wear, moisture, deposit, age, or damage masks that will be rebuilt and validated against physical causes.
 
 Do not ask an image model for separate final base-color, normal, roughness, metallic, AO, and height maps and assume they align or obey PBR semantics. Do not accept random metalness, normals with invented illumination, roughness copied from color, or AO baked into albedo. Generate or select one shared source, then derive, paint, or bake the aligned channels with deterministic image tools, Blender, or a material-authoring application.
+
+Do not reuse one exported data map as another channel merely because its size matches. Height or normal describes geometry; roughness describes microfacet response; metallic is a material class; AO is local occlusion; opacity is coverage. Derive, author, and validate each semantic separately.
 
 For decals and cutouts, require clean alpha, sufficient transparent padding, edge-color bleed for mipmaps, no halo, and no unintended baked shadow. Treat generated text as unreliable: typeset required copy deterministically and use supplied logos or authorized artwork instead of invented marks.
 
@@ -97,12 +102,13 @@ Budget the retained pixels by screen coverage and device tier. Record download s
 
 Run a bounded loop:
 
-1. Inspect the candidate alone at full resolution.
-2. Inspect the mapped asset under neutral, grazing, and final lighting; add backlight for thin or transmissive work.
-3. Check closest, typical, and far views for scale, tiling, excessive contrast, and sub-pixel waste.
-4. Compare against the declared image role and material contract.
+1. Capture a baseline without the candidate using the same geometry, UVs, camera, semantic state, light, exposure, renderer, and compression.
+2. Inspect the candidate alone at full resolution.
+3. Inspect the mapped candidate under neutral, grazing, and final lighting; add backlight for thin or transmissive work.
+4. Compare baseline and candidate at closest, typical, and far views for the declared cue, scale, tiling, excessive contrast, and sub-pixel waste.
 5. Name the three largest visible defects and address the highest-impact one.
-6. Generate another candidate only when the defect is in authored image content. Fix UVs, geometry, lighting, shader semantics, or compression with the appropriate deterministic tool instead of repeatedly prompting the image model.
+6. Retain the derivative only when the intended cue improves without a new construction, PBR-semantic, seam, compression, or performance failure.
+7. Generate another candidate only when the defect is in authored image content. Fix UVs, geometry, lighting, shader semantics, or compression with the appropriate deterministic tool instead of repeatedly prompting the image model.
 
 Prefer one selected candidate plus targeted edits over unbounded regeneration. The exact final Web render—not the generated source preview—controls acceptance.
 
@@ -120,5 +126,7 @@ Treat these as hard failures when the generated image is identity-critical:
 - the retained asset lacks source provenance, declared role, or exact-runtime proof.
 
 Complete the image-assisted pass only when the corrected derivative improves the intended visible cue, survives Web delivery and lighting tests, fits the budget, and makes no unsupported physical or reference claim. Otherwise retain the best artifact and label the result `partial` or remove the generated layer.
+
+Generated pixels can improve material variation, decals, cutouts, and distant atlas content, but they cannot clear a failed silhouette, thickness, joint, load path, drainage, opening, or ground-contact gate. Fix those with geometry, assembly, or a verified height/displacement representation before using image generation to raise surface finish.
 
 Report each image as `concept-only`, `retained-runtime`, `rejected`, or `removed`. Report zero generated pixels retained in the runtime when generation served art direction only; preserving a concept or editable source file does not contradict that statement. Removing a generated layer is valid, but do not keep describing the final material as image-derived unless another retained derivative closes the same lineage.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Web 3D 模型构建"
   short_description: "用 Blender、程序化代码与图像辅助流程构建高质量 Web 3D 资产"
-  default_prompt: "Use $build-web-3d-models to create a visually finished Web 3D asset: choose the pipeline from the closest view, prove high-risk finish with an exact-runtime spike, use image generation only as controlled authored input, and validate schema-v3 multi-view evidence."
+  default_prompt: "Use $build-web-3d-models to create a visually finished Web 3D asset: translate any 3A/AAA request into a concrete delivery scope, prove high-risk finish with independently reviewed exact-runtime spikes, distinguish build-time from live-runtime image generation, and validate schema-v3 multi-view evidence."

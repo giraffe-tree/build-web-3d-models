@@ -19,12 +19,13 @@ Fidelity lane: [polished stylized | reference-faithful | photoreal hero]. Treat 
 Before building:
 - Inspect the workspace and local instructions.
 - Write a short asset brief covering target device, closest/typical view, desired screen coverage, real scale, final mood, required semantic states, and asset-specific performance budgets.
+- For a 3A/AAA request, classify the scope as static hero, interactive hero, or explorable scene, set schema-v3 `aaaTarget: true`, and record the applicable construction, material, lighting, temporal, LOD/streaming, and production-readiness rows; do not infer full production parity from a static beauty asset.
 - Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference. If the user supplied no images, assemble a compact target board from 3–8 factual references or authored concepts. When an original polished asset still lacks a unique visual direction, apply the image-assisted workflow routed by the skill and invoke a dedicated image-generation skill to create the missing concept or texture target. Label generated images as art direction, never factual evidence; text-only facts do not define the visible finish.
-- Declare the image role as none, factual reference, generated concept, generated texture source, decal/mask, or background plate. Record provenance, projection, scale, tiling/alpha requirements, post-processing, runtime budget, and proof view. Do not generate decoration that will not survive the validated camera.
+- Declare image mode `none`, `build-time`, or `live-runtime`, then role `factual-reference`, concept, texture, decal, cutout, or background. Use `mode: none` for factual references and do not count them as generated content. Record provenance, projection, scale, tiling/alpha requirements, post-processing, runtime budget, fallback, and proof view. For live generation, read the routed runtime reference and add server security, latency/cost, cache, moderation/privacy, retention, failure, and cleanup contracts.
 - List 5–12 identity-critical features and map each to geometry, material/texture, hierarchy, or an explicit omission.
 - For each identity-critical material, apply the material-realism contract routed by the skill: record real identity, layer stack, state/age, real scale, response evidence, shader features, runtime support, fallback, texture budget, and proof views.
 - Explain why the chosen pipeline can meet the requested finish. If a procedural-only route cannot provide the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid.
-- Treat procedural-only polished work as provisional. Before full production, capture an exact-runtime finish spike of the highest-risk edge, construction junction, material transition, and contact. For exterior architecture, apply the routed building gates and prove roof/eave, opening/envelope, and base/site regions. A failed spike requires Blender or hybrid before page polish.
+- Treat procedural-only polished work as provisional. Before full production, capture an exact-runtime finish spike of the highest-risk edge, construction junction, material transition, and contact. For exterior architecture, apply the routed building gates and prove roof/eave, opening/envelope, and base/site regions. For 3A/AAA or photoreal work, give the brief and spike pixels to a fresh reviewer before propagation. A failed critical spike requires pipeline escalation before page polish.
 
 Build in gated passes:
 1. Macro silhouette and proportions.
@@ -46,6 +47,7 @@ Required final evidence:
 - console/runtime result;
 - retained runtime artifact paths and SHA-256 values, including the final model or procedural bundle rather than unattached digest strings;
 - retained generated-image provenance, role, source-to-runtime transformations, and unsupported claims;
+- for live-runtime generation, visible cold-success and provider-failure/fallback evidence plus cache/moderation/replacement states when applicable;
 - schema-v3 quality-evidence JSON validated with scripts/validate_visual_evidence.py, including pipeline/finish-spike evidence, critical material contracts, lighting profile, finish checks, runtime artifact hashes, and conditional architecture groups;
 - known limitations and status: complete, partial, blockout, or failed-validation.
 
@@ -64,7 +66,7 @@ Run this in a fresh context after the builder returns. Supply only the original 
 Review these rendered views as a [fidelity lane] Web 3D deliverable for: [original request]. Do not infer quality from implementation notes, polygon counts, or the author's claims.
 
 First identify the subject and intended mood from the pixels alone. Then:
-1. Infer whether the declared asset profile and conditional site/regional flags fit the original request; fail `profileCorrect` when they suppress required evidence.
+1. Infer whether the declared asset profile, `aaaTarget`, and conditional site/regional flags fit the original request; fail `profileCorrect` when the request's 3A/AAA intent is omitted or any declared profile flag suppresses required evidence.
 2. Rank the five largest visible defects by impact.
 3. Score silhouette/proportion /25, construction/attachment /20, material/light response /20, surface detail/variation /15, motion/interaction evidence /10, and Web presentation /10.
 4. Name any identity-critical feature that is missing, visually weak, detached, implausible, clipped, or hidden by presentation.
@@ -83,6 +85,7 @@ Save a manifest beside the rendered evidence. Paths may be relative to the manif
   "schemaVersion": 3,
   "assetId": "ergonomic-chair-v2",
   "assetProfile": "general",
+  "aaaTarget": false,
   "siteEnvironment": false,
   "regionalStyle": false,
   "fidelityLane": "polished-stylized",

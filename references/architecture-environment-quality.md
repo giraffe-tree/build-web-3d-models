@@ -46,6 +46,8 @@ Before full-scene production, make a small exact-runtime finish spike when the r
 2. one opening/envelope junction;
 3. one base/ground/near-vegetation contact when a site is present.
 
+Write a `mustShow` contract for each spike. The roof view must show field rhythm, termination, eave underside, fascia/rake, wall connection, and drainage; the opening view must show wall return, frame/screen/glazing thickness, sill/track/threshold, and interior return; the base view must show support/load path, grade transition, drainage or embedment, and contact light. Frame each high-risk region large enough to inspect—normally at least 35% of the image's short axis—and remove nonessential UI.
+
 For `environment`, choose three profile-relevant regions that together prove scene scale or spatial hierarchy, the highest-risk construction/material transition, and support/ground/contact. Do not require a roof or opening when the scene does not contain one.
 
 The spike must show the actual representation planned for the final asset, not a higher-quality offline placeholder. At the closest view:
@@ -56,11 +58,15 @@ The spike must show the actual representation planned for the final asset, not a
 - prove stable neutral, grazing, and final-light response;
 - prove that ground and support contacts do not float or intersect without construction logic.
 
+For a 3A/AAA or photoreal target, capture neutral and grazing versions of every construction/material spike and add backlight for paper, glazing, foliage, or other thin layers. Give the brief and spike pixels—not implementation claims—to a fresh reviewer before full-scene production. Record the report binding, reviewer run ID, and verdict in `pipelineDecision.finishSpike.independentReview`; set `aaaTarget: true` for an explicit 3A/AAA request. Any failed mandatory group blocks UI/presentation polish and full-scene propagation; after one pipeline escalation, retain the evidence and cap the route at `partial`.
+
 If any spike region still reads as a bare box/cylinder assembly, large unscaled surface, repeated strip pattern, constant-roughness plastic, emissive transparency substitute, or floating contact, switch to Blender or hybrid before building the full scene. After one pipeline escalation, if the same finish failure remains, preserve the spike and declare `partial` instead of hiding it with UI, mood lighting, or more procedural noise.
 
 ## Build architecture as assemblies
 
 Model visible construction order, not only the final envelope silhouette.
+
+Before geometry propagation, make three compact assembly sheets for any identity-critical exterior: roof/drainage, wall/opening, and base/support/ground. Record visible layer order, approximate thickness, termination, load or water path, repeated and unique modules, LOD/bake representation, and the exact view that will prove the junction. Missing a visible identity-critical layer blocks the full build even when the silhouette is already recognizable.
 
 - Roofs: preserve near-LOD rhythm, overlap or standing-seam logic, ridges, hips, valleys, edge tiles or caps, eave undersides, fascia/rake, gutters or an evidenced no-gutter detail, and connections to walls. Move sub-pixel repetition to normal/height only after the near view proves terminations and thickness.
 - Walls: preserve cladding module direction, board or panel terminations, corners, expansion/control joints, plaster depth, repairs, and water paths. Do not wrap one texture continuously across structurally unrelated faces.
@@ -69,6 +75,8 @@ Model visible construction order, not only the final envelope silhouette.
 - Decks, stairs, and engawa-like thresholds: preserve boards, nosings, supports, risers, edge build-up, drainage gaps, and contact with the building and site.
 
 Use modularity for reuse, not as permission to leave hero modules primitive. Inspect one repeated module at the closest view before instancing it across the scene.
+
+For explorable or 3A/AAA-targeted scenes, author LOD by construction component rather than uniformly decimating the whole building. Keep ridges, eaves, opening depth, base silhouette, and hero ground contacts through the mid tier; move repeated field detail to normal/height only after parallax disappears. Capture the frame immediately before and after each switch from fixed near/mid/far cameras, use hysteresis or cross-fade where needed, and reject silhouette, roughness, or contact-shadow pops. Recheck high-to-low bakes for cage misses, tangent/UV seams, padding, channel packing, compression, and double AO in the exact Web runtime.
 
 ## Author architectural materials and light
 
