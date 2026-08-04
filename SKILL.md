@@ -1,6 +1,6 @@
 ---
 name: build-web-3d-models
-description: Plan, create, optimize, export, integrate, and validate web-ready 3D assets and scenes using Blender, procedural geometry, or a hybrid workflow. Use for GLB/glTF/Blend/FBX/OBJ work, Three.js/WebGL/WebGPU integration, reference-driven product reconstruction, articulated or hinged hard-surface props, PBR materials, UVs and baking, rigging and animation handoff, LOD and instancing, performance diagnosis, realism scoring, or building objects and environments such as trees, plants, books, houses, furniture, bicycles, mountains, rivers, rocks, grass, flowers, mushrooms, computers, tools, props, and animals.
+description: Plan, create, optimize, export, integrate, and validate web-ready 3D assets and scenes using Blender, procedural geometry, or a hybrid workflow. Use for GLB/glTF/Blend/FBX/OBJ work, Three.js/WebGL/WebGPU integration, reference-driven product reconstruction, articulated or hinged hard-surface props, PBR and AAA/photoreal material reconstruction, UVs and baking, rigging and animation handoff, LOD and instancing, performance diagnosis, realism scoring, or building objects and environments such as trees, plants, books, houses, furniture, bicycles, mountains, rivers, rocks, grass, flowers, mushrooms, computers, tools, props, and animals.
 ---
 
 # Build Web 3D Models
@@ -16,6 +16,7 @@ Create visually credible 3D content that fits an explicit Web performance budget
    - Read references/asset-archetypes.md for the matching object or environment family.
    - Read references/reference-driven-reconstruction.md for single-view or multi-view reconstruction, evidence tracking, fixed-camera review, detail inventories, or bounded correction loops.
    - Read references/visual-quality-workflow.md for polished showcases, hero assets, visual quality regressions, art-direction choices, screenshot gates, or any request where "done" must mean more than a recognizable blockout.
+   - Read references/material-realism.md for material-critical, reference-faithful, photoreal/AAA, or close-up hero work; use it for material contracts, layered response, roughness and microdetail, causal wear, special materials, and Blender-to-glTF/Web parity.
    - Read references/quality-first-agent-prompt.md when delegating a polished asset, defining a reusable build prompt, or running a before/after forward test of this skill.
    - Read references/hinged-product-case-study.md for laptops, books, doors, cases, folding furniture, or any product whose closed/open endpoints and part clearances define correctness.
    - Read references/tree-web-case-study.md for organic procedural modeling, wind, hierarchical attachment, or geometry-pressure examples.
@@ -32,6 +33,7 @@ Write a short asset brief before changing code or Blender files:
 - Targets: desktop/mobile, minimum device class, FPS or frame-time target, load-time and file-size limits.
 - Deliverables: source .blend or procedural source, .glb/.gltf, textures, animation clips, runtime code, screenshots, and tests.
 - Appearance: real dimensions, reference views, material response, required moving parts, endpoint clearances, and a 0–100 realism target when requested.
+- Material contract: for each identity-critical material, record its real identity, physical layer stack, state/age, evidence, real texture scale, closest view, required shader features, runtime support, fallback, and proof views.
 - Budgets: triangles per LOD, unique vertices, draw calls, texture memory, bones, morph targets, shadow casters, and pixels rendered.
 - Identity and finish: five to twelve subject-defining cues, material families, presentation mood, required hero/orbit/material views, and the declared visual quality gate.
 
@@ -106,6 +108,7 @@ Do not treat a plausible open hero view as proof of mechanical correctness. If t
 
 ## Author materials and lighting
 
+- For material-critical, reference-faithful, photoreal/AAA, or close-up hero work, read references/material-realism.md and validate the exported GLB in the target runtime. The Blender viewport is not final evidence.
 - Use physically plausible PBR values. Most organic, painted, plastic, paper, stone, and wood surfaces have metalness 0.
 - Treat base color and emissive maps as sRGB; treat normal, roughness, metallic, occlusion, and height data as linear.
 - Use roughness variation before adding strong specular effects. Avoid using a color texture directly as a roughness map without intentional remapping.
@@ -160,6 +163,7 @@ Validate at minimum:
 
 - Shape: front, side, three-quarter, silhouette, close-up, and typical-distance views.
 - Materials: neutral, grazing, backlit, and final-environment lighting.
+- Material-critical work: contract coverage, real texture scale, physical layer order, causal wear, exact-export parity, declared fallbacks, and the material-specific score and hard gates from references/material-realism.md.
 - Motion: attachment continuity, pivot correctness, deformation, looping, wind response, and collision/contact if relevant.
 - Mechanism endpoints: closed/seated and fully open/extended views from the axes that reveal seams, stacking, clearance, and hidden parts.
 - Runtime: load, resize, mobile viewport, console errors, context loss assumptions, and interaction.

@@ -14,6 +14,7 @@ Before building:
 - Write a short asset brief covering target device, closest/typical view, desired screen coverage, real scale, final mood, required semantic states, and asset-specific performance budgets.
 - Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference. If the user supplied no images, assemble a compact target board from 3–8 image references or authored concepts; text-only facts do not define the visible finish.
 - List 5–12 identity-critical features and map each to geometry, material/texture, hierarchy, or an explicit omission.
+- For each identity-critical material, write a compact contract covering its real identity, layer stack, state/age, real scale, response evidence, shader features, runtime support, fallback, texture budget, and proof views. Use references/material-realism.md for material-critical, reference-faithful, photoreal/AAA, or close-up hero work.
 - Explain why the chosen pipeline can meet the requested finish. If a procedural-only route cannot provide the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid.
 
 Build in gated passes:
@@ -29,7 +30,7 @@ Required final evidence:
 - hero view at a fixed semantic state and fixed time; it may retain the intended page UI;
 - two non-degenerate orbit views in asset-review mode with nonessential UI hidden;
 - neutral material view in asset-review mode;
-- one asset-review subject-proof view that visibly isolates the claimed close-up, silhouette, endpoint, interior, or scale evidence;
+- one asset-review subject-proof view that visibly isolates the claimed close-up, silhouette, endpoint, interior, scale, or identity-critical material evidence; use it as a readable material close-up when material realism is the primary risk;
 - actual browser triangles/draw calls including shadow/depth/reflection passes;
 - console/runtime result;
 - quality-evidence JSON validated with scripts/validate_visual_evidence.py;

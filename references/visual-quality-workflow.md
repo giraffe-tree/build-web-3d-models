@@ -65,6 +65,7 @@ Do not skip from blockout to final integration.
 ### Pass 0 — brief and evidence
 
 - Fidelity lane, target device, closest/typical view, screen coverage, identity inventory, material families, motion states, delivery budget, and required screenshots are declared.
+- Every identity-critical material has a compact contract covering its real identity, layer stack, state, scale, response evidence, runtime support, fallback, and proof view.
 - References distinguish observation from inference.
 - A polished original has a visual target board; every identity-critical feature has at least one pixel reference or an explicit art-direction decision.
 
@@ -85,7 +86,9 @@ Do not start tertiary detail until the largest silhouette and proportion defects
 ### Pass 3 — materials and surface response
 
 - Every retained material family has deliberate base color, roughness, metallic response, normal/height strategy, and scale-appropriate variation.
+- Identity-critical materials preserve their physical layer order and dominant reflection, transmission, sheen, anisotropy, or subsurface cue; wear follows contact, use, gravity, flow, and material chemistry instead of uniform noise.
 - Neutral, grazing, and final lighting separate materials without relying on labels or arbitrary colors.
+- The exported GLB in the actual runtime matches the authored material identity; unsupported source features have an explicit, reviewed fallback.
 - No large unintended clipping, crushed black regions, plastic-looking roughness uniformity, or emissive washout remains.
 
 ### Pass 4 — detail and presentation
