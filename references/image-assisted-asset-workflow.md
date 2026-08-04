@@ -40,6 +40,8 @@ Before calling an image-generation tool, record:
 
 If those fields are unknown, resolve the material contract, UV/projection plan, and closest view before generating. Do not let a generated image silently define the asset scale or structure.
 
+Assign every generated or edited image an immutable source ID and SHA-256. For a concept, classify each selected cue as `binding`, `inspirational`, or `rejected` and map every binding cue to a geometry, material, lighting, or presentation contract plus an exact-runtime proof view. A concept-only image does not need to become a texture, but it cannot count as implemented merely because its file is retained.
+
 ## Generate concepts without inventing evidence
 
 For an original polished asset, make a compact target board that resolves three questions: silhouette/construction intent, material response, and presentation mood. Prefer a small coherent set over many unrelated attractive images. Select one primary design direction before modeling and record which details are binding versus inspirational.
@@ -81,6 +83,8 @@ Then perform the applicable steps:
 
 Preserve the editable generated source, but treat the corrected and channel-aligned derivative as the authored material input.
 
+For every retained derivative, record input hash, output hash, deterministic operations, physical coverage, projection, color-space/channel semantics, and destination runtime asset/material/slot or code binding. A retained runtime image without this lineage blocks `complete` even when the source itself looks plausible.
+
 ## Integrate images into geometry and Web delivery
 
 Choose geometry, normal/height, decal, card, or background from projected visibility. Generated imagery must not replace silhouette, contact, thickness, moving joints, parallax, or a readable grazing-light edge when those survive the required view.
@@ -116,3 +120,5 @@ Treat these as hard failures when the generated image is identity-critical:
 - the retained asset lacks source provenance, declared role, or exact-runtime proof.
 
 Complete the image-assisted pass only when the corrected derivative improves the intended visible cue, survives Web delivery and lighting tests, fits the budget, and makes no unsupported physical or reference claim. Otherwise retain the best artifact and label the result `partial` or remove the generated layer.
+
+Report each image as `concept-only`, `retained-runtime`, `rejected`, or `removed`. Report zero generated pixels retained in the runtime when generation served art direction only; preserving a concept or editable source file does not contradict that statement. Removing a generated layer is valid, but do not keep describing the final material as image-derived unless another retained derivative closes the same lineage.

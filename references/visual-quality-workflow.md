@@ -31,7 +31,7 @@ For polished work, collect or produce evidence for four different questions:
 3. Material close-ups under neutral and grazing light.
 4. Final presentation mood, camera height, lens character, and background relationship.
 
-When the user supplies no images, use four to eight strong factual sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. For an original polished asset, assemble a compact visual target board with at least three images covering silhouette/construction, material response, and presentation mood. When real references do not define a unique original direction, read references/image-assisted-asset-workflow.md and invoke a dedicated image-generation skill to author the missing concept or texture target. Label generated images as art direction: they cannot prove dimensions, hidden construction, manufacturing, anatomy, material physics, or reference fidelity. Text pages can establish dimensions and facts, but they cannot by themselves anchor visible finish. When browsing and image generation are unavailable, state that the asset is a generic art-directed interpretation.
+When the user supplies no images, use four to eight strong factual sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. For an original polished asset, assemble a compact visual target board with at least three images covering silhouette/construction, material response, and presentation mood. When real references do not define a unique original direction, apply the image-assisted workflow routed by SKILL.md and invoke a dedicated image-generation skill to author the missing concept or texture target. Label generated images as art direction: they cannot prove dimensions, hidden construction, manufacturing, anatomy, material physics, or reference fidelity. Text pages can establish dimensions and facts, but they cannot by themselves anchor visible finish. When browsing and image generation are unavailable, state that the asset is a generic art-directed interpretation.
 
 Create an identity inventory with five to twelve cues. Each cue must map to geometry, material/texture, hierarchy, or an explicit omission. Examples:
 
@@ -58,6 +58,8 @@ Before committing to procedural-only for a polished hero, answer:
 
 If two answers are missing, switch to Blender or hybrid. Do not ban textures, decals, environment maps, or baked maps as a proxy for good Web performance. Budget them from screen size and target device.
 
+For procedural-only polished work, replace self-reported answers with an exact-runtime finish spike before full production. Render the highest-risk edge, construction junction, material transition, and support/contact at the closest view with the final renderer and representative compression. Record a pass or the pipeline escalation. If the spike still reads as bare primitives, constant roughness, unscaled noise, missing thickness, or floating contact, switch to Blender or hybrid before building the rest. For exterior buildings, use the routed roof/eave, opening/envelope, and base/site spike.
+
 ## Use pass gates
 
 Do not skip from blockout to final integration.
@@ -69,6 +71,7 @@ Do not skip from blockout to final integration.
 - References distinguish observation from inference.
 - Generated concepts and texture sources declare their role and provenance and are not counted as factual evidence.
 - A polished original has a visual target board; every identity-critical feature has at least one pixel reference or an explicit art-direction decision.
+- Pipeline route, closest-view quality risks, finish-spike requirement, escalation condition, and proof views are declared.
 
 ### Pass 1 — macro blockout
 
@@ -91,20 +94,23 @@ Do not start tertiary detail until the largest silhouette and proportion defects
 - Neutral, grazing, and final lighting separate materials without relying on labels or arbitrary colors.
 - The exported GLB in the actual runtime matches the authored material identity; unsupported source features have an explicit, reviewed fallback.
 - No large unintended clipping, crushed black regions, plastic-looking roughness uniformity, or emissive washout remains.
+- Every identity-critical material closes evidence or art direction → authored representation → exact runtime binding → proof. Macro, meso, and micro scale bands are recorded; an omitted band has a view-based reason.
 
 ### Pass 4 — detail and presentation
 
 - High-frequency detail is represented at the cheapest form that survives projected size.
 - Camera, FOV, target, exposure, background, floor/contact treatment, hero state, and lighting are asset-aware rather than inherited blindly from a generic demo shell.
 - The subject occupies the intended frame; UI and titles do not obscure the review area.
+- Declared support and ground contacts remain readable and do not float, intersect, or rely on a broad shadow to hide missing construction.
 
 ### Pass 5 — runtime proof
 
 - The actual Web route loads the current asset, reaches important semantic states through visible controls, resizes correctly, and reports clean console/runtime diagnostics.
 - Browser frame counts include shadow, depth, reflection, and post passes.
 - Fixed screenshots correspond to the current asset version and declared semantic state.
+- The production build and exported-asset hashes match the reviewed material bindings, lighting profile, and final evidence.
 
-For polished work, a pass is not complete until its rendered evidence has been inspected. Code presence and self-authored checklists are insufficient.
+For polished work, a pass is not complete until its rendered evidence has been inspected. Code presence and self-authored checklists are insufficient. Do not begin Pass 4 or Pass 5 while a mandatory Pass 2 construction group or Pass 3 material group lacks exact-runtime evidence.
 
 ## Build an asset-aware presentation
 
@@ -131,6 +137,8 @@ Lock at least these views for polished work:
 4. Neutral material view with controlled exposure.
 5. Subject-specific proof: close-up, mechanism endpoint, silhouette, interior, or scale view.
 
+Add conditional proof views instead of overloading `subjectProof`: grazing light for identity-critical roughness/normal response, backlight for thin or transmissive materials, contact proof for grounded/supporting assemblies, and the routed architecture-specific views for polished exterior buildings and sites.
+
 The hero may retain the intended page composition when Web presentation is part of the request. Orbit, neutral-material, and subject-proof evidence should normally use an asset-review mode with nonessential UI hidden. A proof filename is not proof: the pixels must isolate the claimed construction, material, endpoint, or biological feature at a readable scale.
 
 After each review round, record:
@@ -143,7 +151,7 @@ After each review round, record:
 
 Run at least two screenshot review rounds for a finished polished showcase. Default to no more than three rounds per phase without new evidence or a changed strategy. The last round must inspect the exact final files. If any later change can alter pixels—including camera, lighting, material, semantic state, UI, capture code, or asset export—recapture the views and repeat the final review. Bind the final review to view hashes when evidence is retained.
 
-Use the 100-point rubric as a decision aid: silhouette/proportion 25, construction/attachment 20, material/light response 20, surface detail/variation 15, motion/interaction 10, Web presentation 10. The brief may declare a lane-specific minimum; never let the total hide a missing identity-critical feature or broken runtime gate.
+Use the 100-point rubric as a decision aid: silhouette/proportion 25, construction/attachment 20, material/light response 20, surface detail/variation 15, motion/interaction 10, Web presentation 10. The brief may raise lane-specific minimums, but it cannot lower the schema-v3 polished policy. Never let the total hide a missing identity-critical feature, construction/material/contact gate, or broken runtime gate. Default non-compensable floors for polished-stylized are 17/25 silhouette, 13/20 construction, 13/20 material/light, 9/15 surface detail, and 7/10 Web presentation; reference-faithful and photoreal work should declare stricter floors.
 
 When fresh subagents are available, give a critic only the original request, fidelity lane, and rendered views. Ask it to rank visible defects and score the rubric. Do not reveal implementation constraints, the author's self-score, suspected failures, or intended revisions. Treat builder scores as provisional. The critic's lower score or status has completion authority: perform at most one bounded repair followed by a fresh critique, or deliver with the critic's lower status. Never retain `complete` merely because machine checks and a self-score passed.
 
@@ -172,7 +180,7 @@ A polished delivery should include:
 - deterministic asset counts and actual browser pass counts;
 - known limitations and status: complete, partial, blockout, or failed-validation.
 
-Store those claims in a compact quality-evidence JSON when the project can retain test artifacts, then run `python3 scripts/validate_visual_evidence.py <manifest.json>`. Prefer schema v2, which binds the manifest, final review, and independent critic to exact view hashes and records camera/UI mode. The validator checks evidence presence, image identity and dimensions, declared critical features, review rounds, and rubric arithmetic. It does not replace visual judgment or an independent critic.
+Store those claims in a compact quality-evidence JSON when the project can retain test artifacts, then run `python3 scripts/validate_visual_evidence.py <manifest.json>`. Use schema v3 for new polished work. It adds a non-lowerable polished policy, pipeline/finish-spike evidence, critical material contracts, finish checks, runtime binding, and architecture-specific gates while preserving exact view hashes and critic authority. Older schemas remain useful for historical or partial evidence, but cannot validate a new polished `complete` claim. The validator checks evidence integrity and declared gates; it does not replace visual judgment or an independent critic.
 
 Avoid these failure patterns:
 

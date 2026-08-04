@@ -17,6 +17,7 @@ Create visually credible 3D content that fits an explicit Web performance budget
    - Read references/reference-driven-reconstruction.md for single-view or multi-view reconstruction, evidence tracking, fixed-camera review, detail inventories, or bounded correction loops.
    - Read references/visual-quality-workflow.md for polished showcases, hero assets, visual quality regressions, art-direction choices, screenshot gates, or any request where "done" must mean more than a recognizable blockout.
    - Read references/material-realism.md for material-critical, reference-faithful, photoreal/AAA, or close-up hero work; use it for material contracts, layered response, roughness and microdetail, causal wear, special materials, and Blender-to-glTF/Web parity.
+   - Read references/architecture-environment-quality.md for polished houses, buildings, rooms, streets, courtyards, or hero environments; use its construction groups, finish spike, site, lighting, and architecture-specific evidence gates.
    - Read references/image-assisted-asset-workflow.md when original art direction is missing, a texture/decal/source plate could raise the finish floor, or image generation might be used. It defines when to invoke image generation, what not to trust, required post-processing, and final-runtime gates.
    - Read references/quality-first-agent-prompt.md when delegating a polished asset, defining a reusable build prompt, or running a before/after forward test of this skill.
    - Read references/hinged-product-case-study.md for laptops, books, doors, cases, folding furniture, or any product whose closed/open endpoints and part clearances define correctness.
@@ -28,7 +29,7 @@ Create visually credible 3D content that fits an explicit Web performance budget
 
 Write a short asset brief before changing code or Blender files:
 
-- Fidelity lane: blockout, polished stylized, reference-faithful, or photoreal hero. If the user asks for a finished showcase without naming a lane, default to polished stylized—not blockout.
+- Fidelity lane: blockout, polished stylized, reference-faithful, or photoreal hero. Treat finished, high-quality, premium, refined, cinematic, or highly detailed requests as polished stylized at minimum. Treat named regional or historical architecture cues as reference-faithful construction requirements unless the user requests a generic or graphic interpretation.
 - Purpose: hero object, background prop, repeated instance, terrain, character, or interactive mechanism.
 - Viewing: closest distance, typical distance, silhouette distance, camera FOV, and expected screen coverage.
 - Targets: desktop/mobile, minimum device class, FPS or frame-time target, load-time and file-size limits.
@@ -38,6 +39,7 @@ Write a short asset brief before changing code or Blender files:
 - Image role: declare `none`, factual reference, generated concept, generated texture source, decal/mask, or background plate; record provenance, intended projection and scale, required post-processing, runtime budget, and the view that proves the retained result.
 - Budgets: triangles per LOD, unique vertices, draw calls, texture memory, bones, morph targets, shadow casters, and pixels rendered.
 - Identity and finish: five to twelve subject-defining cues, material families, presentation mood, required hero/orbit/material views, and the declared visual quality gate.
+- Pipeline proof: route, closest-view risks, required finish spike, escalation condition, and the exact views that prove edges, construction, materials, light, and contact before full production.
 
 Do not use one universal polygon budget. A hero animal, a repeated grass blade, and a building need different budgets.
 
@@ -50,6 +52,8 @@ Use procedural code when the asset is parametric, repeated, seeded, terrain-like
 Use image generation as a controlled 2D authoring stage, not as a geometry solver or proof of physical truth. Prefer it for original concept targets, irregular surface source plates, fictional labels/decals, and authored state variation when those pixels will survive the required view. Do not use generated imagery to establish dimensions, hidden construction, topology, IOR, real wear history, or reference-faithful brand details. Before generating, apply the decision and validation workflow in references/image-assisted-asset-workflow.md.
 
 Choose from the closest required view and fidelity lane, not from implementation convenience. Do not force a polished hero product, furniture piece, organic asset, or environment into Three.js primitives merely because the final delivery is Web-based. If a procedural-only route cannot supply the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid. Textures, decals, baked maps, and authored GLB assets are valid Web techniques; zero textures is a constraint only when the user or target actually requires it.
+
+Treat a procedural-only route for polished work as provisional until an exact-runtime finish spike proves the highest-risk junctions at the closest view. For `architecture-exterior`, prove a roof/eave/wall junction, an opening/envelope junction, and a base/site contact before full-scene production. For `environment`, spike its highest-risk scale, construction, material, and contact regions without inventing roof gates. If any spike still reads as bare primitives, constant-roughness plastic, unscaled noise, fake emissive transparency, or floating contact, switch to Blender or hybrid before presentation and performance polish. A failed spike after one escalation caps the result at `partial`.
 
 Prefer the cheapest representation that survives the required closest view:
 
@@ -68,7 +72,9 @@ For polished stylized, reference-faithful, or photoreal work, read references/vi
 3. Progress through macro silhouette, secondary construction, material/surface, lighting/presentation, and runtime passes. Do not present a blockout as a finished asset because it loads and meets a budget.
 4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them. Keep asset-review views free of UI that obscures the feature being proved; a marketing-page hero may retain its intended UI.
 5. After each polished pass, name the three largest visible defects and correct the highest-impact one. Run at least two screenshot review rounds for a finished showcase; keep rounds bounded and preserve the best result. The last review must inspect the exact final files. Any later change that affects geometry, material, lighting, camera, state, or UI invalidates that review and requires recapture.
-6. Use an independent visual critic when fresh subagents are available. Give it only the request and rendered evidence—not the implementation, self-score, suspected defect, or intended fix. The builder's score and status are provisional: the critic's lower score or status controls the completion claim. Either run one bounded repair-and-recritique cycle or ship the critic-labelled partial result.
+6. Require an independent visual critic for a polished `complete` claim. Give it only the request and rendered evidence—not the implementation, self-score, suspected defect, intended fix, or historical baseline. If a critic cannot be run, ship `partial`. The builder's score and status are provisional: the critic's lower score or status controls. Either run one bounded repair-and-recritique cycle or ship the critic-labelled partial result.
+
+Do not enter presentation polish or final runtime integration while a mandatory construction, material, or contact gate lacks exact-runtime evidence. For polished deliverables in writable workspaces, retain a schema-v3 quality-evidence manifest and run `python3 scripts/validate_visual_evidence.py <manifest.json>`. Set `assetProfile: architecture-exterior` for polished exterior buildings and `environment` for stand-alone sites or interior/environment scenes. The validator's built-in polished policy cannot be lowered by the manifest; missing evidence, a failed finish check, an unverified critical material, or an unavailable required critic prevents `complete`.
 
 Treat performance as a constraint on a declared appearance target. Once an asset fits its target-device budget, do not keep simplifying it merely to improve an already-passing metric. If the target cannot fit, change representation, LOD, or pass cost before sacrificing identity, silhouette, contact, or material separation.
 
@@ -169,6 +175,7 @@ Validate at minimum:
 - Shape: front, side, three-quarter, silhouette, close-up, and typical-distance views.
 - Materials: neutral, grazing, backlit, and final-environment lighting.
 - Material-critical work: contract coverage, real texture scale, physical layer order, causal wear, exact-export parity, declared fallbacks, and the material-specific score and hard gates from references/material-realism.md.
+- Polished architecture and environments: profile-specific mandatory groups, a passed finish spike, base/ground contact, site variation, reproducible lighting, and conditional proof views; require roof/eave and opening junctions only for `architecture-exterior`.
 - Image-assisted work: declared provenance and role, absence of unintended baked light or perspective, seamless repeat where required, aligned channel semantics, readable scale, clean alpha/mip edges, compression survival, and proof in the exact target runtime.
 - Motion: attachment continuity, pivot correctness, deformation, looping, wind response, and collision/contact if relevant.
 - Mechanism endpoints: closed/seated and fully open/extended views from the axes that reveal seams, stacking, clearance, and hidden parts.
@@ -187,5 +194,6 @@ Suggested realism rubric: silhouette/proportion 25, construction/anatomy and att
 - Report deterministic before/after metrics separately from device-dependent FPS/GPU samples.
 - State known limitations and the next highest-value optimization.
 - Report which generated images were retained, how they were transformed into runtime assets, and which visual or physical claims they cannot support.
+- When image generation served concept direction only, report zero generated pixels retained in the runtime and bind each retained concept cue to geometry, material, lighting, or presentation proof; do not imply that a preserved concept/source file became a runtime texture.
 - Report the fidelity lane and status as complete, partial, blockout, or failed-validation. Never label a polished deliverable complete when required views, identity-critical features, material pass, final-file review evidence, or an available independent critic gate is missing or lower.
 - Keep the final Web page or artifact accessible when the user requested it.

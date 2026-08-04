@@ -36,6 +36,8 @@ Examples: chair, table, room, house, building.
 
 For explorable buildings, budget by visible rooms/cells and use portals, occlusion, chunk streaming, and interior/exterior LOD. A single merged building often defeats culling.
 
+For polished houses, buildings, rooms, courtyards, streets, or hero environments, apply the architecture/environment gates routed by SKILL.md. Treat massing/scale, roof system, envelope/openings, edges/connections, material response, and base/ground contact as mandatory critical groups for exterior buildings; add site/vegetation and regional cues when they are in scope. Prove the intended route with the exact-runtime finish spike before full-scene assembly. Legacy primitive or zero-texture demos are engineering/blockout baselines, not polished architecture precedents.
+
 ## Vehicles and mechanisms
 
 Examples: bicycle, cart, machine, articulated equipment.
@@ -86,4 +88,3 @@ Grass performance depends on visible blade count and overdraw, not only draw cal
 - Build LODs that preserve face, hands/paws, and silhouette longer than hidden body topology.
 
 Use dedicated rigging and animation workflows for natural locomotion, retargeting, IK, and clip validation.
-

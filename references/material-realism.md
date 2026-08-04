@@ -54,6 +54,8 @@ uncertainties: hidden underside wear inferred from comparable tools
 
 Use a real material name and state, not labels such as `black`, `shiny`, or `metallic`. Describe substrate, coating, exposed layers, contamination, and moisture separately. Limit identity cues to the three to six response features that must survive the typical view. Tie every required shader feature to verified runtime support and a declared fallback.
 
+Close each binding material cue through one source-evidence or art-direction ID, one authored representation, one exact runtime binding, and one proof view. Record macro, meso, and micro scale bands with physical dimensions and representation; an omitted band requires a closest/typical-view justification. Free-text claims, source previews, and screenshots without a runtime material/node/slot or code binding do not close the chain.
+
 ## Collect response evidence
 
 Collect evidence that answers different questions:
@@ -69,7 +71,7 @@ Record light direction, exposure, white-balance uncertainty, and whether a sourc
 
 ## Use generated source images carefully
 
-Read references/image-assisted-asset-workflow.md before using image generation for a material-critical asset. Invoke a dedicated image-generation skill when an authored source plate, decal, cutout, or state-layer concept can materially improve the retained surface; skip it when real scans, supplied evidence, deterministic procedural fields, or authored maps already solve the visible need.
+Apply the image-assisted workflow routed by SKILL.md before using generation for a material-critical asset. Invoke a dedicated image-generation skill when an authored source plate, decal, cutout, or state-layer concept can materially improve the retained surface; skip it when real scans, supplied evidence, deterministic procedural fields, or authored maps already solve the visible need.
 
 Treat generated output as a source layer, never as material-response evidence. Require a declared physical coverage and projection; remove baked lighting, perspective, AO, and highlights; make required repeats seamless; and derive aligned PBR channels from one reviewed source. Do not trust independently generated base-color, normal, roughness, metallic, AO, or height maps as a coherent physical set.
 
@@ -176,6 +178,8 @@ Build one reproducible material review rig:
 
 Lock camera, exposure, white balance, tone mapping, background, semantic state, and material version. Capture closest, typical, and three-quarter views. For an identity-critical hero material, add a light sweep or turntable; a static image cannot fully prove directional highlights or stable transmission.
 
+Store a reproducible lighting profile for each proof rig: renderer and build, color space, tone mapping, exposure, environment source and hash, light roles/types/colors/intensities/transforms, decay, shadow/contact strategy, device tier, and fallback. Neutral and grazing views are mandatory; add backlight for thin or transmissive materials and contact proof for grounded architecture or supported masses. Bind each capture to the exported asset or production-build hash and the lighting-profile hash.
+
 Capture final evidence from the exported GLB in the target Web runtime. Use the required `neutralMaterial` view and make `subjectProof` a readable material close-up when material fidelity is the subject's primary risk. Invalidate and recapture evidence after any pixel-affecting material, lighting, camera, compression, export, or runtime change.
 
 ## Degrade for Web without losing identity
@@ -213,6 +217,8 @@ Treat these as hard failures for an identity-critical material:
 - a missing identity-defining layer, thickness, directional response, or supported fallback;
 - obvious UV seams, repeated tiling, transparent sorting, z-fighting, or compression damage at the required view;
 - wear that contradicts use, gravity, construction order, or material chemistry;
+- unexplained constant roughness, one uniform procedural-noise scale, or missing real-scale macro/meso/micro response at the required view;
+- visibly floating support/contact or opacity/emissive used in place of identity-critical thickness, transmission, or illumination without a reviewed fallback;
 - a material feature that silently disappears or materially changes in the exported Web result;
 - missing neutral, grazing, final-environment, or exact-final-GLB evidence;
 - broken runtime, failed export validation, or exceeded declared performance budget.
