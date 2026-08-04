@@ -5,13 +5,14 @@
 1. Set the completion contract
 2. Write a material contract
 3. Collect response evidence
-4. Choose representation by visible scale
-5. Author physical layers
-6. Preserve material-family identity
-7. Place wear by cause
-8. Validate under controlled lighting
-9. Degrade for Web without losing identity
-10. Score and gate the result
+4. Use generated source images carefully
+5. Choose representation by visible scale
+6. Author physical layers
+7. Preserve material-family identity
+8. Place wear by cause
+9. Validate under controlled lighting
+10. Degrade for Web without losing identity
+11. Score and gate the result
 
 ## Set the completion contract
 
@@ -65,6 +66,14 @@ Collect evidence that answers different questions:
 6. Backlight for thin, translucent, transmissive, fibrous, or biological materials.
 
 Record light direction, exposure, white-balance uncertainty, and whether a source is a photograph, scan, marketing render, or synthetic example. Do not infer color, roughness, thickness, IOR, and ageing from one front-lit photograph. Do not mix references with different finishes or states without marking the intended combination.
+
+## Use generated source images carefully
+
+Read references/image-assisted-asset-workflow.md before using image generation for a material-critical asset. Invoke a dedicated image-generation skill when an authored source plate, decal, cutout, or state-layer concept can materially improve the retained surface; skip it when real scans, supplied evidence, deterministic procedural fields, or authored maps already solve the visible need.
+
+Treat generated output as a source layer, never as material-response evidence. Require a declared physical coverage and projection; remove baked lighting, perspective, AO, and highlights; make required repeats seamless; and derive aligned PBR channels from one reviewed source. Do not trust independently generated base-color, normal, roughness, metallic, AO, or height maps as a coherent physical set.
+
+Validate the corrected derivative under the same neutral, grazing, backlit, and final-environment rig as every other material. Reject the layer if generated artifacts, inconsistent scale, implausible wear, tiling, or compression damage survive the typical view.
 
 ## Choose representation by visible scale
 

@@ -31,7 +31,7 @@ For polished work, collect or produce evidence for four different questions:
 3. Material close-ups under neutral and grazing light.
 4. Final presentation mood, camera height, lens character, and background relationship.
 
-When the user supplies no images, use four to eight strong sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. For an original polished asset, assemble a compact visual target board with at least three images covering silhouette/construction, material response, and presentation mood. Text pages can establish dimensions and facts, but they cannot by themselves anchor art direction or visible finish. When browsing or image generation is unavailable, state that the asset is a generic art-directed interpretation and do not claim reference fidelity.
+When the user supplies no images, use four to eight strong factual sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. For an original polished asset, assemble a compact visual target board with at least three images covering silhouette/construction, material response, and presentation mood. When real references do not define a unique original direction, read references/image-assisted-asset-workflow.md and invoke a dedicated image-generation skill to author the missing concept or texture target. Label generated images as art direction: they cannot prove dimensions, hidden construction, manufacturing, anatomy, material physics, or reference fidelity. Text pages can establish dimensions and facts, but they cannot by themselves anchor visible finish. When browsing and image generation are unavailable, state that the asset is a generic art-directed interpretation.
 
 Create an identity inventory with five to twelve cues. Each cue must map to geometry, material/texture, hierarchy, or an explicit omission. Examples:
 
@@ -67,6 +67,7 @@ Do not skip from blockout to final integration.
 - Fidelity lane, target device, closest/typical view, screen coverage, identity inventory, material families, motion states, delivery budget, and required screenshots are declared.
 - Every identity-critical material has a compact contract covering its real identity, layer stack, state, scale, response evidence, runtime support, fallback, and proof view.
 - References distinguish observation from inference.
+- Generated concepts and texture sources declare their role and provenance and are not counted as factual evidence.
 - A polished original has a visual target board; every identity-critical feature has at least one pixel reference or an explicit art-direction decision.
 
 ### Pass 1 — macro blockout
@@ -180,6 +181,7 @@ Avoid these failure patterns:
 - using one shared light/exposure/camera rig for every subject;
 - accepting one auto-framed animated screenshot as proof of quality;
 - treating “recognizable” as equivalent to polished;
+- treating a generated concept as factual reference evidence or assuming independently generated views are construction-consistent;
 - using a self-authored brief as its own validation evidence;
 - changing pixels after the final review without invalidating and recapturing it;
 - claiming a subject-proof feature that the proof image does not actually isolate;

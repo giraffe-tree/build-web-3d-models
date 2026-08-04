@@ -7,12 +7,13 @@ Use this template when delegating a polished asset or forward-testing the skill.
 ```text
 Use $build-web-3d-models at [absolute skill path] to deliver a visually finished Web 3D showcase of [subject] for [purpose and audience].
 
-Fidelity lane: [polished stylized | reference-faithful | photoreal hero]. Treat this as a finished visual deliverable, not a blockout or a procedural-geometry exercise. Choose Blender, procedural code, or a hybrid from the closest required view and finish target. Do not restrict the work to Three.js primitives, zero textures, or a universal geometry budget unless the user explicitly requires that constraint.
+Fidelity lane: [polished stylized | reference-faithful | photoreal hero]. Treat this as a finished visual deliverable, not a blockout or a procedural-geometry exercise. Choose Blender, procedural code, selective image-assisted authoring, or a hybrid from the closest required view and finish target. Do not restrict the work to Three.js primitives, zero textures, or a universal geometry budget unless the user explicitly requires that constraint.
 
 Before building:
 - Inspect the workspace and local instructions.
 - Write a short asset brief covering target device, closest/typical view, desired screen coverage, real scale, final mood, required semantic states, and asset-specific performance budgets.
-- Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference. If the user supplied no images, assemble a compact target board from 3–8 image references or authored concepts; text-only facts do not define the visible finish.
+- Gather or inspect evidence for silhouette/dimensions, construction, material response, and presentation. Record observation separately from inference. If the user supplied no images, assemble a compact target board from 3–8 factual references or authored concepts. When an original polished asset still lacks a unique visual direction, read references/image-assisted-asset-workflow.md and invoke a dedicated image-generation skill to create the missing concept or texture target. Label generated images as art direction, never factual evidence; text-only facts do not define the visible finish.
+- Declare the image role as none, factual reference, generated concept, generated texture source, decal/mask, or background plate. Record provenance, projection, scale, tiling/alpha requirements, post-processing, runtime budget, and proof view. Do not generate decoration that will not survive the validated camera.
 - List 5–12 identity-critical features and map each to geometry, material/texture, hierarchy, or an explicit omission.
 - For each identity-critical material, write a compact contract covering its real identity, layer stack, state/age, real scale, response evidence, shader features, runtime support, fallback, texture budget, and proof views. Use references/material-realism.md for material-critical, reference-faithful, photoreal/AAA, or close-up hero work.
 - Explain why the chosen pipeline can meet the requested finish. If a procedural-only route cannot provide the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid.
@@ -20,11 +21,11 @@ Before building:
 Build in gated passes:
 1. Macro silhouette and proportions.
 2. Construction, thickness, joints, openings, attachment, and mechanism endpoints.
-3. Material families, edge highlights, roughness/normal/detail variation, and neutral-light response.
+3. Material families, edge highlights, roughness/normal/detail variation, and neutral-light response. Treat generated rasters only as source layers: remove baked light and perspective, build seamless repeats when required, and derive aligned PBR channels from one reviewed source.
 4. Asset-aware camera, lighting, exposure, background/contact treatment, hero state, and final detail.
 5. Actual browser/runtime integration and performance verification.
 
-After passes 2 and 4, capture deterministic screenshots and record the three largest visible defects. Correct the highest-impact defect before continuing. The last review must inspect the exact final five files; any later pixel-affecting change invalidates it. Do not use a self-authored checklist, filename, or prose claim as visual proof.
+After passes 2 and 4, capture deterministic screenshots and record the three largest visible defects. Correct the highest-impact defect before continuing. The last review must inspect the exact final files; any later pixel-affecting change invalidates it. Do not use a self-authored checklist, filename, generated source preview, or prose claim as visual proof.
 
 Required final evidence:
 - hero view at a fixed semantic state and fixed time; it may retain the intended page UI;
@@ -33,6 +34,7 @@ Required final evidence:
 - one asset-review subject-proof view that visibly isolates the claimed close-up, silhouette, endpoint, interior, scale, or identity-critical material evidence; use it as a readable material close-up when material realism is the primary risk;
 - actual browser triangles/draw calls including shadow/depth/reflection passes;
 - console/runtime result;
+- retained generated-image provenance, role, source-to-runtime transformations, and unsupported claims;
 - quality-evidence JSON validated with scripts/validate_visual_evidence.py;
 - known limitations and status: complete, partial, blockout, or failed-validation.
 
@@ -167,6 +169,7 @@ Avoid adding these constraints unless they are real user requirements:
 
 - “Use only deterministic procedural Three.js primitives.”
 - “Use no textures, authored assets, Blender, or external references.”
+- “Generate separate final albedo, normal, roughness, metallic, and AO maps and trust them without channel alignment or physical review.”
 - “Keep it compact/modest” when the user asked for a hero asset.
 - One shared `80k triangles / 45 draws` cap for unrelated asset families.
 - “Make it recognizable” as the only visual acceptance criterion.

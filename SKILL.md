@@ -1,6 +1,6 @@
 ---
 name: build-web-3d-models
-description: Plan, create, optimize, export, integrate, and validate web-ready 3D assets and scenes using Blender, procedural geometry, or a hybrid workflow. Use for GLB/glTF/Blend/FBX/OBJ work, Three.js/WebGL/WebGPU integration, reference-driven product reconstruction, articulated or hinged hard-surface props, PBR and AAA/photoreal material reconstruction, UVs and baking, rigging and animation handoff, LOD and instancing, performance diagnosis, realism scoring, or building objects and environments such as trees, plants, books, houses, furniture, bicycles, mountains, rivers, rocks, grass, flowers, mushrooms, computers, tools, props, and animals.
+description: Plan, create, optimize, export, integrate, and validate web-ready 3D assets and scenes using Blender, procedural geometry, image-assisted concept and texture authoring, or a hybrid workflow. Use for GLB/glTF/Blend/FBX/OBJ work, Three.js/WebGL/WebGPU integration, reference-driven product reconstruction, articulated or hinged hard-surface props, PBR and AAA/photoreal material reconstruction, generated texture or decal sources, UVs and baking, rigging and animation handoff, LOD and instancing, performance diagnosis, realism scoring, or building objects and environments such as trees, plants, books, houses, furniture, bicycles, mountains, rivers, rocks, grass, flowers, mushrooms, computers, tools, props, and animals.
 ---
 
 # Build Web 3D Models
@@ -17,10 +17,11 @@ Create visually credible 3D content that fits an explicit Web performance budget
    - Read references/reference-driven-reconstruction.md for single-view or multi-view reconstruction, evidence tracking, fixed-camera review, detail inventories, or bounded correction loops.
    - Read references/visual-quality-workflow.md for polished showcases, hero assets, visual quality regressions, art-direction choices, screenshot gates, or any request where "done" must mean more than a recognizable blockout.
    - Read references/material-realism.md for material-critical, reference-faithful, photoreal/AAA, or close-up hero work; use it for material contracts, layered response, roughness and microdetail, causal wear, special materials, and Blender-to-glTF/Web parity.
+   - Read references/image-assisted-asset-workflow.md when original art direction is missing, a texture/decal/source plate could raise the finish floor, or image generation might be used. It defines when to invoke image generation, what not to trust, required post-processing, and final-runtime gates.
    - Read references/quality-first-agent-prompt.md when delegating a polished asset, defining a reusable build prompt, or running a before/after forward test of this skill.
    - Read references/hinged-product-case-study.md for laptops, books, doors, cases, folding furniture, or any product whose closed/open endpoints and part clearances define correctness.
    - Read references/tree-web-case-study.md for organic procedural modeling, wind, hierarchical attachment, or geometry-pressure examples.
-3. If a more specific available skill covers rigging, animation, Blender MCP, image generation, or browser control, use it alongside this skill.
+3. If a more specific available skill covers rigging, animation, Blender MCP, image generation, or browser control, use it alongside this skill. When the image-assisted decision gate selects generation and a dedicated image-generation skill is available, invoke it rather than improvising a lower-quality substitute.
 4. Preserve existing user changes. Commit each logical change when repository policy requires commits.
 
 ## Define acceptance criteria first
@@ -34,6 +35,7 @@ Write a short asset brief before changing code or Blender files:
 - Deliverables: source .blend or procedural source, .glb/.gltf, textures, animation clips, runtime code, screenshots, and tests.
 - Appearance: real dimensions, reference views, material response, required moving parts, endpoint clearances, and a 0–100 realism target when requested.
 - Material contract: for each identity-critical material, record its real identity, physical layer stack, state/age, evidence, real texture scale, closest view, required shader features, runtime support, fallback, and proof views.
+- Image role: declare `none`, factual reference, generated concept, generated texture source, decal/mask, or background plate; record provenance, intended projection and scale, required post-processing, runtime budget, and the view that proves the retained result.
 - Budgets: triangles per LOD, unique vertices, draw calls, texture memory, bones, morph targets, shadow casters, and pixels rendered.
 - Identity and finish: five to twelve subject-defining cues, material families, presentation mood, required hero/orbit/material views, and the declared visual quality gate.
 
@@ -44,6 +46,8 @@ For realistic work, collect enough references to resolve front/side/three-quarte
 ## Choose the pipeline
 
 Use procedural code when the asset is parametric, repeated, seeded, terrain-like, vegetation-like, or must expose runtime controls. Use Blender when form depends on sculpting, precise hard-surface construction, retopology, UV painting, baking, rigging, or art-directed edits. Use a hybrid pipeline when Blender supplies reusable modules or baked maps and code supplies layout, variation, animation, LOD, or interaction.
+
+Use image generation as a controlled 2D authoring stage, not as a geometry solver or proof of physical truth. Prefer it for original concept targets, irregular surface source plates, fictional labels/decals, and authored state variation when those pixels will survive the required view. Do not use generated imagery to establish dimensions, hidden construction, topology, IOR, real wear history, or reference-faithful brand details. Before generating, apply the decision and validation workflow in references/image-assisted-asset-workflow.md.
 
 Choose from the closest required view and fidelity lane, not from implementation convenience. Do not force a polished hero product, furniture piece, organic asset, or environment into Three.js primitives merely because the final delivery is Web-based. If a procedural-only route cannot supply the required edge treatment, surface variation, unique detail, or art-directed silhouette, switch to Blender or hybrid. Textures, decals, baked maps, and authored GLB assets are valid Web techniques; zero textures is a constraint only when the user or target actually requires it.
 
@@ -59,7 +63,7 @@ Prefer the cheapest representation that survives the required closest view:
 
 For polished stylized, reference-faithful, or photoreal work, read references/visual-quality-workflow.md and use its pass gates.
 
-1. Collect or create enough references to resolve silhouette, construction, material response, and presentation. For an original polished asset with no user images, make a compact visual target board from three to eight strong image references or authored concepts; text-only dimensions and descriptions do not define a finish target. Without usable evidence, label the result generic or inferred instead of quietly lowering the finish bar.
+1. Collect or create enough references to resolve silhouette, construction, material response, and presentation. For an original polished asset with no user images, use strong image references and, when a unique visual direction is still missing, invoke image generation to author a compact target board. Label generated concepts as art direction rather than factual evidence. Text-only dimensions and descriptions do not define a finish target; without usable evidence, label the result generic or inferred instead of quietly lowering the finish bar.
 2. Lock identity-critical features before modeling. A result that is merely category-recognizable is still incomplete when those features are absent.
 3. Progress through macro silhouette, secondary construction, material/surface, lighting/presentation, and runtime passes. Do not present a blockout as a finished asset because it loads and meets a budget.
 4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them. Keep asset-review views free of UI that obscures the feature being proved; a marketing-page hero may retain its intended UI.
@@ -109,6 +113,7 @@ Do not treat a plausible open hero view as proof of mechanical correctness. If t
 ## Author materials and lighting
 
 - For material-critical, reference-faithful, photoreal/AAA, or close-up hero work, read references/material-realism.md and validate the exported GLB in the target runtime. The Blender viewport is not final evidence.
+- Use generated raster output only as an authored source layer. Reject or correct baked lighting, perspective, object boundaries, seams, watermarks, invented text, and inconsistent scale; derive aligned PBR channels from one reviewed source instead of trusting independently generated base-color, normal, roughness, and metallic images.
 - Use physically plausible PBR values. Most organic, painted, plastic, paper, stone, and wood surfaces have metalness 0.
 - Treat base color and emissive maps as sRGB; treat normal, roughness, metallic, occlusion, and height data as linear.
 - Use roughness variation before adding strong specular effects. Avoid using a color texture directly as a roughness map without intentional remapping.
@@ -164,6 +169,7 @@ Validate at minimum:
 - Shape: front, side, three-quarter, silhouette, close-up, and typical-distance views.
 - Materials: neutral, grazing, backlit, and final-environment lighting.
 - Material-critical work: contract coverage, real texture scale, physical layer order, causal wear, exact-export parity, declared fallbacks, and the material-specific score and hard gates from references/material-realism.md.
+- Image-assisted work: declared provenance and role, absence of unintended baked light or perspective, seamless repeat where required, aligned channel semantics, readable scale, clean alpha/mip edges, compression survival, and proof in the exact target runtime.
 - Motion: attachment continuity, pivot correctness, deformation, looping, wind response, and collision/contact if relevant.
 - Mechanism endpoints: closed/seated and fully open/extended views from the axes that reveal seams, stacking, clearance, and hidden parts.
 - Runtime: load, resize, mobile viewport, console errors, context loss assumptions, and interaction.
@@ -180,5 +186,6 @@ Suggested realism rubric: silhouette/proportion 25, construction/anatomy and att
 - Exercise the visible user path for important states—such as opening the control panel and pressing Close—then verify the semantic value, rendered pose, and console. Do not validate only by setting an internal transform directly.
 - Report deterministic before/after metrics separately from device-dependent FPS/GPU samples.
 - State known limitations and the next highest-value optimization.
+- Report which generated images were retained, how they were transformed into runtime assets, and which visual or physical claims they cannot support.
 - Report the fidelity lane and status as complete, partial, blockout, or failed-validation. Never label a polished deliverable complete when required views, identity-critical features, material pass, final-file review evidence, or an available independent critic gate is missing or lower.
 - Keep the final Web page or artifact accessible when the user requested it.
