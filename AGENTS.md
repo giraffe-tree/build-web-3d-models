@@ -7,6 +7,9 @@ This repository is the source of truth for the `build-web-3d-models` Codex skill
 - Keep `SKILL.md` concise and procedural.
 - Put detailed, task-specific guidance in one-level-deep files under `references/`.
 - Put deterministic, reusable checks under `scripts/`.
+- `scripts/capture_views.mjs` captures deterministic fixed-view and consecutive-frame screenshots from a running Three.js page.
+- `scripts/score_silhouette.py` scores silhouette metrics as a diagnostic for organic-form failures (lattice branches, repeated canopy pads); it is a diagnostic, not a hard gate.
+- `scripts/fetch_pbr.py` fetches licensed scan PBR texture sets for material-critical surfaces.
 - Keep `agents/openai.yaml` aligned with `SKILL.md`.
 - Do not add README, changelog, installation guide, benchmark output, generated assets, or other repository clutter unless the user explicitly requests it.
 
@@ -25,6 +28,14 @@ This repository is the source of truth for the `build-web-3d-models` Codex skill
 6. Commit the completed logical change with a terse imperative message.
 7. Push the current branch to `origin` after every successful commit.
 8. Never finish an authorized repository change with uncommitted or unpushed work. If validation or push is blocked, report the exact blocker and leave the worktree state explicit.
+
+## Quality workflow conventions
+
+- Motion and interaction claims require `motionEvidence`: consecutive frames captured at fixed times and fixed parameters. A still frame is not interaction evidence.
+- Attachments must be declared with the joint vocabulary contract (named joint type plus load path). Tangency plus a color change is not evidence of a connection.
+- Master-sample-first: for repeated or hierarchical organic structures, build one master sample (branch module, canopy unit, repeated part) and get it reviewed before instancing or repeating it.
+- Fresh-eyes reviewer protocol: each review round is done by a reviewer without prior-round context; builder self-scores are not completion evidence.
+- Material-critical surfaces seen at close range (the micro band) use scanned PBR textures; procedural micro-material narratives cap out around 80 points.
 
 ## Git policy
 

@@ -39,7 +39,7 @@ Write a short asset brief before changing code or Blender files:
 - Material contract: for each identity-critical material, record its real identity, physical layer stack, state/age, evidence, real texture scale, closest view, required shader features, runtime support, fallback, and proof views.
 - Image input: first declare mode `none`, `build-time`, or `live-runtime`, then role `factual-reference`, concept, texture source, decal/mask, cutout, or background plate. Use `mode: none` for factual references; they are evidence, not generated content. Record provenance, projection, physical scale, post-processing, budget, fallback, and proof; for live generation also declare latency, cost, cache, safety, retention, and failure behavior.
 - Budgets: triangles per LOD, unique vertices, draw calls, texture memory, bones, morph targets, shadow casters, and pixels rendered.
-- Identity and finish: five to twelve subject-defining cues, material families, presentation mood, required hero/orbit/material views, and the declared visual quality gate.
+- Identity and finish: five to twelve subject-defining cues, each declared as a triple—the cue, its connection/construction method (a mechanical joint type or a growth/contact logic, not merely tangent placement), and the fixed view that proves it; plus material families, presentation mood, required hero/orbit/material views, and the declared visual quality gate.
 - Pipeline proof: route, closest-view risks, required finish spike, escalation condition, and the exact views that prove edges, construction, materials, light, and contact before full production.
 
 Do not use one universal polygon budget. A hero animal, a repeated grass blade, and a building need different budgets.
@@ -71,9 +71,11 @@ For polished stylized, reference-faithful, or photoreal work, read references/vi
 1. Collect or create enough references to resolve silhouette, construction, material response, and presentation. Translate 3A/AAA into a declared static-hero, interactive-hero, or explorable-scene scope before claiming parity. For an original polished asset with no user images, use strong image references and, when a unique visual direction is still missing, invoke image generation to author a compact target board. Label generated concepts as art direction rather than factual evidence. Text-only dimensions and descriptions do not define a finish target; without usable evidence, label the result generic or inferred instead of quietly lowering the finish bar.
 2. Lock identity-critical features before modeling. A result that is merely category-recognizable is still incomplete when those features are absent.
 3. Progress through macro silhouette, secondary construction, material/surface, lighting/presentation, and runtime passes. Do not present a blockout as a finished asset because it loads and meets a budget.
-4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them. Keep asset-review views free of UI that obscures the feature being proved; a marketing-page hero may retain its intended UI.
-5. After each polished pass, name the three largest visible defects and correct the highest-impact one. Run at least two screenshot review rounds for a finished showcase; keep rounds bounded and preserve the best result. The last review must inspect the exact final files. Any later change that affects geometry, material, lighting, camera, state, or UI invalidates that review and requires recapture.
+4. Capture a deterministic hero view, two meaningful orbit views, and a neutral material view. Add endpoint or close-up views when the subject requires them. Use `scripts/capture_views.mjs` to render these views deterministically when the runtime can be scripted. Keep asset-review views free of UI that obscures the feature being proved; a marketing-page hero may retain its intended UI.
+5. After each polished pass, name the three largest visible defects—preferably produced by a fresh-context reviewer rather than the builder—and correct the highest-impact one. Run at least two screenshot review rounds for a finished showcase; keep rounds bounded and preserve the best result. The last review must inspect the exact final files. Any later change that affects geometry, material, lighting, camera, state, or UI invalidates that review and requires recapture.
 6. Require an independent visual critic for a polished `complete` claim. Give it only the request and rendered evidence—not the implementation, self-score, suspected defect, intended fix, or historical baseline. If a critic cannot be run, ship `partial`. The builder's score and status are provisional: the critic's lower score or status controls. Either run one bounded repair-and-recritique cycle or ship the critic-labelled partial result.
+
+When the user requests a score ladder such as 60/70/80/90, treat the numbers as target floors, not filenames that prove achievement. Preserve every stage as an immutable source/export/evidence bundle with hashes before continuing. Record both `targetScore` and the independently observed six-rubric score, and make comparison UIs derive PASS/BLOCKED from the observed score. Do not overwrite an earlier stage, backfill a target into the actual score, or let a higher-labelled stage regress a rubric category without calling it out. Each step must add a visible, risk-directed improvement rather than only more hidden geometry or polygons.
 
 Do not enter presentation polish or final runtime integration while a mandatory construction, material, or contact gate lacks exact-runtime evidence. For polished deliverables in writable workspaces, retain a schema-v3 quality-evidence manifest and run `python3 scripts/validate_visual_evidence.py <manifest.json>`. Set `assetProfile: architecture-exterior` for polished exterior buildings and `environment` for stand-alone sites or interior/environment scenes. The validator's built-in polished policy cannot be lowered by the manifest; missing evidence, a failed finish check, an unverified critical material, or an unavailable required critic prevents `complete`.
 
@@ -91,6 +93,8 @@ Treat performance as a constraint on a declared appearance target. Once an asset
    - Flexible procedural parts: parent anchor, branch/segment depth, stiffness, phase, and local rest direction.
 6. Keep deterministic seeds for procedural assets and stable names for Blender nodes, clips, materials, and sockets.
 
+When a scene repeats one construction system—city blocks, facades, roof fields, or mechanism node families—first deliver one master sample that survives the closest required view and passes review, then propagate variants from it. Variants inherit the master's construction logic and change only parameters; do not re-derive attachment or junction logic per instance.
+
 ## Reconstruct from references with bounded review
 
 For reference-driven work:
@@ -99,7 +103,7 @@ For reference-driven work:
 2. Build a macro/meso/micro detail inventory. Map every retained item to geometry, material, texture, hierarchy, or an explicit omission before implementation.
 3. Lock one reproducible reference camera and keep at least two meaningful orbit views to prove real volume. Do not score an orbit view against an angle the references do not show.
 4. After each review, record what changed, the evidence or failure that caused it, what still differs, and one next action.
-5. Treat silhouette, scale, edge, colour, or image-similarity metrics as diagnostic signals. Never let one universal scalar block an otherwise useful delivery; hard-stop only for a declared critical feature, invalid input, broken runtime, or explicit user threshold.
+5. Treat silhouette, scale, edge, colour, or image-similarity metrics as diagnostic signals. Tools such as `scripts/score_silhouette.py` stay diagnostic only and never act as a hard gate. Never let one universal scalar block an otherwise useful delivery; hard-stop only for a declared critical feature, invalid input, broken runtime, or explicit user threshold.
 6. Bound correction rounds. Stop, deliver a clearly labelled partial result, or request better input when the same defect repeats, scores oscillate, or measurable progress plateaus.
 
 Keep reusable model generation separate from cameras, lighting, UI, and diagnostics. For interactive assets, expose stable named nodes and semantic pivots/sockets instead of returning an inert merged object.
@@ -119,12 +123,13 @@ Do not treat a plausible open hero view as proof of mechanical correctness. If t
 
 ## Author materials and lighting
 
-- For material-critical, reference-faithful, photoreal/AAA, or close-up hero work, read references/material-realism.md and validate the exported GLB in the target runtime. The Blender viewport is not final evidence.
+- For material-critical, reference-faithful, photoreal/AAA, or close-up hero work, read references/material-realism.md and validate the exported GLB in the target runtime. The Blender viewport is not final evidence. When a material-critical close-up micro band must survive the nearest view, prefer real scan-based PBR textures fetched with `scripts/fetch_pbr.py` over fully procedural microdetail.
 - Use generated raster output only as an authored source layer. Reject or correct baked lighting, perspective, object boundaries, seams, watermarks, invented text, and inconsistent scale; derive aligned PBR channels from one reviewed source instead of trusting independently generated base-color, normal, roughness, and metallic images. Never reuse one data map as another channel merely because dimensions match; height/normal, roughness, metallic, AO, and opacity require distinct physical semantics.
 - Use physically plausible PBR values. Most organic, painted, plastic, paper, stone, and wood surfaces have metalness 0.
 - Treat base color and emissive maps as sRGB; treat normal, roughness, metallic, occlusion, and height data as linear.
 - Use roughness variation before adding strong specular effects. Avoid using a color texture directly as a roughness map without intentional remapping.
 - Validate material response under neutral light, grazing light, backlight, and the final environment.
+- For HDR lighting, keep the PMREM/convolved texture for reflections but retain the original equirectangular source when it is also the visible backdrop. Using the convolved environment as `scene.background` can erase spatial context into a grey studio gradient; verify the backdrop, ground extent, fog, and horizon together in the final camera.
 - Keep user-selectable material variants data-driven rather than duplicating geometry.
 - Budget transparent blending carefully. Prefer alpha test or alpha-to-coverage for foliage and cutouts when appropriate.
 
@@ -178,7 +183,7 @@ Validate at minimum:
 - Material-critical work: contract coverage, real texture scale, physical layer order, causal wear, exact-export parity, declared fallbacks, and the material-specific score and hard gates from references/material-realism.md.
 - Polished architecture and environments: profile-specific mandatory groups, a passed finish spike, base/ground contact, site variation, reproducible lighting, and conditional proof views; require roof/eave and opening junctions only for `architecture-exterior`.
 - Image-assisted work: declared provenance and role, absence of unintended baked light or perspective, seamless repeat where required, aligned channel semantics, readable scale, clean alpha/mip edges, compression survival, and proof in the exact target runtime.
-- Motion: attachment continuity, pivot correctness, deformation, looping, wind response, and collision/contact if relevant.
+- Motion: attachment continuity, pivot correctness, deformation, looping, wind response, and collision/contact if relevant. For a polished delivery, motion/interaction evidence must be a fixed-camera, deterministic-timestamp sequence—a strip of at least five consecutive frames or a screen recording of ten seconds or less—registered in the quality-evidence manifest's `motionEvidence` field and checked by `scripts/validate_visual_evidence.py`. A still frame plus the mere presence of a control is not interaction evidence.
 - Mechanism endpoints: closed/seated and fully open/extended views from the axes that reveal seams, stacking, clearance, and hidden parts.
 - Runtime: load, resize, mobile viewport, console errors, context loss assumptions, and interaction.
 - Performance: fixed near/mid/far cameras; deterministic geometry and pass counts; device timing as diagnostic data.

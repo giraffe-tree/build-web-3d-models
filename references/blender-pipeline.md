@@ -59,6 +59,17 @@ Use displacement or geometry nodes for macro variation, then decimate/retopologi
 
 Typical non-metal surfaces: metalness 0. Use metalness 1 only for exposed conductive metal; painted metal is non-metal at the paint surface. Avoid pure black roughness or mirror-like leaves, paper, bark, fabric, stone, and plastic unless references prove it.
 
+### Deriving PBR channels from one source
+
+Follow this when the material contract sources the micro band from a scan PBR set, or derives channels from one reviewed source plate (see `material-realism.md`):
+
+- Fetch and organize the scan set with `scripts/fetch_pbr.py`; keep the source resolution and physical-size metadata alongside the maps.
+- Set color space per channel: base color sRGB; normal, roughness, height, AO, and masks Non-Color. A wrong color space here is a hard failure at review.
+- Use the scanned normal when present; otherwise bake height to a tangent-space normal with the runtime convention. glTF expects +Y (OpenGL-style) normals; keep tangents MikkTSpace-compatible and never mix derivations or conventions across channels.
+- Keep every derived map on the same UV and pixel grid so channels stay registered; re-derive a channel rather than offsetting or re-cropping it.
+- Set roughness range and normal strength against the real material, not against what looks busy in the viewport.
+- After export, run `scripts/audit_gltf.py` and inspect the GLB in an independent viewer under grazing light: check normal direction and strength, roughness response, tiling, and seams. The Blender viewport is source evidence, not delivery evidence.
+
 ## Rigging and animation
 
 - Apply transforms before binding.

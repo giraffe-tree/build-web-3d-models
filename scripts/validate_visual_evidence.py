@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
-"""Validate the integrity and completeness of a Web 3D visual-evidence manifest."""
+"""Validate the integrity and completeness of a Web 3D visual-evidence manifest.
+
+Schema notes:
+- motionEvidence (schema v3, optional): proves motion/interaction claims with either
+  "frames" (at least 2 entries of path + sha256 + t, where t is a non-negative and
+  strictly increasing fixed timestamp in seconds, each binding PNG bytes) or
+  "recording" (path + sha256 + positive durationSeconds + fixedCamera: true, binding
+  MP4/ISO-BMFF bytes). A polished lane that scores rubric.motionInteraction above
+  5/10 must carry valid motionEvidence; stills alone cannot support the claim.
+- Every evidence file whose path declares a known media extension
+  (.png/.jpg/.jpeg/.webp/.glb/.mp4) must contain matching magic bytes, so a
+  mislabeled stream (for example JPEG bytes inside a .png file) fails validation.
+"""
 
 from __future__ import annotations
 
@@ -262,6 +274,42 @@ def image_info(path: Path) -> tuple[str, int, int]:
     raise ValueError("unsupported or invalid image; expected PNG or JPEG")
 
 
+MEDIA_EXTENSION_FORMATS = {
+    ".png": "png",
+    ".jpg": "jpeg",
+    ".jpeg": "jpeg",
+    ".webp": "webp",
+    ".glb": "glb",
+    ".mp4": "mp4",
+}
+
+
+def _sniff_media_format(data: bytes) -> str | None:
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "png"
+    if data.startswith(b"\xff\xd8"):
+        return "jpeg"
+    if len(data) >= 12 and data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "webp"
+    if data.startswith(b"glTF"):
+        return "glb"
+    if len(data) >= 12 and data[4:8] == b"ftyp":
+        return "mp4"
+    return None
+
+
+def _check_declared_format(path: Path, prefix: str, errors: list[str]) -> None:
+    expected = MEDIA_EXTENSION_FORMATS.get(path.suffix.lower())
+    if expected is None:
+        return
+    detected = _sniff_media_format(path.read_bytes())
+    if detected != expected:
+        detail = f"{detected} bytes" if detected else "unrecognized media bytes"
+        errors.append(
+            f"{prefix}.path extension {path.suffix.lower()} does not match {detail}"
+        )
+
+
 def _nonempty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
@@ -364,6 +412,7 @@ def _validate_file_binding(
         return None, None
     if path.stat().st_size < minimum_bytes:
         errors.append(f"{prefix}.path is smaller than {minimum_bytes} bytes")
+    _check_declared_format(path, prefix, errors)
     if require_image:
         try:
             _, width, height = image_info(path)
@@ -422,6 +471,86 @@ def _validate_runtime_artifact_content(
                 return
             if not isinstance(gltf, dict) or not isinstance(gltf.get("asset"), dict):
                 errors.append(f"{prefix}.path is missing the glTF asset object")
+
+
+def _validate_motion_evidence(
+    value: Any,
+    manifest_path: Path,
+    errors: list[str],
+) -> bool:
+    """Validate optional motionEvidence; return True only for byte-verified evidence."""
+    if not isinstance(value, dict):
+        errors.append("motionEvidence must be an object with frames or recording")
+        return False
+    frames = value.get("frames")
+    recording = value.get("recording")
+    if (frames is None) == (recording is None):
+        errors.append("motionEvidence must declare exactly one of frames or recording")
+        return False
+    if frames is not None:
+        if not isinstance(frames, list) or len(frames) < 2:
+            errors.append("motionEvidence.frames must list at least 2 fixed-timestamp frames")
+            return False
+        valid = True
+        previous_t: float | None = None
+        for index, frame in enumerate(frames):
+            prefix = f"motionEvidence.frames[{index}]"
+            if not isinstance(frame, dict):
+                errors.append(f"{prefix} must be an object")
+                valid = False
+                continue
+            frame_path, _ = _validate_file_binding(frame, prefix, manifest_path, errors)
+            if frame_path is None:
+                valid = False
+            else:
+                data = frame_path.read_bytes()
+                if _sniff_media_format(data) != "png":
+                    errors.append(f"{prefix}.path must contain PNG bytes")
+                    valid = False
+                elif _png_dimensions(data) is None:
+                    errors.append(f"{prefix}.path is not a valid PNG image")
+                    valid = False
+            timestamp = frame.get("t")
+            if (
+                not isinstance(timestamp, (int, float))
+                or isinstance(timestamp, bool)
+                or not math.isfinite(timestamp)
+                or timestamp < 0
+            ):
+                errors.append(f"{prefix}.t must be a non-negative finite number of seconds")
+                valid = False
+            else:
+                if previous_t is not None and timestamp <= previous_t:
+                    errors.append("motionEvidence.frames t values must be strictly increasing")
+                    valid = False
+                previous_t = timestamp
+        return valid
+    prefix = "motionEvidence.recording"
+    if not isinstance(recording, dict):
+        errors.append(f"{prefix} must be an object")
+        return False
+    valid = True
+    recording_path, _ = _validate_file_binding(recording, prefix, manifest_path, errors)
+    if recording_path is None:
+        valid = False
+    elif _sniff_media_format(recording_path.read_bytes()) != "mp4":
+        errors.append(f"{prefix}.path must contain MP4 (ISO BMFF) bytes")
+        valid = False
+    duration = recording.get("durationSeconds")
+    if (
+        not isinstance(duration, (int, float))
+        or isinstance(duration, bool)
+        or not math.isfinite(duration)
+        or duration <= 0
+    ):
+        errors.append(f"{prefix}.durationSeconds must be a positive finite number")
+        valid = False
+    if recording.get("fixedCamera") is not True:
+        errors.append(
+            f"{prefix}.fixedCamera must be true so visible change comes from the subject"
+        )
+        valid = False
+    return valid
 
 
 def _png_chunk(chunk_type: bytes, payload: bytes) -> bytes:
@@ -1256,6 +1385,28 @@ def validate_manifest(manifest_path: Path) -> tuple[list[str], list[str], dict[s
     if schema_version == 3 and status == "complete" and _is_enum(lane, POLISHED_LANES):
         _validate_category_floors(manifest.get("rubric"), "rubric", lane, errors)
 
+    motion_score = None
+    rubric_value = manifest.get("rubric")
+    if isinstance(rubric_value, dict):
+        candidate = rubric_value.get("motionInteraction")
+        if isinstance(candidate, int) and not isinstance(candidate, bool):
+            motion_score = candidate
+    motion_evidence = manifest.get("motionEvidence")
+    motion_evidence_valid = False
+    if schema_version == 3 and motion_evidence is not None:
+        motion_evidence_valid = _validate_motion_evidence(motion_evidence, manifest_path, errors)
+    if (
+        schema_version == 3
+        and _is_enum(lane, POLISHED_LANES)
+        and motion_score is not None
+        and motion_score > 5
+        and not motion_evidence_valid
+    ):
+        errors.append(
+            f"polished manifest claims motionInteraction {motion_score}/10 without valid "
+            "motionEvidence; bind fixed-camera frames or a fixed-camera recording, or lower the score"
+        )
+
     critic_status = None
     critic_total = None
     critic = manifest.get("independentCritic")
@@ -1417,6 +1568,17 @@ def _self_test() -> None:
             "export const runtime = { loaded: true, version: 'self-test-v1' };\n",
             encoding="utf-8",
         )
+        motion_frames: list[dict[str, Any]] = []
+        for index, timestamp in enumerate((0.0, 0.5, 1.0)):
+            frame_path = root / f"motion-{index}.png"
+            frame_path.write_bytes(_pattern_png(1280, 720, 51 + index))
+            motion_frames.append(
+                {
+                    "path": frame_path.name,
+                    "sha256": hashlib.sha256(frame_path.read_bytes()).hexdigest(),
+                    "t": timestamp,
+                }
+            )
         round_input_views: dict[str, dict[str, str]] = {}
         round_output_views: dict[str, dict[str, str]] = {}
         for index, name in enumerate(view_names):
@@ -1556,6 +1718,7 @@ def _self_test() -> None:
                 "requiredPathPassed": True,
             },
             "imageLineage": [],
+            "motionEvidence": {"frames": motion_frames},
             "views": views,
             "reviewRounds": [
                 {
@@ -1856,6 +2019,48 @@ def _self_test() -> None:
             pass
         else:
             raise AssertionError("JPEG-without-scan fixture did not fail")
+
+        missing_motion = json.loads(json.dumps(valid_manifest))
+        missing_motion.pop("motionEvidence")
+        manifest_path.write_text(json.dumps(missing_motion), encoding="utf-8")
+        errors, _, _ = validate_manifest(manifest_path)
+        if not any("without valid motionEvidence" in error for error in errors):
+            raise AssertionError("missing-motion-evidence fixture did not fail")
+
+        unordered_motion = json.loads(json.dumps(valid_manifest))
+        unordered_motion["motionEvidence"]["frames"][2]["t"] = 0.5
+        manifest_path.write_text(json.dumps(unordered_motion), encoding="utf-8")
+        errors, _, _ = validate_manifest(manifest_path)
+        if not any("t values must be strictly increasing" in error for error in errors):
+            raise AssertionError("unordered-motion-timestamp fixture did not fail")
+
+        recording_file = root / "motion.mp4"
+        recording_file.write_bytes(b"\x00\x00\x00\x18ftypisom\x00\x00\x02\x00isomiso2mp41")
+        moving_camera = json.loads(json.dumps(valid_manifest))
+        moving_camera["motionEvidence"] = {
+            "recording": {
+                "path": recording_file.name,
+                "sha256": hashlib.sha256(recording_file.read_bytes()).hexdigest(),
+                "durationSeconds": 2.0,
+                "fixedCamera": False,
+            }
+        }
+        manifest_path.write_text(json.dumps(moving_camera), encoding="utf-8")
+        errors, _, _ = validate_manifest(manifest_path)
+        if not any("fixedCamera must be true" in error for error in errors):
+            raise AssertionError("moving-camera-recording fixture did not fail")
+
+        mislabeled_path = root / "mislabeled.jpg"
+        mislabeled_path.write_bytes(_pattern_png(1280, 720, 71))
+        mislabeled = json.loads(json.dumps(valid_manifest))
+        mislabeled["reviewRounds"][0]["inputViews"]["hero"] = {
+            "path": mislabeled_path.name,
+            "sha256": hashlib.sha256(mislabeled_path.read_bytes()).hexdigest(),
+        }
+        manifest_path.write_text(json.dumps(mislabeled), encoding="utf-8")
+        errors, _, _ = validate_manifest(manifest_path)
+        if not any("extension .jpg does not match png bytes" in error for error in errors):
+            raise AssertionError("mislabeled-extension fixture did not fail")
 
         schema_v2_partial = json.loads(json.dumps(valid_manifest))
         schema_v2_partial["schemaVersion"] = 2

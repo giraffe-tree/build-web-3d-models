@@ -75,6 +75,14 @@ Apply the image-assisted workflow routed by SKILL.md before using generation for
 
 Treat generated output as a source layer, never as material-response evidence. Require a declared physical coverage and projection; remove baked lighting, perspective, AO, and highlights; make required repeats seamless; and derive aligned PBR channels from one reviewed source. Do not trust independently generated base-color, normal, roughness, metallic, AO, or height maps as a coherent physical set.
 
+When no scan source fits, derive the channel set deterministically from that one reviewed source:
+
+1. Correct the source plate into a flat, seamless, light-free base with a declared physical coverage.
+2. Derive height from that base through an explicit, documented remap, and check the result against the real relief scale of the material.
+3. Convert height to a tangent-space normal with a fixed tool and a recorded strength and convention.
+4. Derive roughness from the same source through a reviewed grayscale remap, or author it from material evidence; never bind base color or an inverted copy of it directly.
+5. Keep every derivative pixel-aligned to the source grid, then bake and audit the set as in `blender-pipeline.md`.
+
 Keep height/normal, roughness, metallic, AO, and opacity semantically independent. Never bind a roughness map as bump/height, invert base color into roughness without a reviewed remap, or reuse one convenient grayscale image across unrelated slots. A visually rich source cannot compensate for a physically wrong channel binding.
 
 Validate the corrected derivative under the same neutral, grazing, backlit, and final-environment rig as every other material. Reject the layer if generated artifacts, inconsistent scale, implausible wear, tiling, or compression damage survive the typical view.
@@ -95,6 +103,8 @@ Map each observed phenomenon to the cheapest representation that survives the cl
 | Local crevice occlusion | AO, never baked direct light in base color |
 
 Inspect near, typical, and far views. Replace sub-pixel geometry at the typical view with a normal, height, decal, or texture cue. Preserve geometry when it changes silhouette, contact, layer thickness, or a grazing highlight. Keep real-world scale consistent across UVs, triplanar projections, procedural noise, and detail normals.
+
+Decide the micro-band source before authoring. For a material-critical asset whose closest view is under 2 m, source the micro band (roughly 0.05–5 mm: ageing, moisture, use traces, weave structure) from a real scan PBR library — fetch and bake it with `scripts/fetch_pbr.py` — rather than synthesizing it from procedural noise or image-model output. Procedural or generated micro detail is acceptable only for the meso and macro bands, or as an explicitly declared stylized downgrade, and either way the choice must be recorded in the material contract's `scaleBands.micro.representationOrOmission`. Undifferentiated procedural noise reads as uniform at this range and fails the microstructure rubric line even when a single render looks rich; this is where the fully procedural route plateaus.
 
 ## Author physical layers
 

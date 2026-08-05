@@ -61,13 +61,19 @@ For polished work, collect or produce evidence for four different questions:
 
 When the user supplies no images, use four to eight strong factual sources if browsing is available. Prefer official dimensions plus real photographs; do not treat a single marketing render as construction evidence. For an original polished asset, assemble a compact visual target board with at least three images covering silhouette/construction, material response, and presentation mood. When real references do not define a unique original direction, apply the image-assisted workflow routed by SKILL.md and invoke a dedicated image-generation skill to author the missing concept or texture target. Label generated images as art direction: they cannot prove dimensions, hidden construction, manufacturing, anatomy, material physics, or reference fidelity. Text pages can establish dimensions and facts, but they cannot by themselves anchor visible finish. When browsing and image generation are unavailable, state that the asset is a generic art-directed interpretation.
 
-Create an identity inventory with five to twelve cues. Each cue must map to geometry, material/texture, hierarchy, or an explicit omission. Examples:
+Create an identity inventory with five to twelve cues. Each cue must map to geometry, material/texture, hierarchy, or an explicit omission, and is recorded as a triple: the visible cue, its attachment/construction logic (how it physically connects or is built, per the joint vocabulary below), and the proof view that will isolate it. Examples:
 
 - A laptop: shell wedge, closed-stack thickness, hinge exposure, keyboard field, trackpad proportion, port recess, display glass, edge radius, material break.
 - A mature tree: crown envelope, trunk taper, primary branch rhythm, branch-to-trunk junction, terminal density, leaf silhouette, biological attachment, bark response, grounded root flare.
 - An ergonomic chair: human-scale seat/back relationship, load path, five-star stance, caster scale, mesh tension, lumbar mechanism, arm connection, control hardware, edge softness, upholstery response.
 
 “Recognizable as a chair/tree/laptop” is a blockout gate, not a finish gate.
+
+### Joint vocabulary
+
+Declare the mechanical type of every part connection in the brief, before production: bolted, welded, press-fit, hinged, bearing, glued, or monolithic (formed as one continuous piece). Bind each declared joint to a dedicated close proof view that isolates the connection at readable scale. The declared type drives the geometry: a bolted joint shows fasteners and washers, a welded joint shows a bead and transition, a press-fit shows an interference seam, a hinge shows pin and knuckle, a bearing shows race and axle.
+
+Named failure mode: implying a connection by making two parts tangent and changing their color. The chair-v2 blind review hit this repeatedly—reviewers read tangent-plus-color-change as parts floating next to each other, not as a joint. A connection whose type is not declared in the brief counts as not established in review, regardless of how the render looks.
 
 ## Select a pipeline from the finish target
 
@@ -97,6 +103,7 @@ Do not skip from blockout to final integration.
 - Fidelity lane, target device, closest/typical view, screen coverage, identity inventory, material families, motion states, delivery budget, and required screenshots are declared.
 - Every identity-critical material has a compact contract covering its real identity, layer stack, state, scale, response evidence, runtime support, fallback, and proof view.
 - References distinguish observation from inference.
+- Every part connection has a declared mechanical type from the joint vocabulary and a bound close proof view.
 - Generated concepts and texture sources declare their role and provenance and are not counted as factual evidence.
 - A polished original has a visual target board; every identity-critical feature has at least one pixel reference or an explicit art-direction decision.
 - Pipeline route, closest-view quality risks, finish-spike requirement, escalation condition, and proof views are declared.
@@ -171,7 +178,7 @@ The hero may retain the intended page composition when Web presentation is part 
 
 After each review round, record:
 
-- the three largest visible defects, ordered by impact;
+- the three largest visible defects, ordered by impact, as ranked by the fresh-context reviewer when one is available; the builder's own ranking is recorded separately and treated as advisory;
 - the evidence for each defect;
 - the one defect addressed next;
 - what changed and what visibly improved;
@@ -181,7 +188,7 @@ Run at least two screenshot review rounds for a finished polished showcase. Defa
 
 Use the 100-point rubric as a decision aid: silhouette/proportion 25, construction/attachment 20, material/light response 20, surface detail/variation 15, motion/interaction 10, Web presentation 10. The brief may raise lane-specific minimums, but it cannot lower the schema-v3 polished policy. Never let the total hide a missing identity-critical feature, construction/material/contact gate, or broken runtime gate. Default non-compensable floors for polished-stylized are 17/25 silhouette, 13/20 construction, 13/20 material/light, 9/15 surface detail, and 7/10 Web presentation; reference-faithful and photoreal work should declare stricter floors.
 
-When fresh subagents are available, give a critic only the original request, fidelity lane, and rendered views. Ask it to rank visible defects and score the rubric. Do not reveal implementation constraints, the author's self-score, suspected failures, or intended revisions. Treat builder scores as provisional. The critic's lower score or status has completion authority: perform at most one bounded repair followed by a fresh critique, or deliver with the critic's lower status. Never retain `complete` merely because machine checks and a self-score passed.
+When fresh subagents are available, each review round's top-defect ranking comes from a fresh-context reviewer, not the builder. A builder's screenshot self-check reliably catches only obvious breakage—clipping, missing parts, black frames; it misses the larger class of “looks right but reads wrong” defects, because the builder sees the intended semantics rather than the pixels. Give the reviewer only the original request, fidelity lane, and rendered views. Ask it to rank visible defects and score the rubric. Anti-anchoring: do not reveal implementation constraints, the author's self-score or self-ranked defects, suspected failures, or intended revisions. Treat builder scores and defect lists as advisory. The critic's lower score or status has completion authority: perform at most one bounded repair followed by a fresh critique, or deliver with the critic's lower status. Never retain `complete` merely because machine checks and a self-score passed.
 
 ## Protect quality during optimization
 

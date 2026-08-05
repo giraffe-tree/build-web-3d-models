@@ -66,7 +66,7 @@ Examples: snow mountain, river, cliff, rock field, ground.
 
 Examples: tree, grass, flower, mushroom, bush, moss.
 
-- Use a hierarchical skeleton or curves for stems/branches, then attach leaves, petals, caps, or blades to explicit anchors.
+- Use a hierarchical skeleton or curves for stems/branches, then attach leaves, petals, caps, or blades to explicit anchors. For trees, generate the skeleton with a growth-based algorithm and check it against the named organic-form anti-patterns (grid branches, shim crown, root-flap grounding) in tree-web-case-study.md before adding foliage.
 - Separate structural motion from tip flutter.
 - Preserve biological attachment rules: opposite/alternate/whorled leaves, branch taper, petiole direction, flower radial order, mushroom gill/cap/stem relation.
 - Instance repeated leaves, blades, petals, and mushrooms. Vary scale, color, phase, lean, and age with deterministic seeds.

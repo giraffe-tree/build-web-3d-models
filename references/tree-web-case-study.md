@@ -8,6 +8,7 @@
 4. Measured performance lesson
 5. Validation pattern
 6. Anti-patterns
+7. Named organic-form anti-patterns
 
 ## Transferable architecture
 
@@ -90,4 +91,13 @@ The key sequence was: measure the actual repeated structure, remove multiplicati
 - Reducing leaf/grass/petal count without preserving projected coverage.
 - Treating frame interval as GPU time when timer queries are unavailable.
 - Using device FPS as a deterministic regression assertion.
+
+## Named organic-form anti-patterns
+
+These come from an independent blind review of ginkgo-v2 (self-assessed 78, blind-scored 56). They are named so they can be checked and rejected by name before build, not diagnosed after.
+
+- Grid branches. Many straight, equal-thickness, equal-angle secondary branches rising off the trunk at hard wedge intersections. Forbidden. Branching must respect taper: the summed cross-section of child branches should approximate the parent cross-section (da Vinci branching rule), and branch direction needs a random walk rather than fixed angles.
+- Shim crown. A canopy assembled from repeated flat horizontal pads or clumps with structural voids under the layers. Forbidden. The canopy needs depth variance and accumulated asymmetry, not stacked copies.
+- Triangular root flaps plus noise debris as grounding. Forbidden. Roots need a flare transition into the trunk and contact shadows at the ground plane, not geometric shards scattered to imply attachment.
+- Pure hierarchical fan-out skeletons. Prefer a growth-based skeleton algorithm (space colonization, or a constrained random walk) over recursive fan-out. Hierarchical repetition is the default convenient path for a code model; it produces the failures above unless actively avoided.
 

@@ -116,6 +116,17 @@ cd ../ginkgo-v2 && npm run check && npm run build
 - 每轮先找像素中影响最大的 3 个缺陷，只做最高价值修复；至少两轮。性能优化放到视觉 floor 之后，避免把 blockout 优化成更快的 blockout。
 - schema v2 校验真实 PNG 结构、尺寸、非重复像素、相机方向、语义状态、固定时间、最终文件 SHA-256、评审哈希和 critic 哈希。critic 的较低状态具有最终完成权。
 
+## 本轮优化：把事后缺陷变成开工前决策
+
+盲评失分集中在 motion/interaction、construction/attachment、material 和有机形态四处。本轮把这些事后缺陷变成开工前的强制结构决策：
+
+- 运动证据标准：motion/interaction 声明必须附 motionEvidence——固定相机与固定时间参数下捕获的连续帧；静帧不再算交互证据。
+- 连接词表：连接/装配必须从 joint vocabulary 中声明关节类型与承力路径；“相切+变色”不再算连接证据。
+- 母版优先（master-sample-first）：重复或层级化的有机结构先做出并通过一个母版样本（枝干模块、冠层单元、重复零件），再实例化或复制，避免格子枝和垫片冠。
+- 每轮 fresh-eyes 评审：每轮评审由不带前轮上下文的新 reviewer 执行；builder 自评不作为完成依据。
+- scan PBR 决策规则：材质关键且会被近距离观察的 micro band 使用扫描 PBR 贴图（`scripts/fetch_pbr.py` 获取）；程序化 micro 材质叙事封顶约 80 分。
+- 确定性脚本：`scripts/capture_views.mjs` 做固定视图与连续帧的确定性捕获，`scripts/score_silhouette.py` 做剪影指标诊断（诊断用途，不是硬性门槛）。
+
 ## 已知边界
 
 - v2 两个资产都只是 `partial`。仓库保留它们是为了展示改进幅度、失败模式和可审计流程，不是把 56/73 分作品当成质量天花板。
@@ -130,6 +141,9 @@ references/visual-quality-workflow.md    视觉目标、评审与完成门槛
 references/quality-first-agent-prompt.md 子 agent 默认质量提示词
 scripts/audit_gltf.py                    glTF/GLB 可复现审计
 scripts/validate_visual_evidence.py      schema v1/v2 证据校验
+scripts/capture_views.mjs                固定视图与连续帧确定性捕获
+scripts/score_silhouette.py              剪影指标诊断（格子枝/重复冠层）
+scripts/fetch_pbr.py                     获取授权扫描 PBR 材质
 showcase/                                7 个工程基线 Demo
 quality-forward-tests/chair-v2/          Blender/GLB/Three.js 质量测试
 quality-forward-tests/ginkgo-v2/         程序化 Three.js 质量测试
