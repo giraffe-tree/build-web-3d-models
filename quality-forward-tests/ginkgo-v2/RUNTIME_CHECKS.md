@@ -3,7 +3,7 @@
 ## Local run
 
 ```bash
-cd /Users/giraffetree/Documents/giraffetree/project/ai/build-web-3d-models/quality-forward-tests/ginkgo-v2
+cd quality-forward-tests/ginkgo-v2
 npm install
 npm run dev -- --port 4317
 ```
