@@ -10,7 +10,7 @@
 
 仓库现在保留两层测试，目的不同：
 
-1. **7 个工程基线 Demo**验证层级、pivot、程序化构造、instancing、预算和浏览器运行，但视觉上只应视为 blockout/技术样例。
+1. **共享 showcase 的 10 个对象**覆盖机械、产品、植物、家具、建筑和地形。其中原有 7 个是 blockout/工程基线；新增 3 个多 Agent 能力样例进入 `polished-stylized` 契约，但在五视图、运动证据和独立终审齐全前仍标为 `partial`。
 2. **2 个质量前向测试**要求视觉目标板、身份特征清单、至少两轮像素评审、五张固定证据、精确文件哈希和独立盲评。它们明显优于旧基线，但都被盲评诚实判定为 `partial`，没有伪装成完成品。
 
 | 题目 | 旧基线盲评 | v2 builder 自评 | v2 独立盲评 | 净提升 | 最终状态 |
@@ -34,6 +34,26 @@
     </td>
   </tr>
 </table>
+
+## 新增的 3 个多 Agent 能力样例
+
+三名独立 builder agent 分别负责机械层级、曲面产品与实例化有机体；主 agent 统一完成契约验证、真实 WebGL 像素评审、缺陷修正和 README 集成。首轮渲染暴露了茶壶壶嘴法线反向的问题，第二轮已修正材质响应并收紧三组 hero 相机。下面的 Tris 和 Draws 来自 1280×720 真实运行时，包含共享地面与阴影 pass；FPS 是当前机器诊断值。
+
+| Demo | 主要验证能力 | Tris | Draws | FPS | Console | 状态 |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| Kinetic Brass Orrery | 嵌套 gimbal、齿轮比、局部 pivot、行星与月球层级 | 55,160 | 101 | 121 | 0 | partial |
+| Glazed Studio Teapot | Lathe 曲面、渐细壶嘴、实体连接、青釉/黄铜/胡桃木 CMF | 26,344 | 41 | 121 | 0 | partial |
+| Desert Succulent | 闭合厚叶母版、45 片实例、黄金角莲座、盆土石子分层 | 44,288 | 13 | 122 | 0 | partial |
+
+<table>
+  <tr>
+    <td width="33%"><img src="docs/screenshots/kinetic-orrery.jpg" alt="Kinetic brass orrery" /><br /><strong>08 · Kinetic Orrery</strong><br />显式轴承层级、三齿轮反向联动、四级轨道与配重行星臂。</td>
+    <td width="33%"><img src="docs/screenshots/glazed-teapot.jpg" alt="Glazed studio teapot" /><br /><strong>09 · Glazed Teapot</strong><br />梨形旋转体、渐细上扬壶嘴、C 形木把手与多材质高光。</td>
+    <td width="33%"><img src="docs/screenshots/desert-succulent.jpg" alt="Procedural desert succulent" /><br /><strong>10 · Desert Succulent</strong><br />厚叶母版、确定性莲座生长、陶盆、土壤和实例化石子。</td>
+  </tr>
+</table>
+
+每个对象都有可审计的 brief：[`kinetic-orrery`](showcase/briefs/kinetic-orrery.md)、[`glazed-teapot`](showcase/briefs/glazed-teapot.md)、[`desert-succulent`](showcase/briefs/desert-succulent.md)。模块还声明了 `hero`、`orbitA`、`orbitB`、`neutralMaterial` 和 `subjectProof` 五个固定视图；本轮只把 hero 图纳入 README，因此不声称 `complete`。
 
 完整证据见 [quality-forward-tests](quality-forward-tests/README.md)。椅子以[精确五图盲评](quality-forward-tests/chair-v2/independent-critic-exact.md)为最终结论；银杏的[独立 A/B 盲评](quality-forward-tests/ginkgo-v2/independent-critic.md)同时记录了基线与 v2 的差异。
 
@@ -75,7 +95,7 @@
 git clone git@github.com:giraffe-tree/build-web-3d-models.git
 cd build-web-3d-models
 
-# 7 个工程基线，同一网页切换
+# 10 个共享运行时 Demo，同一网页切换
 cd showcase
 npm install
 npm run dev -- --host 127.0.0.1 --port 4210
@@ -130,6 +150,7 @@ cd ../ginkgo-v2 && npm run check && npm run build
 ## 已知边界
 
 - v2 两个资产都只是 `partial`。仓库保留它们是为了展示改进幅度、失败模式和可审计流程，不是把 56/73 分作品当成质量天花板。
+- 新增的天体仪、茶壶和多肉也只是 `partial` 能力样例：它们已有 brief、固定视图声明、预算验证、hero 截图和浏览器交互检查，但尚未提交完整五视图哈希清单与连续帧运动证据。
 - 静态 PNG 能证明多角度和固定语义状态，不能证明拖拽连续性或风动的相位/阻尼；完整运动证据仍需要短录屏或受控连续帧。
 - 7 个基线 Demo 仍适合做工程回归，但不应继续作为 polished 视觉质量的正例。
 
@@ -144,7 +165,7 @@ scripts/validate_visual_evidence.py      schema v1/v2 证据校验
 scripts/capture_views.mjs                固定视图与连续帧确定性捕获
 scripts/score_silhouette.py              剪影指标诊断（格子枝/重复冠层）
 scripts/fetch_pbr.py                     获取授权扫描 PBR 材质
-showcase/                                7 个工程基线 Demo
+showcase/                                10 个共享运行时 Demo（7 个旧基线 + 3 个能力样例）
 quality-forward-tests/chair-v2/          Blender/GLB/Three.js 质量测试
 quality-forward-tests/ginkgo-v2/         程序化 Three.js 质量测试
 ```
